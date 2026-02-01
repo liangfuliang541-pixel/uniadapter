@@ -1,24 +1,18 @@
 /**
- * 核心层统一导出
+ * UniAdapter 核心层统一导出
+ * 
+ * 提供多端适配框架的核心功能导出
+ * 包括适配器、平台检测、统一API等
  */
-
-// 类型
-export * from './types'
-
-// 常量
-export * from './constants'
 
 // 适配器
 export * from './adapters'
 
-// 服务
-export * from './services'
-
-// 语录和成就
-export * from './quotes'
-
 // 平台检测
-export { PlatformType, platformDetection, detectPlatform } from './platform-detector'
+export { platformDetection, detectPlatform } from './platform-detector'
 
 // 核心适配器
 export { VERSION, initUniAdapter } from './adapter'
+
+// 类型定义
+export type { Platform, PlatformCapabilities } from './types/platform'
