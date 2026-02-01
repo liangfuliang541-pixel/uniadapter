@@ -1,6 +1,11 @@
 /**
  * Go分布式系统适配器
  * 提供Go微服务、RPC、分布式组件的统一接口
+ * 
+ * 该适配器实现了在Go分布式环境下运行所需的各种功能，
+ * 包括存储、加密、文件处理、通知、生物识别和分享功能
+ * 同时还提供了Go分布式系统特有的RPC调用、消息队列、
+ * 服务发现和分布式锁等功能。
  */
 
 import type {
@@ -18,9 +23,18 @@ declare global {
   var go: any
 }
 
+/**
+ * Go分布式存储适配器
+ * 实现在Go分布式环境下的键值存储功能
+ */
 export class GoDistributedStorageAdapter implements IStorageAdapter {
   platform: Platform = Platform.GO_DISTRIBUTED
   
+  /**
+   * 获取指定键的值
+   * @param key 存储键名
+   * @returns 对应键的值，如果不存在则返回null
+   */
   async get<T>(key: string): Promise<T | null> {
     try {
       // 在Go分布式环境中，通过RPC调用获取存储数据
@@ -37,6 +51,11 @@ export class GoDistributedStorageAdapter implements IStorageAdapter {
     }
   }
   
+  /**
+   * 设置键值对
+   * @param key 存储键名
+   * @param value 要存储的值
+   */
   async set<T>(key: string, value: T): Promise<void> {
     if (typeof go !== 'undefined' && go.storage) {
       await go.storage.set(key, JSON.stringify(value))
@@ -46,6 +65,10 @@ export class GoDistributedStorageAdapter implements IStorageAdapter {
     }
   }
   
+  /**
+   * 删除指定键的值
+   * @param key 要删除的键名
+   */
   async remove(key: string): Promise<void> {
     if (typeof go !== 'undefined' && go.storage) {
       await go.storage.remove(key)
@@ -54,6 +77,9 @@ export class GoDistributedStorageAdapter implements IStorageAdapter {
     }
   }
   
+  /**
+   * 清空所有存储数据
+   */
   async clear(): Promise<void> {
     if (typeof go !== 'undefined' && go.storage) {
       await go.storage.clear()
@@ -62,6 +88,11 @@ export class GoDistributedStorageAdapter implements IStorageAdapter {
     }
   }
   
+  /**
+   * 批量获取多个键的值
+   * @param keys 要获取的键名数组
+   * @returns 包含所有键值对的对象
+   */
   async getMultiple<T>(keys: string[]): Promise<Record<string, T | null>> {
     if (typeof go !== 'undefined' && go.storage) {
       const results = await go.storage.getMultiple(keys)
@@ -79,6 +110,10 @@ export class GoDistributedStorageAdapter implements IStorageAdapter {
     }
   }
   
+  /**
+   * 批量设置多个键值对
+   * @param items 要设置的键值对对象
+   */
   async setMultiple<T>(items: Record<string, T>): Promise<void> {
     if (typeof go !== 'undefined' && go.storage) {
       const keys = Object.keys(items)
@@ -91,6 +126,10 @@ export class GoDistributedStorageAdapter implements IStorageAdapter {
     }
   }
   
+  /**
+   * 获取存储空间使用情况
+   * @returns 包含已使用和总容量的对象
+   */
   async getStorageInfo(): Promise<{ used: number; total: number }> {
     if (typeof go !== 'undefined' && go.storage) {
       return await go.storage.getInfo()
@@ -101,7 +140,17 @@ export class GoDistributedStorageAdapter implements IStorageAdapter {
   }
 }
 
+/**
+ * Go分布式加密适配器
+ * 实现在Go分布式环境下的加密解密、哈希等功能
+ */
 export class GoDistributedCryptoAdapter implements ICryptoAdapter {
+  /**
+   * 加密数据
+   * @param data 要加密的数据
+   * @param key 加密密钥
+   * @returns 加密后的数据
+   */
   async encrypt(data: string, key: string): Promise<string> {
     if (typeof go !== 'undefined' && go.crypto) {
       return await go.crypto.encrypt(data, key)
@@ -111,6 +160,12 @@ export class GoDistributedCryptoAdapter implements ICryptoAdapter {
     }
   }
   
+  /**
+   * 解密数据
+   * @param data 要解密的数据
+   * @param key 解密密钥
+   * @returns 解密后的原始数据
+   */
   async decrypt(data: string, key: string): Promise<string> {
     if (typeof go !== 'undefined' && go.crypto) {
       return await go.crypto.decrypt(data, key)
@@ -120,6 +175,11 @@ export class GoDistributedCryptoAdapter implements ICryptoAdapter {
     }
   }
   
+  /**
+   * 对数据进行哈希运算
+   * @param data 要哈希的数据
+   * @returns 哈希后的结果
+   */
   async hash(data: string): Promise<string> {
     if (typeof go !== 'undefined' && go.crypto) {
       return await go.crypto.hash(data)
@@ -135,6 +195,10 @@ export class GoDistributedCryptoAdapter implements ICryptoAdapter {
     }
   }
   
+  /**
+   * 生成加密密钥
+   * @returns 生成的密钥字符串
+   */
   async generateKey(): Promise<string> {
     if (typeof go !== 'undefined' && go.crypto) {
       return await go.crypto.generateKey()
@@ -143,6 +207,12 @@ export class GoDistributedCryptoAdapter implements ICryptoAdapter {
     }
   }
   
+  /**
+   * 从密码和盐值派生密钥
+   * @param password 原始密码
+   * @param salt 盐值
+   * @returns 派生出的密钥
+   */
   async deriveKey(password: string, salt: string): Promise<string> {
     if (typeof go !== 'undefined' && go.crypto) {
       return await go.crypto.deriveKey(password, salt)
@@ -152,7 +222,16 @@ export class GoDistributedCryptoAdapter implements ICryptoAdapter {
   }
 }
 
+/**
+ * Go分布式文件适配器
+ * 实现在Go分布式环境下的文件操作功能
+ */
 export class GoDistributedFileAdapter implements IFileAdapter {
+  /**
+   * 选择图片
+   * @param options 选择图片的配置选项
+   * @returns 包含图片URL和文件对象的Promise
+   */
   async chooseImage(options: {
     count: number
     sourceType: ('album' | 'camera')[]
@@ -165,6 +244,12 @@ export class GoDistributedFileAdapter implements IFileAdapter {
     }
   }
   
+  /**
+   * 压缩图片
+   * @param url 图片URL
+   * @param quality 压缩质量（0-1）
+   * @returns 压缩后的图片URL
+   */
   async compressImage(url: string, quality: number): Promise<string> {
     if (typeof go !== 'undefined' && go.file) {
       return await go.file.compressImage(url, quality)
@@ -173,6 +258,12 @@ export class GoDistributedFileAdapter implements IFileAdapter {
     }
   }
   
+  /**
+   * 保存文件
+   * @param url 文件URL
+   * @param fileName 文件名
+   * @returns 保存后的文件路径
+   */
   async saveFile(url: string, fileName: string): Promise<string> {
     if (typeof go !== 'undefined' && go.file) {
       return await go.file.saveFile(url, fileName)
@@ -181,6 +272,12 @@ export class GoDistributedFileAdapter implements IFileAdapter {
     }
   }
   
+  /**
+   * 导出数据为指定格式
+   * @param data 要导出的数据
+   * @param format 导出格式
+   * @returns 导出文件的路径
+   */
   async exportData(data: string, format: 'json' | 'csv' | 'pdf'): Promise<string> {
     if (typeof go !== 'undefined' && go.file) {
       return await go.file.exportData(data, format)
@@ -190,7 +287,15 @@ export class GoDistributedFileAdapter implements IFileAdapter {
   }
 }
 
+/**
+ * Go分布式通知适配器
+ * 实现在Go分布式环境下的通知功能
+ */
 export class GoDistributedNotificationAdapter implements INotificationAdapter {
+  /**
+   * 请求通知权限
+   * @returns 权限请求结果
+   */
   async requestPermission(): Promise<boolean> {
     if (typeof go !== 'undefined' && go.notification) {
       return await go.notification.requestPermission()
@@ -199,6 +304,10 @@ export class GoDistributedNotificationAdapter implements INotificationAdapter {
     }
   }
   
+  /**
+   * 检查通知权限
+   * @returns 权限状态
+   */
   async checkPermission(): Promise<boolean> {
     if (typeof go !== 'undefined' && go.notification) {
       return await go.notification.checkPermission()
@@ -207,6 +316,10 @@ export class GoDistributedNotificationAdapter implements INotificationAdapter {
     }
   }
   
+  /**
+   * 安排本地通知
+   * @param options 通知配置选项
+   */
   async scheduleLocal(options: {
     id: string
     title: string
@@ -222,12 +335,19 @@ export class GoDistributedNotificationAdapter implements INotificationAdapter {
     }
   }
   
+  /**
+   * 取消本地通知
+   * @param id 通知ID
+   */
   async cancelLocal(id: string): Promise<void> {
     if (typeof go !== 'undefined' && go.notification) {
       await go.notification.cancelLocal(id)
     }
   }
   
+  /**
+   * 取消所有本地通知
+   */
   async cancelAllLocal(): Promise<void> {
     if (typeof go !== 'undefined' && go.notification) {
       await go.notification.cancelAllLocal()
@@ -235,7 +355,15 @@ export class GoDistributedNotificationAdapter implements INotificationAdapter {
   }
 }
 
+/**
+ * Go分布式生物识别适配器
+ * 实现在Go分布式环境下的生物识别功能
+ */
 export class GoDistributedBiometricAdapter implements IBiometricAdapter {
+  /**
+   * 检查生物识别功能是否支持
+   * @returns 生物识别功能是否支持
+   */
   async isSupported(): Promise<boolean> {
     if (typeof go !== 'undefined' && go.biometric) {
       return await go.biometric.isSupported()
@@ -244,6 +372,10 @@ export class GoDistributedBiometricAdapter implements IBiometricAdapter {
     }
   }
   
+  /**
+   * 获取生物识别类型
+   * @returns 生物识别类型（指纹、面部或无）
+   */
   async getBiometricType(): Promise<'fingerprint' | 'face' | 'none'> {
     if (typeof go !== 'undefined' && go.biometric) {
       return await go.biometric.getType()
@@ -252,6 +384,11 @@ export class GoDistributedBiometricAdapter implements IBiometricAdapter {
     }
   }
   
+  /**
+   * 进行生物识别认证
+   * @param reason 认证原因说明
+   * @returns 认证是否成功
+   */
   async authenticate(reason: string): Promise<boolean> {
     if (typeof go !== 'undefined' && go.biometric) {
       return await go.biometric.authenticate(reason)
@@ -261,7 +398,16 @@ export class GoDistributedBiometricAdapter implements IBiometricAdapter {
   }
 }
 
+/**
+ * Go分布式分享适配器
+ * 实现在Go分布式环境下的分享功能
+ */
 export class GoDistributedShareAdapter implements IShareAdapter {
+  /**
+   * 分享内容到外部应用
+   * @param options 分享内容的配置选项
+   * @returns 分享是否成功
+   */
   async share(options: {
     title: string
     text?: string
@@ -288,6 +434,11 @@ export class GoDistributedShareAdapter implements IShareAdapter {
     }
   }
   
+  /**
+   * 复制文本到剪贴板
+   * @param text 要复制的文本
+   * @returns 复制是否成功
+   */
   async copyToClipboard(text: string): Promise<boolean> {
     if (typeof go !== 'undefined' && go.share) {
       return await go.share.copyToClipboard(text)
@@ -302,10 +453,17 @@ export class GoDistributedShareAdapter implements IShareAdapter {
   }
 }
 
-// Go分布式系统特定的适配器
+/**
+ * Go分布式RPC适配器
+ * 实现Go分布式环境下的远程过程调用功能
+ */
 export class GoDistributedRPCAdapter {
   /**
    * 发起RPC调用
+   * @param service 服务名称
+   * @param method 方法名称
+   * @param params 调用参数
+   * @returns RPC调用结果
    */
   async call(service: string, method: string, params: any): Promise<any> {
     if (typeof go !== 'undefined' && go.rpc) {
@@ -317,6 +475,8 @@ export class GoDistributedRPCAdapter {
 
   /**
    * 注册RPC服务
+   * @param service 服务名称
+   * @param handler 服务处理器
    */
   async register(service: string, handler: (params: any) => Promise<any>): Promise<void> {
     if (typeof go !== 'undefined' && go.rpc) {
@@ -328,6 +488,8 @@ export class GoDistributedRPCAdapter {
 
   /**
    * 服务发现
+   * @param serviceName 服务名称
+   * @returns 服务实例列表
    */
   async discover(serviceName: string): Promise<{ address: string; port: number }[]> {
     if (typeof go !== 'undefined' && go.rpc) {
@@ -338,9 +500,16 @@ export class GoDistributedRPCAdapter {
   }
 }
 
+/**
+ * Go分布式消息队列适配器
+ * 实现Go分布式环境下的消息队列功能
+ */
 export class GoDistributedMessageQueueAdapter {
   /**
    * 发送消息到队列
+   * @param queue 队列名称
+   * @param message 消息内容
+   * @param options 发送选项
    */
   async sendMessage(queue: string, message: any, options?: { delay?: number; priority?: number }): Promise<void> {
     if (typeof go !== 'undefined' && go.mq) {
@@ -352,6 +521,8 @@ export class GoDistributedMessageQueueAdapter {
 
   /**
    * 订阅消息队列
+   * @param queue 队列名称
+   * @param handler 消息处理器
    */
   async subscribe(queue: string, handler: (message: any) => void): Promise<void> {
     if (typeof go !== 'undefined' && go.mq) {
@@ -363,6 +534,8 @@ export class GoDistributedMessageQueueAdapter {
 
   /**
    * 创建队列
+   * @param name 队列名称
+   * @param options 队列选项
    */
   async createQueue(name: string, options?: { durable?: boolean; autoDelete?: boolean }): Promise<void> {
     if (typeof go !== 'undefined' && go.mq) {
@@ -373,9 +546,17 @@ export class GoDistributedMessageQueueAdapter {
   }
 }
 
+/**
+ * Go分布式服务发现适配器
+ * 实现Go分布式环境下的服务注册与发现功能
+ */
 export class GoDistributedServiceDiscoveryAdapter {
   /**
-   * 注册服务
+   * 注册服务到服务发现中心
+   * @param name 服务名称
+   * @param address 服务地址
+   * @param port 服务端口
+   * @param metadata 服务元数据
    */
   async registerService(name: string, address: string, port: number, metadata?: Record<string, any>): Promise<void> {
     if (typeof go !== 'undefined' && go.discovery) {
@@ -386,7 +567,9 @@ export class GoDistributedServiceDiscoveryAdapter {
   }
 
   /**
-   * 查找服务
+   * 查找指定名称的服务实例
+   * @param name 服务名称
+   * @returns 服务实例列表
    */
   async findService(name: string): Promise<{ address: string; port: number; metadata?: Record<string, any> }[]> {
     if (typeof go !== 'undefined' && go.discovery) {
@@ -397,7 +580,9 @@ export class GoDistributedServiceDiscoveryAdapter {
   }
 
   /**
-   * 心跳检测
+   * 发送心跳以维持服务注册状态
+   * @param serviceName 服务名称
+   * @param serviceId 服务ID
    */
   async heartbeat(serviceName: string, serviceId: string): Promise<void> {
     if (typeof go !== 'undefined' && go.discovery) {
@@ -406,7 +591,9 @@ export class GoDistributedServiceDiscoveryAdapter {
   }
 
   /**
-   * 注销服务
+   * 从服务发现中心注销服务
+   * @param serviceName 服务名称
+   * @param serviceId 服务ID
    */
   async unregisterService(serviceName: string, serviceId: string): Promise<void> {
     if (typeof go !== 'undefined' && go.discovery) {
@@ -415,9 +602,16 @@ export class GoDistributedServiceDiscoveryAdapter {
   }
 }
 
+/**
+ * Go分布式锁适配器
+ * 实现Go分布式环境下的分布式锁功能
+ */
 export class GoDistributedLockAdapter {
   /**
    * 获取分布式锁
+   * @param key 锁的键名
+   * @param ttl 锁的过期时间（毫秒）
+   * @returns 是否成功获取锁
    */
   async acquireLock(key: string, ttl: number): Promise<boolean> {
     if (typeof go !== 'undefined' && go.lock) {
@@ -436,6 +630,7 @@ export class GoDistributedLockAdapter {
 
   /**
    * 释放分布式锁
+   * @param key 锁的键名
    */
   async releaseLock(key: string): Promise<void> {
     if (typeof go !== 'undefined' && go.lock) {
@@ -447,7 +642,11 @@ export class GoDistributedLockAdapter {
   }
 
   /**
-   * 使用锁执行函数
+   * 在锁保护下执行函数
+   * @param key 锁的键名
+   * @param ttl 锁的过期时间（毫秒）
+   * @param fn 要执行的异步函数
+   * @returns 函数执行结果
    */
   async withLock<T>(key: string, ttl: number, fn: () => Promise<T>): Promise<T> {
     const acquired = await this.acquireLock(key, ttl)
@@ -463,17 +662,21 @@ export class GoDistributedLockAdapter {
   }
 }
 
+/**
+ * Go分布式平台服务
+ * 提供Go分布式环境下的完整平台服务实现
+ */
 export class GoDistributedPlatformService implements IPlatformService {
   platform: Platform = Platform.GO_DISTRIBUTED
   
   capabilities: PlatformCapabilities = {
-    hasCamera: false,
-    hasLocation: false,
-    hasBiometric: false,
-    hasNotification: true,
-    hasShare: true,
-    hasFileSystem: true,
-    maxPhotoSize: 0,
+    hasCamera: false,        // Go分布式环境通常无摄像头
+    hasLocation: false,      // Go分布式环境通常无定位
+    hasBiometric: false,     // Go分布式环境通常无生物识别
+    hasNotification: true,   // 支持通知功能
+    hasShare: true,          // 支持分享功能
+    hasFileSystem: true,     // 支持文件系统
+    maxPhotoSize: 0,         // Go分布式环境无照片限制
     storageQuota: 1024 * 1024 * 1024 // 1GB in distributed systems
   }
   
@@ -490,6 +693,9 @@ export class GoDistributedPlatformService implements IPlatformService {
   discovery: GoDistributedServiceDiscoveryAdapter
   lock: GoDistributedLockAdapter
   
+  /**
+   * 构造函数 - 初始化所有适配器实例
+   */
   constructor() {
     this.storage = new GoDistributedStorageAdapter()
     this.crypto = new GoDistributedCryptoAdapter()
@@ -505,6 +711,10 @@ export class GoDistributedPlatformService implements IPlatformService {
     this.lock = new GoDistributedLockAdapter()
   }
   
+  /**
+   * 获取系统信息
+   * @returns 包含平台信息的对象
+   */
   async getSystemInfo(): Promise<{
     platform: string
     version: string
@@ -525,11 +735,19 @@ export class GoDistributedPlatformService implements IPlatformService {
     }
   }
   
+  /**
+   * 触发震动（Go分布式环境通常不支持）
+   * @param type 震动类型
+   */
   vibrate(type: 'light' | 'medium' | 'heavy'): void {
     // 在分布式系统中可能不支持震动
     console.warn('Vibration not supported in Go distributed environment')
   }
   
+  /**
+   * 打开URL
+   * @param url 要打开的URL
+   */
   async openUrl(url: string): Promise<void> {
     if (typeof go !== 'undefined' && go.system) {
       await go.system.openUrl(url)
