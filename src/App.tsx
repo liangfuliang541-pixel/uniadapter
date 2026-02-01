@@ -24,6 +24,7 @@ import JournalPage from '@/pages/JournalPage'     // 日记 - 日记列表
 import InsightsPage from '@/pages/InsightsPage'   // 洞察 - 数据分析
 import SettingsPage from '@/pages/SettingsPage'   // 设置 - 应用设置
 import FeedbackHistoryPage from '@/pages/FeedbackHistoryPage' // 反馈历史 - 用户反馈记录
+import VibeNestDemo from '@/vibenest/VibeNestDemo' // VibeNest创意展示系统
 
 // 其他组件导入
 import FeedbackFloatingButton from '@/components/FeedbackFloatingButton'
@@ -39,6 +40,7 @@ const navItems = [
   { path: '/calendar', icon: Calendar, label: '日历' },
   { path: '/journal', icon: BookOpen, label: '日记' },
   { path: '/insights', icon: BarChart3, label: '洞察' },
+  { path: '/vibenest', icon: BarChart3, label: 'VibeNest' },
   { path: '/settings', icon: Settings, label: '设置' },
 ]
 
@@ -90,6 +92,7 @@ function AppContent() {
         <Route path="/calendar" element={<CalendarPage />} />
         <Route path="/journal" element={<JournalPage />} />
         <Route path="/insights" element={<InsightsPage />} />
+        <Route path="/vibenest" element={<VibeNestDemo />} />
         <Route path="/settings" element={<SettingsPage />} />
         <Route path="/feedback-history" element={<FeedbackHistoryPage />} />
       </Routes>
