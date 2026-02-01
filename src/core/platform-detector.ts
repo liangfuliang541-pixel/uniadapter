@@ -21,6 +21,11 @@ export interface PlatformDetection {
   isWeb: boolean
   isMiniProgram: boolean
   isReactNative: boolean
+  isApp: boolean
+  isMobile: boolean
+  isDesktop: boolean
+  name: string
+  version: string
   userAgent?: string
   platformInfo: Record<string, any>
 }
@@ -37,6 +42,11 @@ export function detectPlatform(): PlatformDetection {
       isWeb: false,
       isMiniProgram: true,
       isReactNative: false,
+      isApp: false,
+      isMobile: true,
+      isDesktop: false,
+      name: 'WeChat Mini Program',
+      version: (globalThis as any).wx?.version || 'unknown',
       platformInfo: {
         platform: 'wechat-mini-program',
         version: (globalThis as any).wx?.version || 'unknown'
@@ -51,6 +61,11 @@ export function detectPlatform(): PlatformDetection {
       isWeb: false,
       isMiniProgram: false,
       isReactNative: true,
+      isApp: true,
+      isMobile: true,
+      isDesktop: false,
+      name: 'React Native',
+      version: 'unknown',
       platformInfo: {
         platform: 'react-native',
         os: typeof (globalThis as any).Platform !== 'undefined' ? (globalThis as any).Platform.OS : 'unknown'
@@ -60,15 +75,21 @@ export function detectPlatform(): PlatformDetection {
 
   // 检测Web环境
   if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+    const browserInfo = getBrowserInfo()
     return {
       type: PlatformType.WEB,
       isWeb: true,
       isMiniProgram: false,
       isReactNative: false,
+      isApp: false,
+      isMobile: /Mobile|Android|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent),
+      isDesktop: true,
+      name: browserInfo.name,
+      version: browserInfo.version,
       userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : undefined,
       platformInfo: {
         platform: 'web',
-        browser: getBrowserInfo()
+        browser: browserInfo
       }
     }
   }
@@ -78,6 +99,11 @@ export function detectPlatform(): PlatformDetection {
     isWeb: false,
     isMiniProgram: false,
     isReactNative: false,
+    isApp: false,
+    isMobile: false,
+    isDesktop: false,
+    name: 'Unknown',
+    version: 'unknown',
     platformInfo: {
       platform: 'unknown'
     }
@@ -89,7 +115,7 @@ export function detectPlatform(): PlatformDetection {
  * @returns 浏览器信息
  */
 function getBrowserInfo(): Record<string, string> {
-  if (typeof navigator === 'undefined') return {}
+  if (typeof navigator === 'undefined') return { name: 'Unknown', version: 'unknown' }
   
   const ua = navigator.userAgent
   const info: Record<string, string> = {}
@@ -103,12 +129,16 @@ function getBrowserInfo(): Record<string, string> {
     info.name = 'Safari'
   } else if (ua.includes('Edge')) {
     info.name = 'Edge'
+  } else {
+    info.name = 'Unknown'
   }
   
   // 提取版本号
   const versionMatch = ua.match(/(Chrome|Firefox|Safari|Edge)\/(\d+\.\d+)/)
   if (versionMatch) {
     info.version = versionMatch[2]
+  } else {
+    info.version = 'unknown'
   }
   
   return info

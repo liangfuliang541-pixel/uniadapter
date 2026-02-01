@@ -24,7 +24,7 @@
   "bugs": {
     "url": "https://github.com/liangfuliang541-pixel/uniadapter/issues"
   },
-  "main": "dist/index.js",
+  "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
   "types": "dist/index.d.ts",
   "files": [
@@ -35,7 +35,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "build:lib": "tsc && vite build --config vite.lib.config.ts",
+    "build:lib": "tsc --project tsconfig.lib.json && vite build --config vite.lib.simple.config.ts",
     "preview": "vite preview",
     "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "lint:fix": "eslint src --ext ts,tsx --fix",
@@ -59,12 +59,17 @@
     "three": "^0.182.0"
   },
   "devDependencies": {
-    "@types/react": "18.2.37",
-    "@types/react-dom": "18.2.15",
-    "@vitejs/plugin-react-swc": "3.5.0",
-    "typescript": "5.2.2",
-    "vite": "5.0.0",
-    "vite-plugin-dts": "3.6.0"
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^25.2.0",
+    "@types/react": "^19.2.10",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react-swc": "^4.2.2",
+    "jsdom": "^27.4.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^4.0.18"
   },
   "peerDependencies": {
     "react": ">=18.0.0",

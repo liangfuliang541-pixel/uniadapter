@@ -7,6 +7,7 @@ export default defineConfig({
   plugins: [
     react(),
     dts({
+      tsconfigPath: './tsconfig.lib.json',
       insertTypesEntry: true,
     })
   ],
@@ -27,12 +28,6 @@ export default defineConfig({
       }
     },
     sourcemap: true,
-    minify: 'terser',
-    terserOptions: {
-      compress: {
-        drop_console: true,
-        drop_debugger: true
-      }
-    }
+    minify: false,
   }
 })

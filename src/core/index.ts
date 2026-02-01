@@ -16,3 +16,9 @@ export * from './services'
 
 // 语录和成就
 export * from './quotes'
+
+// 平台检测
+export { PlatformType, platformDetection, detectPlatform } from './platform-detector'
+
+// 核心适配器
+export { VERSION, initUniAdapter } from './adapter'
