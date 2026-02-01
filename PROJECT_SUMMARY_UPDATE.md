@@ -32,7 +32,7 @@ src/
 ├── platforms/                      # 平台特定实现
 │   └── storage.ts                 # 统一存储适配器
 └── components/                    # 可复用UI组件
-    └── MultiPlatformDemo.tsx      # 多平台展示演示
+   └── MultiPlatformDemo.tsx      # 多平台展示演示
 ```
 
 ## 🎨 核心功能扩展
