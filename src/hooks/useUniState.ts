@@ -1,4 +1,4 @@
-import { platformDetection } from '../core/platform-detector'
+import { detectPlatform, Platform } from '../core/types/platform'
 
 /**
  * 统一状态管理Hook
@@ -6,10 +6,8 @@ import { platformDetection } from '../core/platform-detector'
  * @returns [state, setState] 状态和更新函数
  */
 export function useUniState<T>(initialState: T): [T, (newState: T | ((prev: T) => T)) => void] {
-  // 简化实现，实际项目中可以集成zustand或其他状态管理库
   const state = initialState
   const setState = (newState: T | ((prev: T) => T)) => {
-    // 状态更新逻辑
     console.log('State updated:', newState)
   }
   
@@ -21,17 +19,51 @@ export function useUniState<T>(initialState: T): [T, (newState: T | ((prev: T) =
  * @returns 路由相关操作函数
  */
 export function useUniRouter() {
+  const platform = detectPlatform()
+  
   const push = (url: string) => {
-    // 统一跳转逻辑
-    if (typeof window !== 'undefined') {
-      window.location.href = url
+    switch (platform) {
+      case Platform.DOUYIN_MINIPROGRAM:
+        (globalThis as any).tt.navigateTo({ url })
+        break
+      case Platform.XIAOHONGSHU:
+        (globalThis as any).xhs.navigateTo({ url })
+        break
+      case Platform.WEAPP:
+        (globalThis as any).wx.navigateTo({ url })
+        break
+      case Platform.H5:
+        if (typeof window !== 'undefined') {
+          window.location.href = url
+        }
+        break
+      default:
+        if (typeof window !== 'undefined') {
+          window.location.href = url
+        }
     }
   }
   
   const replace = (url: string) => {
-    // 统一替换逻辑
-    if (typeof window !== 'undefined') {
-      window.location.replace(url)
+    switch (platform) {
+      case Platform.DOUYIN_MINIPROGRAM:
+        (globalThis as any).tt.redirectTo({ url })
+        break
+      case Platform.XIAOHONGSHU:
+        (globalThis as any).xhs.redirectTo({ url })
+        break
+      case Platform.WEAPP:
+        (globalThis as any).wx.redirectTo({ url })
+        break
+      case Platform.H5:
+        if (typeof window !== 'undefined') {
+          window.location.replace(url)
+        }
+        break
+      default:
+        if (typeof window !== 'undefined') {
+          window.location.replace(url)
+        }
     }
   }
   
@@ -43,31 +75,85 @@ export function useUniRouter() {
  * @returns 请求相关操作函数
  */
 export function useUniRequest() {
-  const get = async (url: string) => {
-    // 统一GET请求逻辑
-    try {
-      const response = await fetch(url)
-      return await response.json()
-    } catch (error) {
-      console.error('Request failed:', error)
-      throw error
+  const platform = detectPlatform()
+  
+  const get = async (url: string, options?: RequestInit) => {
+    switch (platform) {
+      case Platform.DOUYIN_MINIPROGRAM:
+        return new Promise((resolve, reject) => {
+          (globalThis as any).tt.request({
+            url,
+            method: 'GET',
+            success: resolve,
+            fail: reject,
+          })
+        })
+      case Platform.XIAOHONGSHU:
+        return new Promise((resolve, reject) => {
+          (globalThis as any).xhs.request({
+            url,
+            method: 'GET',
+            success: resolve,
+            fail: reject,
+          })
+        })
+      case Platform.WEAPP:
+        return new Promise((resolve, reject) => {
+          (globalThis as any).wx.request({
+            url,
+            method: 'GET',
+            success: resolve,
+            fail: reject,
+          })
+        })
+      default:
+        const response = await fetch(url, { method: 'GET', ...options })
+        return response.json()
     }
   }
   
-  const post = async (url: string, data: any) => {
-    // 统一POST请求逻辑
-    try {
-      const response = await fetch(url, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(data),
-      })
-      return await response.json()
-    } catch (error) {
-      console.error('Request failed:', error)
-      throw error
+  const post = async (url: string, data: any, options?: RequestInit) => {
+    switch (platform) {
+      case Platform.DOUYIN_MINIPROGRAM:
+        return new Promise((resolve, reject) => {
+          (globalThis as any).tt.request({
+            url,
+            method: 'POST',
+            data,
+            success: resolve,
+            fail: reject,
+          })
+        })
+      case Platform.XIAOHONGSHU:
+        return new Promise((resolve, reject) => {
+          (globalThis as any).xhs.request({
+            url,
+            method: 'POST',
+            data,
+            success: resolve,
+            fail: reject,
+          })
+        })
+      case Platform.WEAPP:
+        return new Promise((resolve, reject) => {
+          (globalThis as any).wx.request({
+            url,
+            method: 'POST',
+            data,
+            success: resolve,
+            fail: reject,
+          })
+        })
+      default:
+        const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+          ...options,
+        })
+        return response.json()
     }
   }
   
@@ -79,5 +165,66 @@ export function useUniRequest() {
  * @returns 当前平台信息
  */
 export function usePlatform() {
-  return platformDetection
+  const platform = detectPlatform()
+  
+  const platformInfo = {
+    [Platform.H5]: {
+      name: 'Web Browser',
+      type: 'web',
+      isWeb: true,
+      isMiniProgram: false,
+      isApp: false,
+      isMobile: /Mobile|Android|iPhone|iPad/i.test(navigator?.userAgent || ''),
+    },
+    [Platform.WEAPP]: {
+      name: 'WeChat Mini Program',
+      type: 'mini-program',
+      isWeb: false,
+      isMiniProgram: true,
+      isApp: false,
+      isMobile: true,
+    },
+    [Platform.DOUYIN_MINIPROGRAM]: {
+      name: 'Douyin Mini Program',
+      type: 'mini-program',
+      isWeb: false,
+      isMiniProgram: true,
+      isApp: false,
+      isMobile: true,
+    },
+    [Platform.XIAOHONGSHU]: {
+      name: 'Xiaohongshu Mini Program',
+      type: 'mini-program',
+      isWeb: false,
+      isMiniProgram: true,
+      isApp: false,
+      isMobile: true,
+    },
+    [Platform.REACT_NATIVE]: {
+      name: 'React Native App',
+      type: 'app',
+      isWeb: false,
+      isMiniProgram: false,
+      isApp: true,
+      isMobile: true,
+    },
+    [Platform.GAODE_MAP]: {
+      name: 'Gaode Map',
+      type: 'map-service',
+      isWeb: true,
+      isMiniProgram: false,
+      isApp: false,
+      isMobile: /Mobile/i.test(navigator?.userAgent || ''),
+    },
+    [Platform.UNKNOWN]: {
+      name: 'Unknown Platform',
+      type: 'unknown',
+      isWeb: false,
+      isMiniProgram: false,
+      isApp: false,
+      isMobile: false,
+    },
+  }
+  
+  return platformInfo[platform] || platformInfo[Platform.UNKNOWN]
 }

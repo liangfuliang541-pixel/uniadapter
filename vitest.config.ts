@@ -19,5 +19,10 @@ export default defineConfig({
         '**/*.d.ts'
       ]
     }
+  },
+  resolve: {
+    alias: {
+      '@': './src'
+    }
   }
 })
