@@ -2,7 +2,7 @@
  * 平台服务实现
  */
 
-import type { Platform, PlatformCapabilities } from '../types'
+import { Platform, PlatformCapabilities } from '../types/platform'
 import type { 
   IPlatformService, 
   IStorageAdapter, 
@@ -22,7 +22,7 @@ import {
 } from './h5'
 
 class H5PlatformService implements IPlatformService {
-  platform: Platform = 'h5'
+  platform: Platform = Platform.H5
   
   capabilities: PlatformCapabilities = {
     hasCamera: true,

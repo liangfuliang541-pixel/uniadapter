@@ -182,30 +182,7 @@ export interface EmotionTag {
   source: 'analysis' | 'manual'
 }
 
-// ==================== 平台相关类型 ====================
 
-/**
- * 平台类型
- * h5: 网页版
- * miniprogram: 小程序
- * app: 原生APP
- */
-export type Platform = 'h5' | 'miniprogram' | 'app'
-
-/**
- * 平台能力接口
- * 描述不同平台支持的功能
- */
-export interface PlatformCapabilities {
-  hasCamera: boolean       // 是否支持相机
-  hasLocation: boolean     // 是否支持定位
-  hasBiometric: boolean    // 是否支持生物识别
-  hasNotification: boolean // 是否支持通知
-  hasShare: boolean        // 是否支持分享
-  hasFileSystem: boolean   // 是否支持文件系统
-  maxPhotoSize: number     // 最大照片大小
-  storageQuota: number     // 存储配额
-}
 
 // ==================== API响应类型 ====================
 

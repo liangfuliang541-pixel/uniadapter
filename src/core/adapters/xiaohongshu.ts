@@ -3,7 +3,7 @@
  * 基于小红书开放平台API实现
  */
 
-import type { Platform } from '../types'
+import { Platform } from '../types/platform'
 import type { IStorageAdapter, ICryptoAdapter, IFileAdapter, INotificationAdapter, IBiometricAdapter, IShareAdapter, IPlatformService } from './interfaces'
 
 // 小红书小程序全局对象
@@ -13,7 +13,7 @@ declare const xhs: any
  * 小红书小程序存储适配器
  */
 export class XiaohongshuStorageAdapter implements IStorageAdapter {
-  platform: Platform = 'xiaohongshu'
+  platform: Platform = Platform.XIAOHONGSHU
   
   async get<T>(key: string): Promise<T | null> {
     try {
@@ -326,7 +326,7 @@ export class XiaohongshuShareAdapter implements IShareAdapter {
  * 小红书小程序平台服务
  */
 export class XiaohongshuPlatformService implements IPlatformService {
-  platform: Platform = 'xiaohongshu'
+  platform: Platform = Platform.XIAOHONGSHU
   
   capabilities = {
     hasCamera: true,

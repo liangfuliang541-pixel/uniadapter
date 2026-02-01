@@ -3,7 +3,7 @@
  * 支持H5、小程序、APP多端适配
  */
 
-import type { Platform, PlatformCapabilities } from '../types'
+import type { Platform, PlatformCapabilities } from '../types/platform'
 
 // ==================== 存储适配器 ====================
 
@@ -144,3 +144,6 @@ export interface IAdapterFactory {
   createShareAdapter(): IShareAdapter
   createPlatformService(): IPlatformService
 }
+
+// 导出Platform和PlatformCapabilities类型以便在其他模块中使用
+export type { Platform, PlatformCapabilities } from '../types/platform'

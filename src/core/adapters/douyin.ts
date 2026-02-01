@@ -3,7 +3,7 @@
  * 基于抖音开放平台API实现
  */
 
-import type { Platform } from '../types'
+import { Platform } from '../types/platform'
 import type { IStorageAdapter, ICryptoAdapter, IFileAdapter, INotificationAdapter, IBiometricAdapter, IShareAdapter, IPlatformService } from './interfaces'
 
 // 抖音小程序全局对象
@@ -13,7 +13,7 @@ declare const tt: any
  * 抖音小程序存储适配器
  */
 export class DouyinStorageAdapter implements IStorageAdapter {
-  platform: Platform = 'douyin'
+  platform: Platform = Platform.DOUYIN_MINIPROGRAM
   
   async get<T>(key: string): Promise<T | null> {
     try {
@@ -332,7 +332,7 @@ export class DouyinShareAdapter implements IShareAdapter {
  * 抖音小程序平台服务
  */
 export class DouyinPlatformService implements IPlatformService {
-  platform: Platform = 'douyin'
+  platform: Platform = Platform.DOUYIN_MINIPROGRAM
   
   capabilities = {
     hasCamera: true,

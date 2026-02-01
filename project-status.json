@@ -1,0 +1,20 @@
+{
+  "project": "uniadapter",
+  "version": "1.1.0",
+  "status": "ready_for_push",
+  "last_commit": "2e933f0",
+  "commits_ahead": 4,
+  "files_changed": 18,
+  "network_status": "unstable",
+  "backup_created": true,
+  "next_steps": [
+    "等待网络恢复后运行 sync-project.bat",
+    "或手动执行 git push origin main",
+    "验证远程仓库同步状态"
+  ],
+  "contact": {
+    "email": "3578544805@qq.com",
+    "github": "liangfuliang541-pixel",
+    "company": "福建省小南同学网络科技有限公司"
+  }
+}

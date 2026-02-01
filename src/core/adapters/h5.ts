@@ -3,11 +3,11 @@
  * 基于localStorage实现
  */
 
-import type { Platform } from '../types'
+import { Platform } from '../types/platform'
 import type { IStorageAdapter } from './interfaces'
 
 export class H5StorageAdapter implements IStorageAdapter {
-  platform: Platform = 'h5'
+  platform: Platform = Platform.H5
   
   async get<T>(key: string): Promise<T | null> {
     try {
@@ -397,5 +397,60 @@ export class H5ShareAdapter implements IShareAdapter {
       document.body.removeChild(textarea)
       return success
     }
+  }
+}
+
+/**
+ * H5平台服务
+ */
+import type { IPlatformService, PlatformCapabilities } from './interfaces'
+
+export class H5PlatformService implements IPlatformService {
+  platform: Platform = Platform.H5
+  
+  capabilities: PlatformCapabilities = {
+    hasCamera: true,
+    hasLocation: true,
+    hasBiometric: true,
+    hasNotification: true,
+    hasShare: true,
+    hasFileSystem: true,
+    maxPhotoSize: 10 * 1024 * 1024, // 10MB
+    storageQuota: 5 * 1024 * 1024, // 5MB
+  }
+  
+  storage = new H5StorageAdapter()
+  crypto = new H5CryptoAdapter()
+  file = new H5FileAdapter()
+  notification = new H5NotificationAdapter()
+  biometric = new H5BiometricAdapter()
+  share = new H5ShareAdapter()
+  
+  async getSystemInfo() {
+    return {
+      platform: 'web',
+      version: navigator.userAgent,
+      screenWidth: window.screen.width,
+      screenHeight: window.screen.height,
+      safeArea: {
+        top: 0,
+        bottom: 0,
+      },
+    }
+  }
+  
+  vibrate(type: 'light' | 'medium' | 'heavy'): void {
+    if ('vibrate' in navigator) {
+      const patterns = {
+        light: 10,
+        medium: 20,
+        heavy: 50,
+      }
+      navigator.vibrate(patterns[type])
+    }
+  }
+  
+  async openUrl(url: string): Promise<void> {
+    window.open(url, '_blank')
   }
 }

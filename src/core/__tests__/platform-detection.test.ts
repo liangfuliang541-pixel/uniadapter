@@ -52,6 +52,12 @@ describe('Platform Detection', () => {
     expect(detectPlatform()).toBe(Platform.GAODE_MAP)
   })
 
+  it('should detect Go Distributed platform', () => {
+    vi.stubGlobal('go', { runtime: 'distributed', version: '1.0.0' })
+    
+    expect(detectPlatform()).toBe(Platform.GO_DISTRIBUTED)
+  })
+
   it('should return unknown for unsupported platform', () => {
     expect(detectPlatform()).toBe(Platform.UNKNOWN)
   })

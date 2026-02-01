@@ -9,6 +9,7 @@ export enum Platform {
   XIAOHONGSHU = 'xiaohongshu',
   REACT_NATIVE = 'react-native',
   GAODE_MAP = 'amap',
+  GO_DISTRIBUTED = 'go-distributed',
   UNKNOWN = 'unknown'
 }
 
@@ -28,6 +29,11 @@ export interface PlatformCapabilities {
  * @returns Platform 枚举值
  */
 export function detectPlatform(): Platform {
+  // 检测Go分布式环境
+  if (typeof (globalThis as any).go !== 'undefined' && (globalThis as any).go.runtime === 'distributed') {
+    return Platform.GO_DISTRIBUTED
+  }
+  
   // 检测抖音小程序
   if (typeof (globalThis as any).tt !== 'undefined') {
     return Platform.DOUYIN_MINIPROGRAM
@@ -49,7 +55,7 @@ export function detectPlatform(): Platform {
   }
   
   // 检测高德地图环境
-  if (typeof AMap !== 'undefined' || (globalThis as any).AMap) {
+  if (typeof (globalThis as any).AMap !== 'undefined' || (globalThis as any).AMap) {
     return Platform.GAODE_MAP
   }
   

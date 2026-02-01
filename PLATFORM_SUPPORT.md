@@ -4,6 +4,17 @@
 
 UniAdapter 现已支持以下平台的适配：
 
+### 🔧 Go分布式系统 (Go Distributed System)
+- **平台标识**: `go-distributed`
+- **API 前缀**: `go.*`
+- **核心能力**: RPC、消息队列、服务发现、分布式锁、微服务治理
+- **特色功能**: 
+  - 微服务架构支持
+  - 高性能RPC通信
+  - 分布式事务协调
+  - 服务注册与发现
+  - 负载均衡与容错
+
 ### 🎯 抖音小程序 (Douyin Mini Program)
 - **平台标识**: `douyin`
 - **API 前缀**: `tt.*`
@@ -117,6 +128,34 @@ if (platform === Platform.XIAOHONGSHU) {
 }
 ```
 
+### 🔧 Go分布式系统特色
+```typescript
+// Go分布式系统特有的微服务能力
+if (platform === Platform.GO_DISTRIBUTED) {
+  // RPC远程调用
+  const userService = goDistributedAdapter.rpc;
+  const user = await userService.call('UserService', 'GetUser', { id: 123 });
+  
+  // 消息队列
+  const messageQueue = goDistributedAdapter.mq;
+  await messageQueue.sendMessage('user-events', { 
+    eventType: 'user_login', 
+    userId: 123 
+  });
+  
+  // 服务发现
+  const discovery = goDistributedAdapter.discovery;
+  const services = await discovery.findService('OrderService');
+  
+  // 分布式锁
+  const lock = goDistributedAdapter.lock;
+  await lock.withLock('order-processing', 30000, async () => {
+    // 处理订单逻辑，保证分布式环境下的原子性
+    await processOrder();
+  });
+}
+```
+
 ## 自动适配流程
 
 1. **平台检测**: `detectPlatform()` 自动识别运行环境
@@ -159,3 +198,4 @@ try {
 - 集成更多地图服务商
 - 添加AI能力适配器
 - 扩展AR/VR平台支持
+- 增强Go分布式系统生态集成

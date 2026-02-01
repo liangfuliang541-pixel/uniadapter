@@ -1,31 +1,30 @@
 {
-  "name": "uniadapter",
-  "version": "1.1.0",
+  "name": "xinji-mood-journal",
+  "version": "1.0.0",
   "type": "module",
-  "description": "智能多端适配器框架 - 一套代码适配所有平台",
+  "description": "心迹 XinJi - 情绪追踪日记应用，记录每一天的情绪变化",
   "keywords": [
-    "multi-platform",
-    "adapter",
+    "mood-journal",
+    "emotion-tracking",
+    "diary",
+    "mental-health",
+    "wellness",
+    "journaling",
+    "mindfulness",
     "react",
-    "cross-platform",
-    "web",
-    "mini-program",
-    "mobile",
-    "framework",
     "typescript",
-    "douyin",
-    "amap",
-    "xiaohongshu"
+    "vite",
+    "tailwind-css"
   ],
   "author": "liangfuliang541-pixel",
   "license": "MIT",
-  "homepage": "https://github.com/liangfuliang541-pixel/uniadapter",
+  "homepage": "https://github.com/liangfuliang541-pixel/xinji",
   "repository": {
     "type": "git",
-    "url": "https://github.com/liangfuliang541-pixel/uniadapter.git"
+    "url": "https://github.com/liangfuliang541-pixel/xinji.git"
   },
   "bugs": {
-    "url": "https://github.com/liangfuliang541-pixel/uniadapter/issues"
+    "url": "https://github.com/liangfuliang541-pixel/xinji/issues"
   },
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
@@ -59,7 +58,8 @@
     "react-router-dom": "^7.13.0",
     "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.18",
-    "three": "^0.182.0"
+    "three": "^0.182.0",
+    "@tailwindcss/postcss": "^4.1.18"
   },
   "devDependencies": {
     "@testing-library/jest-dom": "^6.9.1",

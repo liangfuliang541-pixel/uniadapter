@@ -3,7 +3,7 @@
  * 基于高德地图API实现位置服务
  */
 
-import type { Platform } from '../types'
+import { Platform } from '../types/platform'
 import type { IStorageAdapter, ICryptoAdapter, IFileAdapter, INotificationAdapter, IBiometricAdapter, IShareAdapter, IPlatformService } from './interfaces'
 
 // 高德地图全局对象
@@ -13,7 +13,7 @@ declare const AMap: any
  * 高德地图存储适配器
  */
 export class AmapStorageAdapter implements IStorageAdapter {
-  platform: Platform = 'amap'
+  platform: Platform = Platform.GAODE_MAP
   
   async get<T>(key: string): Promise<T | null> {
     try {
@@ -386,7 +386,7 @@ export class AmapShareAdapter implements IShareAdapter {
  * 高德地图平台服务
  */
 export class AmapPlatformService implements IPlatformService {
-  platform: Platform = 'amap'
+  platform: Platform = Platform.GAODE_MAP
   
   capabilities = {
     hasCamera: true,
