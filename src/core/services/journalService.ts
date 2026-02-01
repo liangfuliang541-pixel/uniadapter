@@ -5,6 +5,11 @@
  * 
  * 核心业务逻辑层，处理日记的增删改查和统计分析
  * 这一层与平台无关，可以在任何平台上复用
+ * 
+ * @author 心迹团队
+ * @version 1.0.0
+ * @copyright © 2024-2025 福建省小南同学网络科技有限公司. 保留所有权利。
+ * @contact 3578544805@qq.com
  */
 
 import { format, subDays, startOfMonth, endOfMonth, parseISO } from 'date-fns'
@@ -17,6 +22,9 @@ const { storageKeys } = APP_CONFIG
 /**
  * 日记服务类
  * 单例模式，管理所有日记相关的业务逻辑
+ * 
+ * 提供日记的增删改查功能以及数据分析和统计功能
+ * 支持多种数据导出格式，适用于"心迹"情绪追踪日记应用
  */
 class JournalService {
   private entries: JournalEntry[] = []  // 内存中的日记数据
@@ -439,5 +447,22 @@ class JournalService {
   }
 }
 
-// 导出单例实例
+/**
+ * 导出日记服务单例实例
+ * 
+ * 为应用提供全局唯一的日记服务访问点
+ * 该实例在整个应用生命周期内保持单一状态
+ */
 export const journalService = new JournalService()
+
+/**
+ * ============================================
+ * 心迹 XinJi - 日记服务层
+ * ============================================
+ * 
+ * @description 核心业务逻辑层，处理日记的增删改查和统计分析
+ * @author 心迹团队
+ * @version 1.0.0
+ * @copyright © 2024-2025 福建省小南同学网络科技有限公司. 保留所有权利。
+ * @contact 3578544805@qq.com
+ */
