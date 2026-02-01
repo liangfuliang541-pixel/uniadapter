@@ -1,30 +1,29 @@
 {
-  "name": "xinji-mood-journal",
-  "version": "1.0.0",
+  "name": "uniadapter",
+  "version": "1.2.0",
   "type": "module",
-  "description": "心迹 XinJi - 情绪追踪日记应用，记录每一天的情绪变化",
+  "description": "UniAdapter - 智能多端适配器框架，一套代码适配所有平台",
   "keywords": [
-    "mood-journal",
-    "emotion-tracking",
-    "diary",
-    "mental-health",
-    "wellness",
-    "journaling",
-    "mindfulness",
-    "react",
+    "cross-platform",
+    "adapter",
+    "framework",
+    "multi-platform",
     "typescript",
     "vite",
-    "tailwind-css"
+    "react",
+    "micro-frontend",
+    "distributed-system",
+    "go-microservices"
   ],
   "author": "liangfuliang541-pixel",
   "license": "MIT",
-  "homepage": "https://github.com/liangfuliang541-pixel/xinji",
+  "homepage": "https://github.com/liangfuliang541-pixel/uniadapter",
   "repository": {
     "type": "git",
-    "url": "https://github.com/liangfuliang541-pixel/xinji.git"
+    "url": "https://github.com/liangfuliang541-pixel/uniadapter.git"
   },
   "bugs": {
-    "url": "https://github.com/liangfuliang541-pixel/xinji/issues"
+    "url": "https://github.com/liangfuliang541-pixel/uniadapter/issues"
   },
   "main": "dist/index.cjs.js",
   "module": "dist/index.es.js",
@@ -46,27 +45,11 @@
     "coverage": "vitest run --coverage"
   },
   "dependencies": {
-    "@react-three/drei": "^10.7.7",
-    "@react-three/fiber": "^9.5.0",
-    "autoprefixer": "^10.4.24",
-    "clsx": "^2.1.1",
-    "date-fns": "^4.1.0",
-    "gsap": "^3.14.2",
-    "lucide-react": "^0.563.0",
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0",
-    "react-router-dom": "^7.13.0",
-    "tailwind-merge": "^3.4.0",
-    "tailwindcss": "^4.1.18",
-    "three": "^0.182.0",
-    "@tailwindcss/postcss": "^4.1.18"
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.9.1",
-    "@testing-library/react": "^16.3.2",
     "@types/node": "^25.2.0",
-    "@types/react": "^19.2.10",
-    "@types/react-dom": "^19.2.3",
     "@vitejs/plugin-react-swc": "^4.2.2",
     "@vitest/coverage-v8": "^4.0.18",
     "jsdom": "^27.4.0",
@@ -74,10 +57,6 @@
     "vite": "^7.3.1",
     "vite-plugin-dts": "^4.5.4",
     "vitest": "^4.0.18"
-  },
-  "peerDependencies": {
-    "react": ">=18.0.0",
-    "react-dom": ">=18.0.0"
   },
   "engines": {
     "node": ">=16.0.0",
