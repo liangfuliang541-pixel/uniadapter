@@ -1,0 +1,19 @@
+{
+  "name": "@uniadapter/example-go-distributed",
+  "version": "1.0.0",
+  "description": "UniAdapter Go分布式系统示例",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "nodemon src/index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "uniadapter": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "typescript": "^5.0.0",
+    "nodemon": "^2.0.0"
+  }
+}

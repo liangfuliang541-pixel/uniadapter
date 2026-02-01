@@ -1,0 +1,159 @@
+name: Issue and PR Automation
+
+on:
+  issues:
+    types: [opened, reopened]
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  issue-and-pr-automation:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Auto-label issues
+        if: github.event_name == 'issues'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo, issue_number } = context.issue;
+            
+            // Add labels based on issue content
+            const body = context.payload.issue.body || '';
+            const title = context.payload.issue.title || '';
+            
+            const labelsToAdd = [];
+            
+            // Detect issue type
+            if (title.toLowerCase().includes('bug') || body.toLowerCase().includes('bug')) {
+              labelsToAdd.push('bug');
+            }
+            if (title.toLowerCase().includes('feature') || body.toLowerCase().includes('feature')) {
+              labelsToAdd.push('enhancement');
+            }
+            if (title.toLowerCase().includes('docs') || body.toLowerCase().includes('docs')) {
+              labelsToAdd.push('documentation');
+            }
+            
+            // Add difficulty labels
+            if (body.toLowerCase().includes('beginner') || body.toLowerCase().includes('good first issue')) {
+              labelsToAdd.push('good first issue', 'beginner-friendly');
+            }
+            
+            if (labelsToAdd.length > 0) {
+              await github.rest.issues.addLabels({
+                owner,
+                repo,
+                issue_number,
+                labels: labelsToAdd
+              });
+            }
+
+      - name: Welcome new contributors
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { owner, repo, issue_number } = context.issue;
+            
+            // Check if this is the user's first contribution
+            const { data: pulls } = await github.rest.pulls.list({
+              owner,
+              repo,
+              state: 'all',
+              author: context.payload.pull_request.user.login
+            });
+            
+            if (pulls.length <= 1) {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number,
+                body: `🎉 Hello, and welcome! Thank you for your first contribution to UniAdapter! We're excited to have you here. If you have any questions, feel free to ask. Happy coding! 💖`
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number,
+                body: `👋 Thanks for your contribution! We appreciate your continued involvement in the UniAdapter project. Your contributions make this project better! 🚀`
+              });
+            }
+
+      - name: Check PR title format
+        if: github.event_name == 'pull_request'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = context.payload.pull_request.title;
+            const validPrefixes = ['feat:', 'fix:', 'docs:', 'style:', 'refactor:', 'perf:', 'test:', 'chore:', 'build:', 'ci:', 'revert:'];
+            
+            const hasValidPrefix = validPrefixes.some(prefix => title.startsWith(prefix));
+            
+            if (!hasValidPrefix) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: `⚠️ PR title doesn't follow conventional commits format. Please use one of these prefixes: ${validPrefixes.join(', ')}\n\nExample: \`feat: add new adapter for platform X\` or \`fix: resolve issue with Y\``
+              });
+              
+              // Optionally, set a failing status check
+              await github.rest.repos.createCommitStatus({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                sha: context.payload.pull_request.head.sha,
+                state: 'pending',
+                context: 'PR Title Format Check',
+                description: 'Waiting for title to follow conventional commits format',
+                target_url: 'https://github.com/liangfuliang541-pixel/uniadapter/blob/main/CONTRIBUTING.md#提交准则'
+              });
+            }
+
+      - name: Assign reviewers
+        if: github.event_name == 'pull_request' && github.event.action == 'opened'
+        uses: actions/github-script@v7
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const { owner, repo, issue_number } = context.issue;
+            
+            // Get PR files to determine which areas are affected
+            const { data: prFiles } = await github.rest.pulls.listFiles({
+              owner,
+              repo,
+              pull_number: issue_number
+            });
+            
+            // Define code owners based on file paths
+            const codeOwners = {
+              'src/core': ['liangfuliang541-pixel'],
+              'src/core/adapters': ['liangfuliang541-pixel'],
+              'src/hooks': ['liangfuliang541-pixel'],
+              'docs': ['liangfuliang541-pixel'],
+              'examples': ['liangfuliang541-pixel'],
+              'tests': ['liangfuliang541-pixel']
+            };
+            
+            // Find relevant reviewers based on changed files
+            const reviewers = new Set();
+            
+            for (const file of prFiles) {
+              for (const [path, owners] of Object.entries(codeOwners)) {
+                if (file.filename.startsWith(path)) {
+                  owners.forEach(owner => reviewers.add(owner));
+                }
+              }
+            }
+            
+            // If no specific reviewers found, assign default reviewers
+            if (reviewers.size === 0) {
+              reviewers.add('liangfuliang541-pixel');
+            }
+            
+            // Request reviews
+            await github.rest.pulls.requestReviewers({
+              owner,
+              repo,
+              pull_number: issue_number,
+              reviewers: Array.from(reviewers)
+            });

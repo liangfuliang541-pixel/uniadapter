@@ -48,7 +48,10 @@
     "coverage": "vitest run --coverage",
     "clean": "rm -rf dist",
     "type-check": "tsc --noEmit",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "docs:generate": "npx docs-generator --source src --output docs/api",
+    "docs:serve": "npx docsify serve docs",
+    "docs:build": "npx docsify build docs"
   },
   "dependencies": {
     "typescript": "^5.9.3",

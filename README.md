@@ -1,6 +1,18 @@
 # 🚀 UniAdapter - 智能多端适配器框架
 
-**一套代码，适配所有平台** | [文档](./docs) | [示例](./examples) | [贡献](./CONTRIBUTING.md)
+![License](https://img.shields.io/github/license/liangfuliang541-pixel/uniadapter)
+![Version](https://img.shields.io/npm/v/uniadapter)
+![Downloads](https://img.shields.io/npm/dm/uniadapter)
+![Stars](https://img.shields.io/github/stars/liangfuliang541-pixel/uniadapter)
+![Forks](https://img.shields.io/github/forks/liangfuliang541-pixel/uniadapter)
+![Build Status](https://img.shields.io/github/actions/workflow/status/liangfuliang541-pixel/uniadapter/test.yml)
+![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
+![Language TypeScript](https://img.shields.io/badge/Language-TypeScript-blue)
+![Platform Support](https://img.shields.io/badge/Platform-8%2B_Supported-orange)
+![Contributors](https://img.shields.io/github/contributors/liangfuliang541-pixel/uniadapter)
+![Last Commit](https://img.shields.io/github/last-commit/liangfuliang541-pixel/uniadapter)
+
+**一套代码，适配所有平台** | [文档](./docs) | [示例](./examples) | [贡献](./CONTRIBUTING.md) | [统计信息](./STATISTICS.md)
 
 UniAdapter 是一个创新的多端适配框架，通过适配器模式解决前端开发中跨平台兼容的痛点问题，让开发者能够专注于业务逻辑而非平台差异。最新版本已支持Go分布式系统，实现从前端到后端微服务的统一适配，是业界首个支持全栈开发的适配框架。
 
@@ -23,6 +35,8 @@ UniAdapter 是一个创新的多端适配框架，通过适配器模式解决前
 - **高性能**: 编译时优化，运行时零开销
 - **类型安全**: 完整的TypeScript支持和智能提示
 - **全栈支持**: 前端到Go后端微服务的统一适配
+- **生态丰富**: 支持Nx monorepo、ESLint、Prettier等现代开发工具
+- **文档完善**: 详细的API文档和丰富的使用示例
 
 ## 📱 支持平台
 
@@ -183,14 +197,25 @@ const authenticated = await biometric.authenticate('请验证身份')
 - 自动类型推断
 - 严格编译检查
 
-## 📈 性能表现
+## 📊 项目统计
 
 | 指标 | 数据 |
 |------|------|
-| 核心库体积 | < 5KB |
+| 核心库体积 | < 5KB (Gzipped) |
 | 启动时间 | < 50ms |
 | 运行时开销 | 0 |
 | 包含组件数 | 15+ |
+| 支持平台数 | 8+ |
+| GitHub Stars | 💫 持续增长中 |
+| 下载量 | 📈 快速增长中 |
+| 贡献者 | 👥 欢迎加入 |
+
+## 🚀 性能表现
+
+- **轻量化**: 核心库经过Tree-shaking优化，按需加载
+- **高性能**: 运行时无额外性能开销
+- **类型安全**: 完整的TypeScript支持
+- **兼容性强**: 支持ES5+及现代浏览器
 
 ## 🧪 开发支持
 
@@ -234,8 +259,21 @@ initDebug({ level: 'verbose' })
 
 本项目采用 MIT 许可证开源，详细信息请查看 [LICENSE](./LICENSE) 文件。
 
+## 📊 项目统计
+
+| 指标 | 数据 | 说明 |
+|------|------|------|
+| 📦 NPM周下载量 | ![NPM Downloads](https://img.shields.io/npm/dw/uniadapter?color=blue) | 每周下载量 |
+| ⭐ GitHub Stars | ![GitHub Stars](https://img.shields.io/github/stars/liangfuliang541-pixel/uniadapter?style=social) | GitHub收藏数 |
+| 🍴 GitHub Forks | ![GitHub Forks](https://img.shields.io/github/forks/liangfuliang541-pixel/uniadapter?style=social) | GitHub派生数 |
+| 👥 贡献者 | ![GitHub Contributors](https://img.shields.io/github/contributors/liangfuliang541-pixel/uniadapter) | 项目贡献者数量 |
+| 🔧 语言 | ![GitHub Language Count](https://img.shields.io/github/languages/count/liangfuliang541-pixel/uniadapter) | 支持编程语言 |
+| 📝 代码行数 | ![GitHub Lines of Code](https://img.shields.io/tokei/lines/github/liangfuliang541-pixel/uniadapter) | 项目总代码行数 |
+| 🔄 最近更新 | ![GitHub Last Commit](https://img.shields.io/github/last-commit/liangfuliang541-pixel/uniadapter) | 最后提交时间 |
+| 🐞 Issue处理 | ![GitHub Issues](https://img.shields.io/github/issues/liangfuliang541-pixel/uniadapter) | 当前待处理问题 |
+
 ---
 
 ## 🌟 让前端开发更简单，让一份代码跨越所有的终端界限！
 
-[问题反馈](https://github.com/liangfuliang541-pixel/uniadapter/issues) · [功能建议](https://github.com/liangfuliang541-pixel/uniadapter/discussions) · [贡献指南](./CONTRIBUTING.md)
+[问题反馈](https://github.com/liangfuliang541-pixel/uniadapter/issues) · [功能建议](https://github.com/liangfuliang541-pixel/uniadapter/discussions) · [贡献指南](./CONTRIBUTING.md) · [项目统计](./STATISTICS.md)
