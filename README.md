@@ -1,6 +1,6 @@
 # 🚀 UniAdapter - 智能多端适配器框架
 
-**一套代码，适配所有平台**
+**一套代码，适配所有平台** | [文档](./docs) | [示例](./examples) | [贡献](./CONTRIBUTING.md)
 
 UniAdapter 是一个创新的多端适配框架，通过适配器模式解决前端开发中跨平台兼容的痛点问题，让开发者能够专注于业务逻辑而非平台差异。
 
@@ -187,16 +187,34 @@ import { initDebug } from 'uniadapter'
 initDebug({ level: 'verbose' })
 ```
 
-## 🌟 社区与贡献
+## 🌟 贡献与发展
 
-### 问题反馈
-[GitHub Issues](https://github.com/uniadapter/uniadapter/issues)
+### 版本规划
+- ✅ v1.0 - 基础多端适配框架
+- ✅ v1.1 - 新增抖音、高德、小红书支持
+- 🔜 v1.2 - 性能优化与测试覆盖
+- 🔜 v2.0 - AI能力集成与生态扩展
 
-### 功能提案
-欢迎提出 [RFC 建议](https://github.com/uniadapter/rfc)
+### 开源生态
+- MIT License 开源协议
+- 欢迎社区贡献和反馈
+- 定期发布更新和改进
 
-### 开源许可证
-MIT License © 2024-2025 UniAdapter
+## 📞 联系方式
+
+**📧 邮箱**: 3578544805@qq.com  
+**👨‍💻 开发者**: liangfuliang541-pixel  
+**🏢 公司**: 福建省小南同学网络科技有限公司  
+**🌐 GitHub**: [https://github.com/liangfuliang541-pixel/uniadapter](https://github.com/liangfuliang541-pixel/uniadapter)
+
+## 📄 版权声明
+
+© 2024-2025 福建省小南同学网络科技有限公司. 保留所有权利。
+
+本项目采用 MIT 许可证开源，详细信息请查看 [LICENSE](./LICENSE) 文件。
 
 ---
-🌟 让我们一起简化前端开发！让一份代码跨越所有的终端界限，让更多开发者专心专注应用服务能提构度生可口化的超，简悦代付
+
+🌟 **让前端开发更简单，让一份代码跨越所有的终端界限！**
+
+[问题反馈](https://github.com/liangfuliang541-pixel/uniadapter/issues) · [功能建议](https://github.com/liangfuliang541-pixel/uniadapter/discussions) · [贡献指南](./CONTRIBUTING.md)
