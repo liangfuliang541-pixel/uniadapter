@@ -1,255 +1,257 @@
-# API 参考文档
+# API Reference
 
-## 核心 Hook
+## Core Hooks
 
-### usePlatform
-获取当前运行平台的信息。
+### usePlatform()
+
+Returns information about the current platform.
 
 ```typescript
 import { usePlatform } from 'uniadapter'
 
-function MyComponent() {
-  const platform = usePlatform()
-  
-  return (
-    <div>
-      当前平台: {platform.name}
-      平台类型: {platform.type}
-    </div>
-  )
+const platform = usePlatform()
+// {
+//   name: 'weapp' | 'douyin' | 'h5' | ...
+//   type: 'mini-program' | 'web' | 'app' | 'distributed'
+//   isWeb: boolean
+//   isMiniProgram: boolean
+//   isApp: boolean
+//   isMobile: boolean
+// }
+```
+
+### useUniState(initialValue)
+
+Cross-platform state management hook.
+
+```typescript
+const [value, setValue] = useUniState(initialState)
+setValue(newValue)
+setValue(prev => prev + 1)  // Also supports updater function
+```
+
+### useUniRouter()
+
+Navigation API with platform-specific implementations.
+
+```typescript
+const router = useUniRouter()
+
+router.push('/path')              // Navigate to path
+router.replace('/path')           // Replace history
+router.goBack()                   // Go back to previous page
+```
+
+### useUniRequest()
+
+HTTP request API for all platforms.
+
+```typescript
+const request = useUniRequest()
+
+await request.get(url, options)
+await request.post(url, data, options)
+await request.put(url, data, options)
+await request.del(url, options)
+```
+
+**Options:**
+```typescript
+interface RequestOptions {
+  headers?: Record<string, string>
+  timeout?: number
+  withCredentials?: boolean
+  data?: any
 }
 ```
 
-#### 返回值
-- `name`: 平台名称 (如 'web', 'weapp', 'douyin')
-- `type`: 平台类型 ('h5', 'mini-program', 'app', 'go-distributed')
-- `version`: 平台版本
-- `isWeb`: 是否为Web平台
-- `isMobile`: 是否为移动平台
-- `capabilities`: 平台能力对象
+### usePlatform()
 
-### useUniState
-跨平台统一的状态管理Hook。
+Get platform information.
 
 ```typescript
+const { name, type, isWeb, isMiniProgram, isApp, isMobile } = usePlatform()
+```
+
+## Platform Detection
+
+### detectPlatform()
+
+Manually detect the current platform.
+
+```typescript
+import { detectPlatform, Platform } from 'uniadapter'
+
+const platform = detectPlatform()
+
+switch (platform) {
+  case Platform.H5:
+    // Browser
+    break
+  case Platform.WEAPP:
+    // WeChat Mini Program
+    break
+  case Platform.GO_DISTRIBUTED:
+    // Go Distributed System
+    break
+}
+```
+
+**Supported Platforms:**
+- `Platform.H5` - Web/Browser
+- `Platform.WEAPP` - WeChat Mini Program
+- `Platform.DOUYIN_MINIPROGRAM` - Douyin
+- `Platform.XIAOHONGSHU` - Xiaohongshu
+- `Platform.GAODE_MAP` - Gaode Map
+- `Platform.REACT_NATIVE` - React Native
+- `Platform.GO_DISTRIBUTED` - Go Distributed
+- `Platform.HARMONYOS` - HarmonyOS
+- `Platform.UNKNOWN` - Unknown
+
+## Adapter Types
+
+### StorageAdapter
+
+```typescript
+interface StorageAdapter {
+  get<T>(key: string): Promise<T | null>
+  set<T>(key: string, value: T): Promise<void>
+  remove(key: string): Promise<void>
+  clear(): Promise<void>
+}
+```
+
+### CryptoAdapter
+
+```typescript
+interface CryptoAdapter {
+  generateKey(): Promise<void>
+  encrypt(data: string): Promise<string>
+  decrypt(encrypted: string): Promise<string>
+  hash(data: string): Promise<string>
+}
+```
+
+### FileAdapter
+
+```typescript
+interface FileAdapter {
+  selectImage(): Promise<{ path: string; base64: string }>
+  uploadFile(path: string, url: string): Promise<boolean>
+  compressImage(path: string): Promise<{ path: string; size: number }>
+}
+```
+
+## Type Definitions
+
+### PlatformInfo
+
+```typescript
+interface PlatformInfo {
+  name: string
+  type: 'web' | 'mini-program' | 'app' | 'distributed'
+  isWeb: boolean
+  isMiniProgram: boolean
+  isApp: boolean
+  isMobile: boolean
+}
+```
+
+### RequestOptions
+
+```typescript
+interface RequestOptions {
+  headers?: Record<string, string>
+  timeout?: number
+  withCredentials?: boolean
+  data?: any
+}
+```
+
+## Examples
+
+### Simple State Counter
+
+```typescript
+import React from 'react'
 import { useUniState } from 'uniadapter'
 
-function Counter() {
+export function Counter() {
   const [count, setCount] = useUniState(0)
   
   return (
-    <button onClick={() => setCount(count + 1)}>
-      Count: {count}
-    </button>
-  )
-}
-```
-
-#### 参数
-- `initialValue`: 初始状态值
-
-#### 返回值
-- `[state, setState]`: 状态值和设置函数的数组
-
-### useUniRouter
-跨平台统一的路由管理Hook。
-
-```typescript
-import { useUniRouter } from 'uniadapter'
-
-function NavigationButton() {
-  const { push, replace, goBack } = useUniRouter()
-  
-  return (
     <div>
-      <button onClick={() => push('/detail')}>
-        跳转详情页
-      </button>
-      <button onClick={() => goBack()}>
-        返回
-      </button>
+      <p>Count: {count}</p>
+      <button onClick={() => setCount(count + 1)}>+</button>
+      <button onClick={() => setCount(count - 1)}>-</button>
     </div>
   )
 }
 ```
 
-#### 返回值
-- `push(path)`: 跳转到指定路径
-- `replace(path)`: 替换当前页面
-- `goBack()`: 返回上一页
-- `getCurrentPath()`: 获取当前路径
-
-### useUniRequest
-跨平台统一的网络请求Hook。
+### Platform-Specific Rendering
 
 ```typescript
-import { useUniRequest } from 'uniadapter'
+import React from 'react'
+import { usePlatform } from 'uniadapter'
 
-function DataFetcher() {
-  const { get, post, put, del } = useUniRequest()
-  const [data, setData] = useUniState(null)
+export function App() {
+  const platform = usePlatform()
   
-  const fetchData = async () => {
-    try {
-      const response = await get('/api/data')
-      setData(response.data)
-    } catch (error) {
-      console.error('请求失败:', error)
-    }
+  if (platform.isMiniProgram) {
+    return <MiniProgramLayout />
   }
   
+  return <WebLayout />
+}
+```
+
+### Data Fetching
+
+```typescript
+import React from 'react'
+import { useUniRequest } from 'uniadapter'
+
+export function UserList() {
+  const request = useUniRequest()
+  const [users, setUsers] = React.useState([])
+  const [loading, setLoading] = React.useState(false)
+  
+  React.useEffect(() => {
+    setLoading(true)
+    request.get('/api/users')
+      .then(setUsers)
+      .catch(console.error)
+      .finally(() => setLoading(false))
+  }, [])
+  
+  if (loading) return <div>Loading...</div>
+  
   return (
-    <div>
-      <button onClick={fetchData}>获取数据</button>
-      {data && <pre>{JSON.stringify(data, null, 2)}</pre>}
-    </div>
+    <ul>
+      {users.map(user => (
+        <li key={user.id}>{user.name}</li>
+      ))}
+    </ul>
   )
 }
 ```
 
-#### 返回值
-- `get(url, options)`: GET请求
-- `post(url, data, options)`: POST请求
-- `put(url, data, options)`: PUT请求
-- `del(url, options)`: DELETE请求
+### Navigation
 
-## 适配器 API
-
-### 存储适配器
 ```typescript
-import { storage } from 'uniadapter/adapters'
+import React from 'react'
+import { useUniRouter } from 'uniadapter'
 
-// 存储数据
-await storage.set('key', value)
-
-// 获取数据
-const value = await storage.get('key')
-
-// 删除数据
-await storage.remove('key')
-
-// 清空存储
-await storage.clear()
-```
-
-### 位置适配器
-```typescript
-import { location } from 'uniadapter/adapters'
-
-// 获取当前位置
-const position = await location.getCurrentPosition()
-
-// 获取位置权限状态
-const permission = await location.getPermissionStatus()
-
-// 地址解析
-const address = await location.getAddressFromCoords(lat, lng)
-```
-
-### 相机适配器
-```typescript
-import { camera } from 'uniadapter/adapters'
-
-// 拍照
-const photo = await camera.takePhoto({
-  quality: 0.8,
-  maxWidth: 1920,
-  maxHeight: 1080
-})
-
-// 选择相册图片
-const photos = await camera.chooseImage({
-  count: 1,
-  sizeType: ['original', 'compressed']
-})
-```
-
-### 生物识别适配器
-```typescript
-import { biometric } from 'uniadapter/adapters'
-
-// 检查生物识别支持
-const supported = await biometric.isSupported()
-
-// 生物识别认证
-const authenticated = await biometric.authenticate({
-  title: '请验证身份',
-  subtitle: '用于访问敏感信息',
-  description: '使用指纹或面容ID进行验证'
-})
-```
-
-### 通知适配器
-```typescript
-import { notification } from 'uniadapter/adapters'
-
-// 请求通知权限
-const granted = await notification.requestPermission()
-
-// 显示通知
-await notification.show({
-  title: '通知标题',
-  content: '通知内容',
-  icon: '/icon.png',
-  timeout: 5000
-})
-```
-
-## 平台检测
-
-### platformDetection
-```typescript
-import { platformDetection } from 'uniadapter'
-
-console.log({
-  type: platformDetection.type,           // 平台类型
-  isWeb: platformDetection.isWeb,         // 是否为Web
-  isMobile: platformDetection.isMobile,   // 是否为移动端
-  name: platformDetection.name,           // 平台名称
-  version: platformDetection.version      // 平台版本
-})
-```
-
-## Go分布式系统API
-
-### 微服务客户端
-```typescript
-import { microservice } from 'uniadapter/go'
-
-// RPC调用
-const result = await microservice.rpc('UserService.GetUser', {
-  userId: '123'
-})
-
-// 消息队列
-await microservice.queue.publish('user.events.created', {
-  userId: '123',
-  timestamp: Date.now()
-})
-
-// 服务发现
-const serviceInstance = await microservice.discovery.find('UserService')
-```
-
-## 工具函数
-
-### 类型判断
-```typescript
-import { isWechatMiniProgram, isDingtalkMiniProgram, isWeb } from 'uniadapter/utils'
-
-if (isWechatMiniProgram()) {
-  // 微信小程序特定逻辑
+export function Navigation() {
+  const router = useUniRouter()
+  
+  return (
+    <nav>
+      <button onClick={() => router.push('/home')}>Home</button>
+      <button onClick={() => router.push('/profile')}>Profile</button>
+      <button onClick={() => router.goBack()}>Back</button>
+    </nav>
+  )
 }
-
-if (isWeb()) {
-  // Web端特定逻辑
-}
-```
-
-### 环境工具
-```typescript
-import { getEnvInfo } from 'uniadapter/utils'
-
-const env = getEnvInfo()
-console.log('当前环境信息:', env)
 ```

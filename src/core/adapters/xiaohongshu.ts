@@ -376,3 +376,37 @@ export class XiaohongshuPlatformService implements IPlatformService {
     xhs.openUrl({ url })
   }
 }
+
+// 内容发布适配器（测试需求）
+export class XiaohongshuContentAdapter {
+  async publishNote(payload: { title: string; content: string; images?: string[] }) {
+    return new Promise((resolve, reject) => {
+      try {
+        if (!(globalThis as any).xhs || !(globalThis as any).xhs.request) {
+          return reject(new Error('xhs.request not available'))
+        }
+        (globalThis as any).xhs.request({
+          url: '/api/xhs/publish',
+          method: 'POST',
+          data: payload,
+          success: (res: any) => resolve(res.data),
+          fail: (err: any) => reject(err)
+        })
+      } catch (e) { reject(e) }
+    })
+  }
+
+  async getUserInfo() {
+    return new Promise((resolve, reject) => {
+      try {
+        if (!(globalThis as any).xhs || !(globalThis as any).xhs.getUserInfo) {
+          return reject(new Error('xhs.getUserInfo not available'))
+        }
+        (globalThis as any).xhs.getUserInfo({
+          success: (res: any) => resolve(res.userInfo),
+          fail: (err: any) => reject(err)
+        })
+      } catch (e) { reject(e) }
+    })
+  }
+}

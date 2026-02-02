@@ -6,7 +6,7 @@ import {
   DouyinNotificationAdapter,
   DouyinBiometricAdapter,
   DouyinShareAdapter
-} from '../adapters/douyin'
+} from '../douyin'
 
 describe('Douyin Platform Adapters', () => {
   // Mock 抖音小程序API

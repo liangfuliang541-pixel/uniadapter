@@ -3,7 +3,7 @@ import {
   XiaohongshuStorageAdapter,
   XiaohongshuShareAdapter,
   XiaohongshuContentAdapter
-} from '../adapters/xiaohongshu'
+} from '../xiaohongshu'
 
 describe('Xiaohongshu Platform Adapters', () => {
   // Mock 小红书小程序API

@@ -9,38 +9,46 @@ describe('Gaode Map Adapters', () => {
   // Mock 高德地图API
   beforeEach(() => {
     vi.resetModules()
+    
+    // Create proper constructor functions
+    class MockGeolocation {
+      getCurrentPosition = vi.fn((callback) => {
+        callback(null, {
+          position: { lng: 116.404, lat: 39.915 },
+          accuracy: 50
+        })
+      })
+    }
+    
+    class MockPlaceSearch {
+      search = vi.fn((keyword, callback) => {
+        callback(null, {
+          poiList: {
+            pois: [
+              { id: '1', name: '测试地点', location: { lng: 116.404, lat: 39.915 } }
+            ]
+          }
+        })
+      })
+    }
+    
+    class MockDriving {
+      search = vi.fn((start, end, callback) => {
+        callback(null, {
+          routes: [{
+            distance: 1000,
+            duration: 300,
+            steps: []
+          }]
+        })
+      })
+    }
+    
     global.AMap = {
       plugin: vi.fn(),
-      Geolocation: vi.fn(() => ({
-        getCurrentPosition: vi.fn((callback) => {
-          callback(null, {
-            position: { lng: 116.404, lat: 39.915 },
-            accuracy: 50
-          })
-        })
-      })),
-      PlaceSearch: vi.fn(() => ({
-        search: vi.fn((keyword, callback) => {
-          callback(null, {
-            poiList: {
-              pois: [
-                { id: '1', name: '测试地点', location: { lng: 116.404, lat: 39.915 } }
-              ]
-            }
-          })
-        })
-      })),
-      Driving: vi.fn(() => ({
-        search: vi.fn((start, end, callback) => {
-          callback(null, {
-            routes: [{
-              distance: 1000,
-              duration: 300,
-              steps: []
-            }]
-          })
-        })
-      }))
+      Geolocation: MockGeolocation,
+      PlaceSearch: MockPlaceSearch,
+      Driving: MockDriving
     }
   })
 

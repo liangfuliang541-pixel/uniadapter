@@ -434,3 +434,68 @@ export class AmapPlatformService implements IPlatformService {
     window.open(url, '_blank')
   }
 }
+
+// 兼容导出：测试中使用 Gaode 前缀
+export const GaodeStorageAdapter = AmapStorageAdapter
+export const GaodeCryptoAdapter = AmapCryptoAdapter
+export const GaodeFileAdapter = AmapFileAdapter
+export const GaodeNotificationAdapter = AmapNotificationAdapter
+export const GaodeBiometricAdapter = AmapBiometricAdapter
+export const GaodeShareAdapter = AmapShareAdapter
+
+export class GaodeLocationAdapter {
+  async getCurrentPosition(): Promise<{ longitude: number; latitude: number; accuracy: number }>{
+    return new Promise((resolve, reject) => {
+      try {
+        const AMapGlobal = (globalThis as any).AMap
+        if (!AMapGlobal || !AMapGlobal.Geolocation) {
+          return resolve({ longitude: 0, latitude: 0, accuracy: 0 })
+        }
+        const geo = new AMapGlobal.Geolocation()
+        geo.getCurrentPosition((err: any, res: any) => {
+          if (err) return reject(err)
+          const pos = res.position || res.coords || {}
+          resolve({
+            longitude: pos.lng || pos.lon || 0,
+            latitude: pos.lat || 0,
+            accuracy: res.accuracy || 0,
+          })
+        })
+      } catch (e) {
+        reject(e)
+      }
+    })
+  }
+}
+
+export class GaodeMapAdapter {
+  async searchPlaces(keyword: string): Promise<any[]> {
+    const AMapGlobal = (globalThis as any).AMap
+    if (!AMapGlobal || !AMapGlobal.PlaceSearch) return []
+    return new Promise((resolve, reject) => {
+      try {
+        const ps = new AMapGlobal.PlaceSearch()
+        ps.search(keyword, (err: any, res: any) => {
+          if (err) return reject(err)
+          const pois = res?.poiList?.pois || []
+          resolve(pois)
+        })
+      } catch (e) { reject(e) }
+    })
+  }
+
+  async calculateRoute(start: { lng: number; lat: number }, end: { lng: number; lat: number }) {
+    const AMapGlobal = (globalThis as any).AMap
+    if (!AMapGlobal || !AMapGlobal.Driving) return { distance: 0, duration: 0, steps: [] }
+    return new Promise((resolve, reject) => {
+      try {
+        const driving = new AMapGlobal.Driving()
+        driving.search(start, end, (err: any, res: any) => {
+          if (err) return reject(err)
+          const route = res?.routes?.[0] || { distance: 0, duration: 0, steps: [] }
+          resolve({ distance: route.distance, duration: route.duration, steps: route.steps || [] })
+        })
+      } catch (e) { reject(e) }
+    })
+  }
+}

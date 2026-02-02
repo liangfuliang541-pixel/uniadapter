@@ -1,556 +1,259 @@
-# 使用指南
+# Getting Started
 
-## 快速开始
-
-### 安装
-
-通过 npm 安装：
+## Installation
 
 ```bash
 npm install uniadapter
 ```
 
-或者通过 yarn 安装：
+## Basic Usage
 
-```bash
-yarn add uniadapter
-```
-
-### 基础使用
-
-最简单的使用方式是从 UniAdapter 导入你需要的 Hook：
+### Platform Detection
 
 ```typescript
-import { usePlatform, useUniState, useUniRouter } from 'uniadapter'
+import { detectPlatform, Platform } from 'uniadapter'
 
-function MyComponent() {
-  // 自动检测当前平台
-  const platform = usePlatform()
-  console.log('当前平台:', platform.name)
-  
-  // 统一的状态管理
-  const [count, setCount] = useUniState(0)
-  
-  // 统一的路由操作
-  const { push, replace } = useUniRouter()
-  
-  // 所有平台使用相同的API
-  const handleClick = () => {
-    setCount(count + 1)
-    push('/next-page')
-  }
-  
-  return <button onClick={handleClick}>Count: {count}</button>
+const platform = detectPlatform()
+
+if (platform === Platform.WEAPP) {
+  console.log('WeChat Mini Program')
 }
 ```
 
-## 平台适配
-
-### 检测当前平台
-
-```typescript
-import { usePlatform } from 'uniadapter'
-
-function PlatformSpecificComponent() {
-  const platform = usePlatform()
-  
-  if (platform.name === 'weapp') {
-    return <WechatMiniProgramView />
-  } else if (platform.name === 'douyin') {
-    return <DouyinMiniProgramView />
-  } else {
-    return <WebView />
-  }
-}
-```
-
-### 条件渲染
-
-```typescript
-import { usePlatform } from 'uniadapter'
-
-function ConditionalFeature() {
-  const platform = usePlatform()
-  
-  return (
-    <div>
-      <h1>通用功能</h1>
-      
-      {platform.capabilities.hasCamera && (
-        <button onClick={takePhoto}>拍照</button>
-      )}
-      
-      {platform.capabilities.hasBiometric && (
-        <button onClick={authenticate}>生物识别</button>
-      )}
-    </div>
-  )
-}
-```
-
-## 状态管理
-
-### 基础状态管理
+### State Management
 
 ```typescript
 import { useUniState } from 'uniadapter'
 
 function Counter() {
   const [count, setCount] = useUniState(0)
-  
   return (
     <div>
       <p>Count: {count}</p>
       <button onClick={() => setCount(count + 1)}>+</button>
-      <button onClick={() => setCount(prev => prev - 1)}>-</button>
     </div>
   )
 }
 ```
 
-### 对象状态管理
-
-```typescript
-import { useUniState } from 'uniadapter'
-
-function UserProfile() {
-  const [user, setUser] = useUniState({
-    name: '',
-    email: '',
-    age: 0
-  })
-  
-  const updateName = (name) => {
-    setUser(prev => ({ ...prev, name }))
-  }
-  
-  return (
-    <div>
-      <input 
-        value={user.name} 
-        onChange={(e) => updateName(e.target.value)} 
-        placeholder="姓名"
-      />
-      <p>你好, {user.name}!</p>
-    </div>
-  )
-}
-```
-
-## 路由管理
-
-### 页面导航
+### Navigation
 
 ```typescript
 import { useUniRouter } from 'uniadapter'
 
-function NavigationExample() {
+function Navigation() {
   const { push, replace, goBack } = useUniRouter()
-  
   return (
-    <div>
-      <button onClick={() => push('/detail/123')}>
-        跳转详情页
-      </button>
-      <button onClick={() => replace('/profile')}>
-        替换当前页
-      </button>
-      <button onClick={goBack}>
-        返回上一页
-      </button>
-    </div>
+    <>
+      <button onClick={() => push('/home')}>Home</button>
+      <button onClick={() => goBack()}>Back</button>
+    </>
   )
 }
 ```
 
-### 参数传递
-
-```typescript
-import { useUniRouter } from 'uniadapter'
-
-function PassParams() {
-  const { push } = useUniRouter()
-  
-  const goToDetail = () => {
-    push('/detail', {
-      params: { id: '123' },
-      query: { tab: 'info', lang: 'zh' }
-    })
-  }
-  
-  return <button onClick={goToDetail}>查看详情</button>
-}
-```
-
-## 网络请求
-
-### 基础请求
+### HTTP Requests
 
 ```typescript
 import { useUniRequest } from 'uniadapter'
 
-function DataFetching() {
-  const { get, post } = useUniRequest()
-  const [users, setUsers] = useUniState([])
+function DataFetch() {
+  const { get, post, put, del } = useUniRequest()
   
-  const fetchUsers = async () => {
-    try {
-      const response = await get('/api/users')
-      setUsers(response.data)
-    } catch (error) {
-      console.error('获取用户失败:', error)
-    }
-  }
+  // GET request
+  const data = await get('/api/users')
   
-  const createUser = async (userData) => {
-    try {
-      await post('/api/users', userData)
-      fetchUsers() // 重新获取用户列表
-    } catch (error) {
-      console.error('创建用户失败:', error)
-    }
-  }
+  // POST request
+  await post('/api/users', { name: 'John' })
   
-  return (
-    <div>
-      <button onClick={fetchUsers}>获取用户</button>
-      <ul>
-        {users.map(user => (
-          <li key={user.id}>{user.name}</li>
-        ))}
-      </ul>
-    </div>
-  )
+  // PUT request
+  await put('/api/users/1', { name: 'Jane' })
+  
+  // DELETE request
+  await del('/api/users/1')
 }
 ```
 
-### 带请求头的请求
+## Common Patterns
+
+### Conditional Rendering by Platform
 
 ```typescript
-import { useUniRequest } from 'uniadapter'
+import { usePlatform } from 'uniadapter'
 
-function AuthenticatedRequest() {
+function Layout() {
+  const { isMiniProgram } = usePlatform()
+  
+  return isMiniProgram ? <MobileLayout /> : <DesktopLayout />
+}
+```
+
+### Data Fetching with Loading State
+
+```typescript
+function UserList() {
   const { get } = useUniRequest()
+  const [loading, setLoading] = React.useState(false)
+  const [users, setUsers] = React.useState([])
   
-  const fetchProtectedData = async () => {
-    const token = localStorage.getItem('authToken')
-    
-    try {
-      const response = await get('/api/protected-data', {
-        headers: {
-          'Authorization': `Bearer ${token}`,
-          'Content-Type': 'application/json'
-        }
-      })
-      
-      return response.data
-    } catch (error) {
-      console.error('请求失败:', error)
-    }
-  }
-  
-  return <button onClick={fetchProtectedData}>获取受保护数据</button>
-}
-```
-
-## 存储管理
-
-### 使用存储适配器
-
-```typescript
-import { storage } from 'uniadapter/adapters'
-import { useUniState } from 'uniadapter'
-
-function StorageExample() {
-  const [username, setUsername] = useUniState('')
-  
-  // 组件挂载时从存储读取数据
-  useEffect(() => {
-    const loadUsername = async () => {
-      const savedUsername = await storage.get('username')
-      if (savedUsername) {
-        setUsername(savedUsername)
-      }
-    }
-    
-    loadUsername()
+  React.useEffect(() => {
+    setLoading(true)
+    get('/api/users')
+      .then(setUsers)
+      .finally(() => setLoading(false))
   }, [])
   
-  // 保存用户名到存储
-  const saveUsername = async (name) => {
-    await storage.set('username', name)
-    setUsername(name)
-  }
-  
-  return (
-    <div>
-      <input 
-        value={username}
-        onChange={(e) => saveUsername(e.target.value)}
-        placeholder="输入用户名"
-      />
-      <p>当前用户名: {username}</p>
-    </div>
-  )
+  if (loading) return <p>Loading...</p>
+  return <ul>{users.map(u => <li key={u.id}>{u.name}</li>)}</ul>
 }
 ```
 
-## 高级用法
-
-### 自定义 Hook
-
-基于 UniAdapter 创建自己的 Hook：
+### Error Handling
 
 ```typescript
-import { useUniState, useUniRequest } from 'uniadapter'
-
-// 自定义数据获取 Hook
-function useUserData(userId) {
-  const [data, setData] = useUniState(null)
-  const [loading, setLoading] = useUniState(false)
-  const [error, setError] = useUniState(null)
-  const { get } = useUniRequest()
-  
-  const fetchUser = async () => {
-    setLoading(true)
-    setError(null)
-    
-    try {
-      const response = await get(`/api/users/${userId}`)
-      setData(response.data)
-    } catch (err) {
-      setError(err.message)
-    } finally {
-      setLoading(false)
-    }
-  }
-  
-  return { data, loading, error, fetchUser }
-}
-
-// 在组件中使用
-function UserProfile({ userId }) {
-  const { data: user, loading, error, fetchUser } = useUserData(userId)
-  
-  useEffect(() => {
-    fetchUser()
-  }, [userId])
-  
-  if (loading) return <div>加载中...</div>
-  if (error) return <div>错误: {error}</div>
-  
-  return user ? (
-    <div>
-      <h2>{user.name}</h2>
-      <p>{user.email}</p>
-    </div>
-  ) : null
-}
-```
-
-### 平台特定逻辑封装
-
-```typescript
-import { usePlatform } from 'uniadapter'
-import { useEffect } from 'react'
-
-// 封装平台特定的行为
-function usePlatformBehavior() {
-  const platform = usePlatform()
-  
-  useEffect(() => {
-    if (platform.name === 'weapp') {
-      // 微信小程序特定逻辑
-      wx.setKeepScreenOn({ keepScreenOn: true })
-    } else if (platform.name === 'douyin') {
-      // 抖音小程序特定逻辑
-      tt.setKeepScreenOn({ keepScreenOn: true })
-    } else {
-      // Web 端特定逻辑
-      document.addEventListener('visibilitychange', handleVisibilityChange)
-    }
-    
-    return () => {
-      if (platform.name === 'web') {
-        document.removeEventListener('visibilitychange', handleVisibilityChange)
-      }
-    }
-  }, [platform.name])
-  
-  const handleVisibilityChange = () => {
-    if (document.hidden) {
-      console.log('页面隐藏')
-    } else {
-      console.log('页面显示')
-    }
-  }
-}
-
-// 在组件中使用
-function MyComponent() {
-  usePlatformBehavior()
-  
-  return <div>我的组件</div>
-}
-```
-
-## Go分布式系统集成
-
-### 微服务调用
-
-```typescript
-import { microservice } from 'uniadapter/go'
-
-// 调用用户服务
-async function getUserProfile(userId) {
+async function fetchData() {
   try {
-    const result = await microservice.rpc('UserService.GetProfile', {
-      userId: userId
-    })
-    
-    return result.data
+    const data = await request.get('/api/data')
+    return data
   } catch (error) {
-    console.error('获取用户资料失败:', error)
-    throw error
-  }
-}
-
-// 发布用户事件
-async function publishUserEvent(eventType, eventData) {
-  await microservice.queue.publish(`user.${eventType}`, eventData)
-}
-
-// 查找服务实例
-async function findService(serviceName) {
-  const instance = await microservice.discovery.find(serviceName)
-  return instance
-}
-```
-
-### 分布式锁
-
-```typescript
-import { microservice } from 'uniadapter/go'
-
-async function criticalSectionOperation(resourceId) {
-  // 获取分布式锁
-  const lockKey = `resource_${resourceId}`
-  const lock = await microservice.lock.acquire(lockKey, 30000) // 30秒超时
-  
-  if (!lock) {
-    throw new Error('无法获取分布式锁')
-  }
-  
-  try {
-    // 执行关键区域操作
-    await performResourceOperation(resourceId)
-  } finally {
-    // 释放锁
-    await microservice.lock.release(lockKey)
+    console.error('Request failed:', error)
+    return null
   }
 }
 ```
 
-## 最佳实践
-
-### 错误处理
+### Custom Hook for Data Fetching
 
 ```typescript
-import { useUniState } from 'uniadapter'
-
-function ErrorHandlingExample() {
-  const [data, setData] = useUniState(null)
-  const [error, setError] = useUniState(null)
-  const [loading, setLoading] = useUniState(false)
+function useFetch(url) {
+  const { get } = useUniRequest()
+  const [data, setData] = React.useState(null)
+  const [loading, setLoading] = React.useState(true)
+  const [error, setError] = React.useState(null)
   
-  const fetchData = async () => {
-    setLoading(true)
-    setError(null)
-    
-    try {
-      // 执行可能失败的操作
-      const result = await someAsyncOperation()
-      setData(result)
-    } catch (err) {
-      setError(err.message || '未知错误')
-      console.error('操作失败:', err)
-    } finally {
-      setLoading(false)
-    }
+  React.useEffect(() => {
+    get(url)
+      .then(setData)
+      .catch(setError)
+      .finally(() => setLoading(false))
+  }, [url])
+  
+  return { data, loading, error }
+}
+```
+
+## Type Safety
+
+Full TypeScript support with complete type inference:
+
+```typescript
+interface User {
+  id: number
+  name: string
+  email: string
+}
+
+function UserManager() {
+  const request = useUniRequest()
+  
+  const getUser = async (id: number): Promise<User> => {
+    return request.get(`/api/user/${id}`)
   }
   
-  if (loading) return <div>加载中...</div>
-  if (error) return <div>错误: {error}</div>
-  
-  return <div>{/* 渲染数据 */}</div>
+  const updateUser = async (user: User): Promise<void> => {
+    await request.put(`/api/user/${user.id}`, user)
+  }
 }
 ```
 
-### 性能优化
+## Go Distributed Systems
+
+### Microservice RPC Calls
 
 ```typescript
-import { useMemo, useCallback } from 'react'
-import { useUniState } from 'uniadapter'
+import { useUniRequest } from 'uniadapter'
 
-function PerformanceOptimization() {
-  const [items, setItems] = useUniState([])
-  const [filter, setFilter] = useUniState('')
+function ServiceConsumer() {
+  const request = useUniRequest()
   
-  // 使用 useMemo 优化计算密集型操作
-  const filteredItems = useMemo(() => {
-    if (!filter) return items
-    
-    return items.filter(item =>
-      item.name.toLowerCase().includes(filter.toLowerCase())
-    )
-  }, [items, filter])
-  
-  // 使用 useCallback 优化事件处理器
-  const handleAddItem = useCallback((item) => {
-    setItems(prev => [...prev, item])
-  }, [setItems])
-  
-  return (
-    <div>
-      <input 
-        value={filter}
-        onChange={(e) => setFilter(e.target.value)}
-        placeholder="过滤..."
-      />
-      <ItemList items={filteredItems} onAddItem={handleAddItem} />
-    </div>
-  )
-}
-```
-
-## 调试技巧
-
-### 启用调试模式
-
-```typescript
-import { initDebug } from 'uniadapter'
-
-// 在开发环境中启用详细调试信息
-if (process.env.NODE_ENV === 'development') {
-  initDebug({ level: 'verbose' })
-}
-```
-
-### 平台信息查看
-
-```typescript
-import { usePlatform } from 'uniadapter'
-
-function DebugPlatform() {
-  const platform = usePlatform()
-  
-  console.log('平台信息:', {
-    name: platform.name,
-    type: platform.type,
-    version: platform.version,
-    capabilities: platform.capabilities
+  // Call Go microservice RPC endpoint
+  const result = await request.post('/rpc/UserService/GetProfile', {
+    userId: '123'
   })
   
-  return <div>查看控制台获取平台信息</div>
+  return <div>{result.name}</div>
 }
 ```
+
+### Message Queue Publishing
+
+```typescript
+import { useUniRequest } from 'uniadapter'
+
+async function publishEvent(eventType, payload) {
+  const request = useUniRequest()
+  
+  await request.post('/mq/publish', {
+    topic: `user.${eventType}`,
+    data: payload
+  })
+}
+```
+
+## Performance Tips
+
+1. Use React.memo for expensive components
+2. Lazy load route components
+3. Minimize re-renders with useCallback
+4. Cache API responses when appropriate
+5. Profile with platform-specific DevTools
+
+## Testing
+
+### Basic Test
+
+```typescript
+import { describe, it, expect } from 'vitest'
+import { useUniState } from 'uniadapter'
+
+describe('Counter', () => {
+  it('should increment', () => {
+    const [count, setCount] = useUniState(0)
+    setCount(1)
+    expect(count).toBe(1)
+  })
+})
+```
+
+### Mocking Requests
+
+```typescript
+import { vi } from 'vitest'
+
+describe('UserList', () => {
+  it('should fetch and display users', async () => {
+    const mockFetch = vi.fn(() => 
+      Promise.resolve([{ id: 1, name: 'John' }])
+    )
+    
+    // Test component with mocked request
+  })
+})
+```
+
+## Troubleshooting
+
+### Request fails in mini-program
+- Verify endpoint is in mini-program's allowlist
+- Check that HTTPS is being used
+- Review mini-program's actual request API
+
+### State not updating
+- Ensure you're calling the setter, not mutating state
+- Check useEffect dependencies
+- Use React DevTools to inspect
+
+### Navigation not working
+- Verify route path exists
+- Check platform-specific requirements
+- Use goBack() for in-app navigation

@@ -29,6 +29,8 @@ declare global {
  */
 export class GoDistributedStorageAdapter implements IStorageAdapter {
   platform: Platform = Platform.GO_DISTRIBUTED
+  // 本地回退存储（当 localStorage 不可用时使用）
+  private static _fallbackStore: Map<string, string> = new Map()
   
   /**
    * 获取指定键的值
@@ -43,8 +45,16 @@ export class GoDistributedStorageAdapter implements IStorageAdapter {
         return result ? JSON.parse(result) : null
       } else {
         // Fallback到内存存储或localStorage（用于调试）
-        const item = localStorage.getItem(key)
-        return item ? JSON.parse(item) : null
+        try {
+          if (typeof localStorage !== 'undefined' && typeof (localStorage as any).getItem === 'function') {
+            const item = localStorage.getItem(key)
+            return item ? JSON.parse(item) : null
+          }
+        } catch (e) {
+          // ignore and fallback
+        }
+        const f = GoDistributedStorageAdapter._fallbackStore.get(key)
+        return f ? JSON.parse(f) : null
       }
     } catch {
       return null
@@ -61,7 +71,15 @@ export class GoDistributedStorageAdapter implements IStorageAdapter {
       await go.storage.set(key, JSON.stringify(value))
     } else {
       // Fallback
-      localStorage.setItem(key, JSON.stringify(value))
+      try {
+        if (typeof localStorage !== 'undefined' && typeof (localStorage as any).setItem === 'function') {
+          localStorage.setItem(key, JSON.stringify(value))
+          return
+        }
+      } catch (e) {
+        // ignore
+      }
+      GoDistributedStorageAdapter._fallbackStore.set(key, JSON.stringify(value))
     }
   }
   
@@ -73,7 +91,13 @@ export class GoDistributedStorageAdapter implements IStorageAdapter {
     if (typeof go !== 'undefined' && go.storage) {
       await go.storage.remove(key)
     } else {
-      localStorage.removeItem(key)
+      try {
+        if (typeof localStorage !== 'undefined' && typeof (localStorage as any).removeItem === 'function') {
+          localStorage.removeItem(key)
+          return
+        }
+      } catch (e) {}
+      GoDistributedStorageAdapter._fallbackStore.delete(key)
     }
   }
   
@@ -84,7 +108,13 @@ export class GoDistributedStorageAdapter implements IStorageAdapter {
     if (typeof go !== 'undefined' && go.storage) {
       await go.storage.clear()
     } else {
-      localStorage.clear()
+      try {
+        if (typeof localStorage !== 'undefined' && typeof (localStorage as any).clear === 'function') {
+          localStorage.clear()
+          return
+        }
+      } catch (e) {}
+      GoDistributedStorageAdapter._fallbackStore.clear()
     }
   }
   

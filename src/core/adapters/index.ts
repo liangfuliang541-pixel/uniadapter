@@ -9,6 +9,8 @@ import { Platform, detectPlatform } from '../types/platform'
 export async function createStorageAdapter() {
   const platform = detectPlatform()
   switch (platform) {
+    case Platform.HARMONYOS:
+      return import('./harmonyos').then(mod => new mod.HarmonyOSStorageAdapter())
     case Platform.DOUYIN_MINIPROGRAM: 
       return import('./douyin').then(mod => new mod.DouyinStorageAdapter())
     case Platform.GAODE_MAP: 
@@ -25,6 +27,8 @@ export async function createStorageAdapter() {
 export async function createPlatformService() {
   const platform = detectPlatform()
   switch (platform) {
+    case Platform.HARMONYOS:
+      return import('./harmonyos').then(mod => new mod.HarmonyOSPlatformService())
     case Platform.DOUYIN_MINIPROGRAM: 
       return import('./douyin').then(mod => new mod.DouyinPlatformService())
     case Platform.GAODE_MAP: 

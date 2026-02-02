@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { 
   useUniState, 
   useUniRouter, 
@@ -7,6 +7,16 @@ import {
 } from '../../hooks/useUniState'
 
 describe('Unified Hooks', () => {
+  beforeEach(() => {
+    // Mock fetch to avoid real network calls
+    global.fetch = vi.fn(() => 
+      Promise.resolve({
+        ok: true,
+        status: 200,
+        json: () => Promise.resolve({ success: true })
+      } as any)
+    )
+  })
   it('should create useUniState hook', () => {
     const [value, setValue] = useUniState('initial')
     expect(value).toBe('initial')

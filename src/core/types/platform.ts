@@ -5,6 +5,7 @@
 export enum Platform {
   H5 = 'h5',
   WEAPP = 'weapp',
+  HARMONYOS = 'harmonyos',
   DOUYIN_MINIPROGRAM = 'douyin',
   XIAOHONGSHU = 'xiaohongshu',
   REACT_NATIVE = 'react-native',
@@ -47,6 +48,20 @@ export function detectPlatform(): Platform {
   // 检测微信小程序
   if (typeof (globalThis as any).wx !== 'undefined') {
     return Platform.WEAPP
+  }
+
+  // 检测鸿蒙 / HarmonyOS (通过 userAgent 或全局对象识别)
+  try {
+    const ua = typeof navigator !== 'undefined' && (navigator as any).userAgent ? (navigator as any).userAgent : ''
+    if (ua && /HarmonyOS|harmonyos|harmony/i.test(ua)) {
+      return Platform.HARMONYOS
+    }
+  } catch (e) {
+    // ignore
+  }
+
+  if (typeof (globalThis as any).ohos !== 'undefined' || typeof (globalThis as any).hm !== 'undefined') {
+    return Platform.HARMONYOS
   }
   
   // 检测React Native

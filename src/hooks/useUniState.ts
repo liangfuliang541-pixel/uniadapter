@@ -83,7 +83,31 @@ export function useUniRouter() {
     }
   }
   
-  return { push, replace }
+  const goBack = () => {
+    switch (platform) {
+      case Platform.DOUYIN_MINIPROGRAM:
+        (globalThis as any).tt.navigateBack && (globalThis as any).tt.navigateBack()
+        break
+      case Platform.XIAOHONGSHU:
+        (globalThis as any).xhs.navigateBack && (globalThis as any).xhs.navigateBack()
+        break
+      case Platform.WEAPP:
+        (globalThis as any).wx.navigateBack && (globalThis as any).wx.navigateBack()
+        break
+      case Platform.GO_DISTRIBUTED:
+        if (typeof (globalThis as any).go !== 'undefined' && (globalThis as any).go.router) {
+          (globalThis as any).go.router.goBack && (globalThis as any).go.router.goBack()
+        }
+        break
+      case Platform.H5:
+        if (typeof history !== 'undefined' && history.back) history.back()
+        break
+      default:
+        if (typeof history !== 'undefined' && history.back) history.back()
+    }
+  }
+
+  return { push, replace, goBack }
 }
 
 /**
@@ -132,7 +156,10 @@ export function useUniRequest() {
           return response.json()
         }
       default:
-        const response = await fetch(url, { method: 'GET', ...options })
+        // 支持相对路径（在测试环境中可能没有 window.location）
+        const base = (typeof window !== 'undefined' && window.location && window.location.origin) ? window.location.origin : 'http://localhost'
+        const resolvedUrl = typeof url === 'string' && url.startsWith('/') ? new URL(url, base).toString() : url
+        const response = await fetch(resolvedUrl as any, { method: 'GET', ...options })
         return response.json()
     }
   }
@@ -186,7 +213,9 @@ export function useUniRequest() {
           return response.json()
         }
       default:
-        const response = await fetch(url, {
+        const base = (typeof window !== 'undefined' && window.location && window.location.origin) ? window.location.origin : 'http://localhost'
+        const resolvedUrl = typeof url === 'string' && url.startsWith('/') ? new URL(url, base).toString() : url
+        const response = await fetch(resolvedUrl as any, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -198,7 +227,26 @@ export function useUniRequest() {
     }
   }
   
-  return { get, post }
+  const put = async (u: string, data: any, o?: RequestInit) => {
+    const base = (typeof window !== 'undefined' && window.location && window.location.origin) ? window.location.origin : 'http://localhost'
+    const resolvedUrl = typeof u === 'string' && u.startsWith('/') ? new URL(u, base).toString() : u
+    const response = await fetch(resolvedUrl as any, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+      ...o,
+    })
+    return response.json()
+  }
+
+  const del = async (u: string, o?: RequestInit) => {
+    const base = (typeof window !== 'undefined' && window.location && window.location.origin) ? window.location.origin : 'http://localhost'
+    const resolvedUrl = typeof u === 'string' && u.startsWith('/') ? new URL(u, base).toString() : u
+    const response = await fetch(resolvedUrl as any, { method: 'DELETE', ...o })
+    return response.json()
+  }
+
+  return { get, post, put, del }
 }
 
 /**
@@ -223,6 +271,14 @@ export function usePlatform() {
       isWeb: false,
       isMiniProgram: true,
       isApp: false,
+      isMobile: true,
+    },
+    [Platform.HARMONYOS]: {
+      name: 'HarmonyOS',
+      type: 'app',
+      isWeb: false,
+      isMiniProgram: false,
+      isApp: true,
       isMobile: true,
     },
     [Platform.DOUYIN_MINIPROGRAM]: {

@@ -8,6 +8,13 @@ export default defineConfig({
     setupFiles: ['./src/test/setup.ts'],
     include: ['**/*.{test,spec}.{ts,tsx}'],
     globals: true,
+    css: true,
+    teardownTimeout: 10000,
+    onConsoleLog: (log, type) => {
+      if (type === 'error') {
+        console.error(log)
+      }
+    },
     coverage: {
       provider: 'v8',
       reporter: ['text', 'json', 'html'],
