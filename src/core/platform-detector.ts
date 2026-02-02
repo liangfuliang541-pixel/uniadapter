@@ -1,10 +1,14 @@
 /**
  * 平台检测和适配器工厂
+ * Platform detection and adapter factory
+ *
  * 简化版本，避免复杂的类型错误
+ * Simplified version to avoid complex type errors
  */
 
 /**
  * 平台类型枚举
+ * Platform type enumeration
  */
 export enum PlatformType {
   WEB = 'web',
@@ -15,6 +19,7 @@ export enum PlatformType {
 
 /**
  * 平台检测结果
+ * Platform detection result interface
  */
 export interface PlatformDetection {
   type: PlatformType
@@ -32,7 +37,17 @@ export interface PlatformDetection {
 
 /**
  * 检测当前运行平台
- * @returns 平台检测结果
+ * Detect the current running platform
+ *
+ * @returns 平台检测结果 Platform detection result
+ * @example
+ * // 中文示例 Chinese example
+ * const platform = detectPlatform()
+ * console.log(`当前平台: ${platform.name}`)
+ *
+ * // English example
+ * const platform = detectPlatform()
+ * console.log(`Current platform: ${platform.name}`)
  */
 export function detectPlatform(): PlatformDetection {
   // 检测小程序环境
