@@ -237,6 +237,28 @@ export function UserList() {
 }
 ```
 
+## Plugin System
+
+### registerPlugin(plugin)
+
+Register a plugin with optional lifecycle hooks.
+
+```typescript
+import { registerPlugin, activatePlugin, onPluginEvent } from 'uniadapter'
+
+registerPlugin({ name: 'my-plugin', activate: () => { /* ... */ } })
+```
+
+### activatePlugin(name, options?, config?)
+
+Activate a plugin and its dependencies. `config` supports:
+
+- `maxAttempts?: number` — number of retry attempts for activation (default 3)
+- `rollbackOnFailure?: boolean` — whether to rollback already-activated dependencies on failure (default true)
+
+The function returns a Promise and will reject if activation ultimately fails. The plugin system emits lifecycle events via `onPluginEvent(event, cb)`; relevant events include `registered`, `activated`, `deactivated`, `unregistered`, `error`, and `telemetry`.
+
+Event payloads include enriched fields: `event`, `name`, `plugin`, `timestamp`, and for errors `reason`, `error: { message, stack }`, and `rolledBack` when a rollback happened.
 ### Navigation
 
 ```typescript
