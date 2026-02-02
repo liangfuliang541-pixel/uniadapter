@@ -51,7 +51,11 @@
     "prepare": "husky install",
     "docs:generate": "npx docs-generator --source src --output docs/api",
     "docs:serve": "npx docsify serve docs",
-    "docs:build": "npx docsify build docs"
+    "docs:build": "npx docsify build docs",
+    "plugin:example": "tsx examples/plugin-example.ts",
+    "plugin:test": "vitest run --reporter=verbose tests/plugin-system.test.ts",
+    "plugin:build": "tsc --project tsconfig.plugin.json",
+    "cli:init": "tsx src/cli/index.ts init"
   },
   "dependencies": {
     "typescript": "^5.9.3",
