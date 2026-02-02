@@ -255,6 +255,8 @@ Activate a plugin and its dependencies. `config` supports:
 
 - `maxAttempts?: number` — number of retry attempts for activation (default 3)
 - `rollbackOnFailure?: boolean` — whether to rollback already-activated dependencies on failure (default true)
+ - `timeoutMs?: number` — per-activation timeout in milliseconds; if activation does not complete within this period it is considered failed and retried (optional)
+ - `onRetry?: (attempt:number, err?: any) => void` — callback invoked when an activation attempt fails before the next retry; useful for logging/metrics
 
 The function returns a Promise and will reject if activation ultimately fails. The plugin system emits lifecycle events via `onPluginEvent(event, cb)`; relevant events include `registered`, `activated`, `deactivated`, `unregistered`, `error`, and `telemetry`.
 

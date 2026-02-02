@@ -18,6 +18,19 @@
 
 ---
 
+## [Unreleased Release]
+
+### Release Summary (merged feature/plugin-error-recovery)
+
+- Implemented an event-driven plugin lifecycle with dependency ordering and cycle detection.
+- Added retry logic and rollback behavior when plugin activation fails.
+- Added telemetry and richer error payloads (fields: `reason`, `error.message`, `error.stack`, `rolledBack`, `attempts`).
+- `activatePlugin` now accepts `ActivateConfig` with `maxAttempts` and `rollbackOnFailure` options.
+- Documentation and unit tests added for lifecycle, dependency handling, recovery and hook behavior.
+
+Release date: 2026-02-02
+
+
 ## Roadmap (A → F)
 - A [v1.3.0] Architecture refactor
 - B Architecture refactor complete

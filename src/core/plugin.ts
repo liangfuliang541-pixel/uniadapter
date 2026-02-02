@@ -108,6 +108,8 @@ export function unregisterPlugin(name: string) {
 export type ActivateConfig = {
   maxAttempts?: number
   rollbackOnFailure?: boolean
+  timeoutMs?: number
+  onRetry?: (attempt: number, err?: any) => void
 }
 
 export function activatePlugin(name: string, options?: any, config?: ActivateConfig) {
@@ -122,10 +124,23 @@ export function activatePlugin(name: string, options?: any, config?: ActivateCon
     for (let i = 1; i <= attempts; i++) {
       try {
         const res = fn()
-        if (res && typeof (res as Promise<void>).then === 'function') await res as Promise<void>
+        if (res && typeof (res as Promise<void>).then === 'function') {
+          if (config && typeof config.timeoutMs === 'number' && config.timeoutMs > 0) {
+            // race activation against timeout
+            await Promise.race([
+              res as Promise<void>,
+              new Promise((_, rej) => setTimeout(() => rej(new Error('activation_timeout')), config!.timeoutMs))
+            ])
+          } else {
+            await res as Promise<void>
+          }
+        }
         return i
       } catch (e) {
         lastErr = e
+        if (config && typeof config.onRetry === 'function') {
+          try { config.onRetry(i, e) } catch (_) { }
+        }
         if (i < attempts) await new Promise((r) => setTimeout(r, 50 * i))
       }
     }
