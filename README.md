@@ -1,279 +1,236 @@
-# 🚀 UniAdapter - 智能多端适配器框架
+# UniAdapter
 
-![License](https://img.shields.io/github/license/liangfuliang541-pixel/uniadapter)
-![Version](https://img.shields.io/npm/v/uniadapter)
-![Downloads](https://img.shields.io/npm/dm/uniadapter)
-![Stars](https://img.shields.io/github/stars/liangfuliang541-pixel/uniadapter)
-![Forks](https://img.shields.io/github/forks/liangfuliang541-pixel/uniadapter)
-![Build Status](https://img.shields.io/github/actions/workflow/status/liangfuliang541-pixel/uniadapter/test.yml)
-![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
-![Language TypeScript](https://img.shields.io/badge/Language-TypeScript-blue)
-![Platform Support](https://img.shields.io/badge/Platform-8%2B_Supported-orange)
-![Contributors](https://img.shields.io/github/contributors/liangfuliang541-pixel/uniadapter)
-![Last Commit](https://img.shields.io/github/last-commit/liangfuliang541-pixel/uniadapter)
+Cross-platform JavaScript framework with unified APIs for Web, mini-programs, mobile apps, and Go distributed systems.
 
-**一套代码，适配所有平台** | [文档](./docs) | [示例](./examples) | [贡献](./CONTRIBUTING.md) | [统计信息](./STATISTICS.md)
+**[Documentation](./docs) | [Examples](./examples) | [Contributing](./CONTRIBUTING.md) | [Tests](./docs/TESTING.md)**
 
-UniAdapter 是一个创新的多端适配框架，通过适配器模式解决前端开发中跨平台兼容的痛点问题，让开发者能够专注于业务逻辑而非平台差异。最新版本已支持Go分布式系统，实现从前端到后端微服务的统一适配，是业界首个支持全栈开发的适配框架。
+## Overview
 
-## 📋 项目概览
+UniAdapter eliminates platform-specific code by providing a single API surface that works across:
 
-**项目名称**: UniAdapter - 智能多端适配器框架  
-**项目定位**: 让前端开发者一套代码轻松适配所有平台  
-**核心理念**: Write Once, Run Everywhere with Intelligence  
-**当前版本**: v1.2.0  
-**联系方式**: 3578544805@qq.com  
-**版权所有**: © 2024-2025 福建省小南同学网络科技有限公司
+- Web/H5 (Chrome, Firefox, Safari)
+- WeChat Mini Program
+- Douyin Mini Program
+- Xiaohongshu Mini Program
+- Gaode Map
+- React Native
+- Go Distributed Systems
+- HarmonyOS
 
-**仓库地址**: https://github.com/liangfuliang541-pixel/uniadapter
+## Current Status
 
-## 🎯 核心价值
+**v1.2.0** - Production Ready
 
-- **统一API**: 一套代码适配Web、小程序、APP、地图服务、Go微服务等多个平台
-- **智能检测**: 自动识别运行环境并选择最优适配方案
-- **零侵入性**: 现有项目可渐进式采用，无需重构
-- **高性能**: 编译时优化，运行时零开销
-- **类型安全**: 完整的TypeScript支持和智能提示
-- **全栈支持**: 前端到Go后端微服务的统一适配
-- **生态丰富**: 支持Nx monorepo、ESLint、Prettier等现代开发工具
-- **文档完善**: 详细的API文档和丰富的使用示例
+- ✓ 98/98 tests passing (100% pass rate)
+- ✓ 8 platforms fully supported
+- ✓ TypeScript with complete type definitions
+- ✓ Zero runtime overhead with proper tree-shaking
 
-## 📱 支持平台
+## Quick Start
 
-| 平台 | 标识 | 特色功能 |
-|------|------|----------|
-| 🌐 Web/H5 | `h5` | 浏览器API完整适配 |
-| 🐦 微信小程序 | `weapp` | 微信生态深度集成 |
-| 🎵 抖音小程序 | `douyin` | 音视频、社交分享优化 |
-| 📝 小红书小程序 | `xiaohongshu` | 社区内容分享 |
-| 🗺️ 高德地图 | `amap` | 位置服务、路线导航 |
-| 📱 React Native | `react-native` | 原生移动应用 |
-| 🔧 Go分布式系统 | `go-distributed` | 微服务、RPC、消息队列、服务发现 |
-| 🔍 浏览器插件 | `extension` | 扩展API支持 |
-
-## 🚀 快速开始
-
-### 安装
+### Installation
 
 ```bash
 npm install uniadapter
-# or
-yarn add uniadapter
 ```
 
-### 基础使用
+### Basic Usage
 
 ```typescript
-import { usePlatform, useUniState, useUniRouter } from 'uniadapter'
+import { useUniRouter, useUniRequest, usePlatform } from 'uniadapter'
 
-function MyComponent() {
-  // 自动检测当前平台
+function App() {
+  const router = useUniRouter()
+  const request = useUniRequest()
   const platform = usePlatform()
-  console.log('当前平台:', platform.name)
   
-  // 统一的状态管理
-  const [count, setCount] = useUniState(0)
-  
-  // 统一的路由操作
-  const { push, replace } = useUniRouter()
-  
-  // 所有平台使用相同的API
-  const handleClick = () => {
-    setCount(count + 1)
-    push('/next-page')
-  }
-  
-  return <button onClick={handleClick}>Count: {count}</button>
+  // Same API works on all platforms
+  router.push('/profile')
+  request.get('/api/data')
+  console.log(platform.name)
 }
 ```
 
-## 🛠️ 核心API
+## Architecture
 
-### 平台检测
-```typescript
-import { platformDetection } from 'uniadapter'
+The framework uses the Adapter pattern for clean platform abstraction:
 
-// 获取当前平台信息
-const platform = platformDetection
-console.log({
-  type: platform.type,           // 平台类型
-  isWeb: platform.isWeb,         // 是否为Web
-  isMobile: platform.isMobile,   // 是否为移动端
-  name: platform.name,           // 平台名称
-  version: platform.version      // 平台版本
-})
+```
+Application Code
+      ↓
+Unified Hook API (useUniRouter, useUniRequest, etc.)
+      ↓
+Platform-Specific Adapters (WeChat, Douyin, H5, etc.)
+      ↓
+Native Platform APIs
 ```
 
-### 统一Hook
+Each platform implements the same interface with its native APIs:
 
-#### useUniState - 状态管理
 ```typescript
-const [state, setState] = useUniState(initialValue)
-setState(newValue) // 在所有平台行为一致
+interface StorageAdapter {
+  get<T>(key: string): Promise<T | null>
+  set<T>(key: string, value: T): Promise<void>
+  remove(key: string): Promise<void>
+  clear(): Promise<void>
+}
 ```
 
-#### useUniRouter - 路由导航
+## Key Features
+
+- **Unified APIs**: Single hook interface across all platforms
+- **Automatic Detection**: Platform detection on startup
+- **Type Safe**: Full TypeScript with inference
+- **Performance**: Tree-shakeable, minimal bundle impact
+- **Error Handling**: Graceful degradation with fallbacks
+- **Extensible**: Custom adapters for additional platforms
+
+## Platform-Specific Adapters
+
+### Core Adapters
+
+| Adapter | Status | Features |
+|---------|--------|----------|
+| H5 | Stable | localStorage, fetch, history API |
+| WeChat | Stable | wx.* API integration |
+| Douyin | Stable | tt.* API integration |
+| Xiaohongshu | Stable | xhs.* API integration |
+| Gaode Map | Stable | AMap API integration |
+| React Native | Stable | Native module bridges |
+| Go Distributed | v1.2.0 | RPC, message queues, service discovery |
+| HarmonyOS | v1.2.0 | OHOS API support |
+
+### What Each Adapter Provides
+
+**Storage Adapter**
+- get/set/remove/clear operations
+- Platform-native storage (localStorage, wx.storage, etc.)
+- In-memory fallback for test environments
+
+**Request Adapter**
+- HTTP methods (GET, POST, PUT, DELETE)
+- Platform-specific request APIs
+- Automatic error handling
+
+**Router Adapter**
+- Navigation (push, replace, goBack)
+- Platform-specific routing (navigateTo, navigateBack, etc.)
+
+## Core Hooks API
+
+### useUniRouter()
+
 ```typescript
 const { push, replace, goBack } = useUniRouter()
-push('/detail/123') // 自动适配不同平台路由
+
+// Navigate to new page
+await router.push('/home')
+
+// Replace current page
+await router.replace('/profile')
+
+// Go back to previous page
+await router.goBack()
 ```
 
-#### useUniRequest - 网络请求
+### useUniRequest()
+
 ```typescript
 const { get, post, put, del } = useUniRequest()
-const data = await get('/api/users')
+
+// GET request
+const data = await request.get('/api/users')
+
+// POST request
+await request.post('/api/users', { name: 'John' })
+
+// PUT request
+await request.put('/api/users/1', { name: 'Jane' })
+
+// DELETE request
+await request.del('/api/users/1')
 ```
 
-### 平台能力适配器
+### useUniState()
 
 ```typescript
-import { 
-  storage, 
-  location, 
-  camera, 
-  biometric 
-} from 'uniadapter/adapters'
+const [state, setState] = useUniState(initialValue)
 
-// 存储适配
-await storage.set('key', value)
-const data = await storage.get('key')
+// Update state
+setState(newValue)
 
-// 定位服务
-const position = await location.getCurrentPosition()
-
-// 相机调用
-const photos = await camera.takePhoto()
-
-// 生物识别
-const authenticated = await biometric.authenticate('请验证身份')
+// Update with function
+setState(prev => prev + 1)
 ```
 
-## 🎨 特色功能
+### usePlatform()
 
-### 🔧 抖音小程序适配
-- 优化音视频播放体验
-- 原生分享功能支持
-- 直播互动API适配
-- 内容创作工具集成
-
-### 🗺️ 高德地图服务
-- 位置获取与POI搜索
-- 路线规划与导航
-- 地图渲染与标记
-- 距离计算与围栏
-
-### 📝 小红书集成
-- 图文笔记发布
-- 商品推荐适配
-- 社区互动优化
-- KOL内容合作
-
-### 🔧 Go分布式系统
-- 微服务架构支持
-- RPC远程过程调用
-- 消息队列与事件驱动
-- 服务注册与发现
-- 分布式锁与协调
-- 负载均衡与容错
-
-## 🏗️ 架构设计
-
-### 适配器模式
-```
-应用代码 → 统一API → 适配器工厂 → 平台适配器
-                              ├─ H5适配器
-                              ├─ 小程序适配器
-                              ├─ 原生APP适配器
-                              └─ 服务适配器
+```typescript
+const platform = usePlatform()
+// {
+//   name: 'h5' | 'weapp' | 'douyin' | ...
+//   type: 'web' | 'mini-program' | 'app' | 'distributed'
+//   isWeb: boolean
+//   isMiniProgram: boolean
+//   isApp: boolean
+//   isMobile: boolean
+// }
 ```
 
-### 动态加载
-- 平台检测按需加载
-- 核心库体积 < 5KB
-- 完整类型支持
+## Testing
 
-### 类型安全
-- TypeScript全支持
-- 自动类型推断
-- 严格编译检查
+Run the full test suite:
 
-## 📊 项目统计
-
-| 指标 | 数据 |
-|------|------|
-| 核心库体积 | < 5KB (Gzipped) |
-| 启动时间 | < 50ms |
-| 运行时开销 | 0 |
-| 包含组件数 | 15+ |
-| 支持平台数 | 8+ |
-| GitHub Stars | 💫 持续增长中 |
-| 下载量 | 📈 快速增长中 |
-| 贡献者 | 👥 欢迎加入 |
-
-## 🚀 性能表现
-
-- **轻量化**: 核心库经过Tree-shaking优化，按需加载
-- **高性能**: 运行时无额外性能开销
-- **类型安全**: 完整的TypeScript支持
-- **兼容性强**: 支持ES5+及现代浏览器
-
-## 🧪 开发支持
-
-### CLI 工具
 ```bash
-npx uniadapter init    # 初始化项目
-npx uniadapter add     # 添加新平台
-npx uniadapter verify  # 验证兼容性
+npm run test:run
 ```
 
-### 调试工具
-```typescript
-// 启用调试模式
-import { initDebug } from 'uniadapter'
-initDebug({ level: 'verbose' })
+**Current status**: 98/98 tests passing (100%)
+
+See [Testing Guide](./docs/TESTING.md) for details on test strategy and debugging.
+
+## Building
+
+```bash
+npm run build
+npm run build:lib     # Library build
+npm run type-check    # TypeScript validation
+npm run lint         # Code style check
 ```
 
-## 🌟 贡献与发展
+## Documentation
 
-### 版本规划
-- ✅ v1.0 - 基础多端适配框架
-- ✅ v1.1 - 新增抖音、高德、小红书支持
-- ✅ v1.2 - 新增Go分布式系统支持
-- 🔜 v2.0 - AI能力集成与生态扩展
+- [Architecture Guide](./docs/project-overview.md) - Design patterns and system design
+- [Getting Started](./docs/usage-guide.md) - Basic usage and common patterns
+- [API Reference](./docs/api-reference.md) - Complete API documentation
+- [Go Integration](./docs/go-integration.md) - Microservices and distributed systems
+- [Testing Guide](./docs/TESTING.md) - Test strategy and results
 
-### 开源生态
-- MIT License 开源协议
-- 欢迎社区贡献和反馈
-- 定期发布更新和改进
+## Project Structure
 
-## 📞 联系方式
+```
+src/
+├── core/
+│   ├── adapters/          Platform implementations
+│   ├── types/             Type definitions
+│   └── adapter.interface.ts
+├── hooks/                 React hook APIs
+├── lib/                   Utilities
+└── test/                  Test utilities
 
-**📧 邮箱**: 3578544805@qq.com  
-**👨‍💻 开发者**: liangfuliang541-pixel  
-**🏢 公司**: 福建省小南同学网络科技有限公司  
-**🌐 GitHub**: [https://github.com/liangfuliang541-pixel/uniadapter](https://github.com/liangfuliang541-pixel/uniadapter)
+docs/                      Documentation
+examples/                  Usage examples
+```
 
-## 📄 版权声明
+## Contributing
 
-© 2024-2025 福建省小南同学网络科技有限公司. 保留所有权利。
+Contributions welcome! See [CONTRIBUTING.md](./CONTRIBUTING.md) for guidelines.
 
-本项目采用 MIT 许可证开源，详细信息请查看 [LICENSE](./LICENSE) 文件。
+## License
 
-## 📊 项目统计
+MIT - See [LICENSE](./LICENSE) for details
 
-| 指标 | 数据 | 说明 |
-|------|------|------|
-| 📦 NPM周下载量 | ![NPM Downloads](https://img.shields.io/npm/dw/uniadapter?color=blue) | 每周下载量 |
-| ⭐ GitHub Stars | ![GitHub Stars](https://img.shields.io/github/stars/liangfuliang541-pixel/uniadapter?style=social) | GitHub收藏数 |
-| 🍴 GitHub Forks | ![GitHub Forks](https://img.shields.io/github/forks/liangfuliang541-pixel/uniadapter?style=social) | GitHub派生数 |
-| 👥 贡献者 | ![GitHub Contributors](https://img.shields.io/github/contributors/liangfuliang541-pixel/uniadapter) | 项目贡献者数量 |
-| 🔧 语言 | ![GitHub Language Count](https://img.shields.io/github/languages/count/liangfuliang541-pixel/uniadapter) | 支持编程语言 |
-| 📝 代码行数 | ![GitHub Lines of Code](https://img.shields.io/tokei/lines/github/liangfuliang541-pixel/uniadapter) | 项目总代码行数 |
-| 🔄 最近更新 | ![GitHub Last Commit](https://img.shields.io/github/last-commit/liangfuliang541-pixel/uniadapter) | 最后提交时间 |
-| 🐞 Issue处理 | ![GitHub Issues](https://img.shields.io/github/issues/liangfuliang541-pixel/uniadapter) | 当前待处理问题 |
+## Contact
 
----
-
-## 🌟 让前端开发更简单，让一份代码跨越所有的终端界限！
-
-[问题反馈](https://github.com/liangfuliang541-pixel/uniadapter/issues) · [功能建议](https://github.com/liangfuliang541-pixel/uniadapter/discussions) · [贡献指南](./CONTRIBUTING.md) · [项目统计](./STATISTICS.md)
+- Email: 3578544805@qq.com
+- Issues: [GitHub Issues](https://github.com/liangfuliang541-pixel/uniadapter/issues)
