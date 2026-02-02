@@ -1,0 +1,2 @@
+mkdir platforms
+mkdir mock

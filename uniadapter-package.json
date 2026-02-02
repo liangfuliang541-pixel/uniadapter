@@ -1,0 +1,64 @@
+{
+  "name": "uniadapter",
+  "version": "1.0.0",
+  "description": "智能多端适配器框架 - 一套代码适配所有平台",
+  "keywords": [
+    "multi-platform",
+    "adapter",
+    "react",
+    "cross-platform",
+    "web",
+    "mini-program",
+    "mobile",
+    "framework"
+  ],
+  "author": "UniAdapter Team",
+  "license": "MIT",
+  "homepage": "https://github.com/your-username/uniadapter",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/uniadapter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/your-username/uniadapter/issues"
+  },
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "build:lib": "tsc && vite build --config vite.lib.config.ts",
+    "preview": "vite preview",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint src --ext ts,tsx --fix",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "coverage": "vitest run --coverage"
+  },
+  "dependencies": {
+    "react": "18.2.0",
+    "react-dom": "18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "18.2.37",
+    "@types/react-dom": "18.2.15",
+    "@vitejs/plugin-react-swc": "3.5.0",
+    "typescript": "5.2.2",
+    "vite": "5.0.0",
+    "vite-plugin-dts": "3.6.0"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}

@@ -1,0 +1,376 @@
+{
+  "version": "6.0",
+  "nxVersion": "19.8.14",
+  "deps": {
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "@types/node": "^25.2.0",
+    "@vitejs/plugin-react-swc": "^4.2.2",
+    "@vitest/coverage-v8": "^4.0.18",
+    "jsdom": "^27.4.0",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^4.0.18",
+    "@nx/workspace": "^19.0.0",
+    "nx": "^19.0.0",
+    "@typescript-eslint/eslint-plugin": "^7.10.0",
+    "@typescript-eslint/parser": "^7.10.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-import": "^2.29.1",
+    "eslint-plugin-react": "^7.34.1",
+    "eslint-plugin-react-hooks": "^4.6.2",
+    "eslint-plugin-unused-imports": "^3.1.0",
+    "prettier": "^3.2.5",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2"
+  },
+  "pathMappings": {
+    "@/*": [
+      "./src/*"
+    ]
+  },
+  "nxJsonPlugins": [],
+  "fileMap": {
+    "projectFileMap": {},
+    "nonProjectFiles": [
+      {
+        "file": ".eslintrc.json",
+        "hash": "12627662556908699058"
+      },
+      {
+        "file": ".github/workflows/ci.yml",
+        "hash": "7135479079884275833"
+      },
+      {
+        "file": ".gitignore",
+        "hash": "17782736222533369191"
+      },
+      {
+        "file": ".prettierrc",
+        "hash": "4707579294175953297"
+      },
+      {
+        "file": ".storybook/main.js",
+        "hash": "15627925143130534615"
+      },
+      {
+        "file": ".storybook/preview.js",
+        "hash": "7432364855714295289"
+      },
+      {
+        "file": "CHANGELOG.md",
+        "hash": "15015081304017728484"
+      },
+      {
+        "file": "CONTRIBUTING.md",
+        "hash": "3902671131663997582"
+      },
+      {
+        "file": "LICENSE",
+        "hash": "7917901013463768487"
+      },
+      {
+        "file": "PLATFORM_SUPPORT.md",
+        "hash": "1541177957038941608"
+      },
+      {
+        "file": "PROJECT-SUMMARY.md",
+        "hash": "4590667045391143315"
+      },
+      {
+        "file": "PROJECT_SUMMARY_UPDATE.md",
+        "hash": "11065612061446381536"
+      },
+      {
+        "file": "README.md",
+        "hash": "3536727389104974361"
+      },
+      {
+        "file": "cleanup.bat",
+        "hash": "8604013027198251771"
+      },
+      {
+        "file": "cleanup.sh",
+        "hash": "12655464564786659694"
+      },
+      {
+        "file": "commitlint.config.js",
+        "hash": "6505961340447988219"
+      },
+      {
+        "file": "docs/project-overview.md",
+        "hash": "1365313952173455545"
+      },
+      {
+        "file": "index.html",
+        "hash": "2775566351072679689"
+      },
+      {
+        "file": "nx.json",
+        "hash": "8613050854374378312"
+      },
+      {
+        "file": "package-lock.json",
+        "hash": "3440235820893528492"
+      },
+      {
+        "file": "package.json",
+        "hash": "853605312164988958"
+      },
+      {
+        "file": "package.lib.json",
+        "hash": "1581225067297276647"
+      },
+      {
+        "file": "package.publish.json",
+        "hash": "10254606779999337419"
+      },
+      {
+        "file": "postcss.config.js",
+        "hash": "17738569837786503010"
+      },
+      {
+        "file": "project-status.json",
+        "hash": "8476491685202823537"
+      },
+      {
+        "file": "public/vite.svg",
+        "hash": "676909220643693431"
+      },
+      {
+        "file": "setup-mobile.bat",
+        "hash": "18358766418922408399"
+      },
+      {
+        "file": "setup-mobile.sh",
+        "hash": "14696624758033925877"
+      },
+      {
+        "file": "src/components/Button.stories.tsx",
+        "hash": "8192319230731061824"
+      },
+      {
+        "file": "src/components/Button.tsx",
+        "hash": "17512514513824149393"
+      },
+      {
+        "file": "src/components/README.md",
+        "hash": "17340303751830188526"
+      },
+      {
+        "file": "src/core/__tests__/amap-adapter.test.ts",
+        "hash": "2475045670301440181"
+      },
+      {
+        "file": "src/core/__tests__/douyin-adapter.test.ts",
+        "hash": "4493048849283521537"
+      },
+      {
+        "file": "src/core/__tests__/go-distributed-adapter.test.ts",
+        "hash": "3679619922166765215"
+      },
+      {
+        "file": "src/core/__tests__/platform-detection.test.ts",
+        "hash": "16672357237937855447"
+      },
+      {
+        "file": "src/core/__tests__/xiaohongshu-adapter.test.ts",
+        "hash": "3809606689015159880"
+      },
+      {
+        "file": "src/core/adapter.interface.ts",
+        "hash": "15487410452645395930"
+      },
+      {
+        "file": "src/core/adapter.ts",
+        "hash": "16745007142916459605"
+      },
+      {
+        "file": "src/core/adapters/__tests__/amap.test.ts",
+        "hash": "2475045670301440181"
+      },
+      {
+        "file": "src/core/adapters/__tests__/douyin.test.ts",
+        "hash": "4493048849283521537"
+      },
+      {
+        "file": "src/core/adapters/__tests__/xiaohongshu.test.ts",
+        "hash": "3809606689015159880"
+      },
+      {
+        "file": "src/core/adapters/amap.ts",
+        "hash": "11789215141730513722"
+      },
+      {
+        "file": "src/core/adapters/douyin.ts",
+        "hash": "5322984624093526069"
+      },
+      {
+        "file": "src/core/adapters/go-distributed.ts",
+        "hash": "14073766938866573367"
+      },
+      {
+        "file": "src/core/adapters/h5.ts",
+        "hash": "7193379912756996980"
+      },
+      {
+        "file": "src/core/adapters/index.ts",
+        "hash": "15130257598018912185"
+      },
+      {
+        "file": "src/core/adapters/interfaces.ts",
+        "hash": "2256541965091430621"
+      },
+      {
+        "file": "src/core/adapters/platform.ts",
+        "hash": "13110744499583915370"
+      },
+      {
+        "file": "src/core/adapters/xiaohongshu.ts",
+        "hash": "11381160287213327548"
+      },
+      {
+        "file": "src/core/index.ts",
+        "hash": "11842766481073462844"
+      },
+      {
+        "file": "src/core/platform-detector.ts",
+        "hash": "15821977899903283871"
+      },
+      {
+        "file": "src/core/platform.test.ts",
+        "hash": "10533200861217170618"
+      },
+      {
+        "file": "src/core/platforms.test.ts",
+        "hash": "3589942390006692774"
+      },
+      {
+        "file": "src/core/platforms/storage.ts",
+        "hash": "10748823895955303611"
+      },
+      {
+        "file": "src/core/types/platform.ts",
+        "hash": "4815073733340334652"
+      },
+      {
+        "file": "src/hooks/__tests__/unified-hooks.test.ts",
+        "hash": "12741253135872169153"
+      },
+      {
+        "file": "src/hooks/index.ts",
+        "hash": "3870068843629799763"
+      },
+      {
+        "file": "src/hooks/useJournal.ts",
+        "hash": "3709875273325536799"
+      },
+      {
+        "file": "src/hooks/usePlatform.ts",
+        "hash": "13653325429304627489"
+      },
+      {
+        "file": "src/hooks/useToast.ts",
+        "hash": "2081595800100087802"
+      },
+      {
+        "file": "src/hooks/useUniRequest.ts",
+        "hash": "13493697528524085466"
+      },
+      {
+        "file": "src/hooks/useUniRouter.ts",
+        "hash": "18080281480179827016"
+      },
+      {
+        "file": "src/hooks/useUniState.test.ts",
+        "hash": "14108243298075526156"
+      },
+      {
+        "file": "src/hooks/useUniState.ts",
+        "hash": "13377001141850383391"
+      },
+      {
+        "file": "src/index.ts",
+        "hash": "7050925832157124383"
+      },
+      {
+        "file": "src/lib/utils.ts",
+        "hash": "7659442172603198210"
+      },
+      {
+        "file": "sync-project.bat",
+        "hash": "14367994226653866684"
+      },
+      {
+        "file": "sync-project.sh",
+        "hash": "14190117654413328875"
+      },
+      {
+        "file": "tailwind.config.ts",
+        "hash": "7954943777706676271"
+      },
+      {
+        "file": "tsconfig.eslint.json",
+        "hash": "13090083807062893679"
+      },
+      {
+        "file": "tsconfig.json",
+        "hash": "9871876765674963559"
+      },
+      {
+        "file": "tsconfig.lib.json",
+        "hash": "14378218692028351761"
+      },
+      {
+        "file": "tsconfig.node.json",
+        "hash": "6447909583214678802"
+      },
+      {
+        "file": "tsconfig.publish.json",
+        "hash": "2983569004933636838"
+      },
+      {
+        "file": "tsconfig.strict.json",
+        "hash": "16883412364701934621"
+      },
+      {
+        "file": "tsconfig.test.json",
+        "hash": "18128622440153282143"
+      },
+      {
+        "file": "uniadapter-architecture.md",
+        "hash": "7710726723592567372"
+      },
+      {
+        "file": "uniadapter-package.json",
+        "hash": "2139638513491767796"
+      },
+      {
+        "file": "uniadapter-project-plan.md",
+        "hash": "11870629860613857728"
+      },
+      {
+        "file": "verify-platforms.js",
+        "hash": "15824951309412477207"
+      },
+      {
+        "file": "vite.config.ts",
+        "hash": "13839999635286369892"
+      },
+      {
+        "file": "vite.lib.config.ts",
+        "hash": "6585691527315301759"
+      },
+      {
+        "file": "vite.lib.simple.config.ts",
+        "hash": "10948015370533176104"
+      },
+      {
+        "file": "vitest.config.ts",
+        "hash": "10083909553383714916"
+      }
+    ]
+  }
+}

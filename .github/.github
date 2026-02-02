@@ -1,0 +1,18 @@
+# .github/.github
+{
+  "comment": {
+    "firstPRWelcome": "🎉 Thank you for your first contribution to UniAdapter! We're excited to have you as part of our community. If you have any questions, feel free to ask in our discussions. Happy coding! 💖",
+    "firstPRMerge": "🎊 Congratulations on your first merged pull request to UniAdapter! Welcome to our community of contributors. Your contribution helps make UniAdapter better for everyone.",
+    "issueLabelAdded": "Thank you for reporting this issue. We'll review it and get back to you as soon as possible."
+  },
+  "features": {
+    "autoAssign": {
+      "enabled": true,
+      "to": "author",
+      "on": ["issues", "prs"]
+    },
+    "firstPR": {
+      "template": "README.md"
+    }
+  }
+}

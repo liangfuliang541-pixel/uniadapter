@@ -1,0 +1,85 @@
+{
+  "name": "uniadapter",
+  "version": "1.1.0",
+  "description": "智能多端适配器框架 - 一套代码适配所有平台",
+  "main": "dist/index.cjs.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "build:lib": "tsc --project tsconfig.lib.json && vite build --config vite.lib.simple.config.ts",
+    "preview": "vite preview",
+    "lint": "eslint src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "lint:fix": "eslint src --ext ts,tsx --fix",
+    "test": "vitest",
+    "test:ui": "vitest --ui",
+    "coverage": "vitest run --coverage",
+    "prepublishOnly": "npm run build:lib"
+  },
+  "keywords": [
+    "multi-platform",
+    "adapter",
+    "react",
+    "cross-platform",
+    "web",
+    "mini-program",
+    "mobile",
+    "framework",
+    "typescript",
+    "douyin",
+    "amap",
+    "xiaohongshu"
+  ],
+  "author": "liangfuliang541-pixel",
+  "license": "MIT",
+  "homepage": "https://github.com/liangfuliang541-pixel/uniadapter",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liangfuliang541-pixel/uniadapter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/liangfuliang541-pixel/uniadapter/issues"
+  },
+  "dependencies": {
+    "@react-three/drei": "^10.7.7",
+    "@react-three/fiber": "^9.5.0",
+    "autoprefixer": "^10.4.24",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.1.0",
+    "gsap": "^3.14.2",
+    "lucide-react": "^0.563.0",
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0",
+    "react-router-dom": "^7.13.0",
+    "tailwind-merge": "^3.4.0",
+    "tailwindcss": "^4.1.18",
+    "three": "^0.182.0"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^25.2.0",
+    "@types/react": "^19.2.10",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react-swc": "^4.2.2",
+    "jsdom": "^27.4.0",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^4.0.18"
+  },
+  "peerDependencies": {
+    "react": ">=18.0.0",
+    "react-dom": ">=18.0.0"
+  },
+  "engines": {
+    "node": ">=16.0.0",
+    "npm": ">=8.0.0"
+  }
+}

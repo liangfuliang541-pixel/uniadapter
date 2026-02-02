@@ -1,0 +1,88 @@
+# 贡献指南
+
+感谢您有兴趣为 UniAdapter 项目做贡献！本指南将帮助您了解如何参与项目的开发和维护。
+
+## 🚀 快速开始
+
+1. Fork 本仓库
+2. 创建您的特性分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交您的更改 (`git commit -m 'Add some AmazingFeature'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 开启 Pull Request
+
+## 📝 代码贡献
+
+### 开发环境设置
+
+1. 克隆仓库
+   ```bash
+   git clone https://github.com/your-username/uniadapter.git
+   cd uniadapter
+   ```
+
+2. 安装依赖
+   ```bash
+   npm install
+   ```
+
+3. 启动开发服务器
+   ```bash
+   npm run dev
+   ```
+
+### 代码规范
+
+- 使用 TypeScript 编写代码
+- 遵循 ESLint 和 Prettier 规范
+- 提交前运行 `npm run lint:fix` 和 `npm run format`
+- 编写适当的单元测试
+
+### Git 提交规范
+
+请遵循 [Conventional Commits](https://www.conventionalcommits.org/) 规范：
+
+- `feat`: 新功能
+- `fix`: Bug修复
+- `docs`: 文档更新
+- `style`: 代码格式调整
+- `refactor`: 重构
+- `test`: 测试相关
+- `chore`: 构建过程或其他杂项
+
+## 🐛 问题报告
+
+当您发现错误或想要请求新功能时，请按照以下步骤操作：
+
+1. 在 [Issues](https://github.com/liangfuliang541-pixel/uniadapter/issues) 中搜索是否已有相关问题
+2. 如果没有，请创建一个新问题
+3. 使用适当的问题模板
+4. 提供尽可能详细的重现步骤
+
+## 🧪 测试
+
+在提交代码前，请确保所有测试都能通过：
+
+```bash
+npm run test
+npm run test:run
+```
+
+如果添加了新功能，请同时添加相应的测试用例。
+
+## 📚 文档
+
+- 更新 API 文档
+- 在 `docs/` 目录中添加相关文档
+- 保持示例代码的准确性
+
+## 🤝 行为准则
+
+请遵守我们的行为准则，营造积极友善的社区环境。
+
+## 🆘 帮助
+
+如果您有任何疑问，请在 Issues 中提问或联系项目维护者。
+
+---
+
+再次感谢您对 UniAdapter 项目的贡献！
