@@ -2,7 +2,7 @@
 
 ## Overview
 
-UniAdapter is a cross-platform adapter framework that provides unified APIs for different JavaScript runtime environments. Instead of writing separate code for each platform, developers write once and deploy to Web, mini-programs, mobile apps, and distributed systems.
+UniAdapter is a cross-platform adapter framework that provides unified APIs for different JavaScript runtime environments. Instead of writing separate code for each platform, developers write once and deploy to Web, mini-programs, mobile apps, and distributed systems. Latest version adds support for Alipay mini-programs with payment and financial services integration.
 
 ## Core Design
 
@@ -17,7 +17,7 @@ interface StorageAdapter {
 }
 ```
 
-Each platform (Web, WeChat, Douyin, etc.) implements this interface using its native APIs. The factory automatically selects the correct adapter based on platform detection.
+Each platform (Web, WeChat, Alipay, Douyin, etc.) implements this interface using its native APIs. The factory automatically selects the correct adapter based on platform detection.
 
 ## Directory Structure
 
@@ -27,6 +27,7 @@ src/
 │   ├── adapters/           Platform implementations
 │   │   ├── h5.ts
 │   │   ├── weapp.ts
+│   │   ├── alipay.ts        New: Alipay mini-program adapter
 │   │   ├── douyin.ts
 │   │   ├── xiaohongshu.ts
 │   │   ├── amap.ts
@@ -50,16 +51,17 @@ src/
 
 The framework detects the runtime and selects the appropriate adapter:
 
-| Platform | Environment | Status |
-|----------|------------|--------|
-| H5 | Browser | ✓ Stable |
-| WeChat | `wx` object | ✓ Stable |
-| Douyin | `tt` object | ✓ Stable |
-| Xiaohongshu | `xhs` object | ✓ Stable |
-| Gaode Map | `AMap` object | ✓ Stable |
-| React Native | RN bridge | ✓ Stable |
-| Go Distributed | RPC/gRPC | ✓ v1.2.0 |
-| HarmonyOS | `ohos`/`hm` | ✓ v1.2.0 |
+| Platform | Environment | Status | Special Features |
+|----------|------------|--------|------------------|
+| H5 | Browser | ✓ Stable | Full web APIs |
+| WeChat | `wx` object | ✓ Stable | Social features |
+| Alipay | `my` object | ✓ v1.2.1 | Payment & finance |
+| Douyin | `tt` object | ✓ Stable | Video & social |
+| Xiaohongshu | `xhs` object | ✓ Stable | Content sharing |
+| Gaode Map | `AMap` object | ✓ Stable | Location services |
+| React Native | RN bridge | ✓ Stable | Native mobile |
+| Go Distributed | RPC/gRPC | ✓ v1.2.0 | Microservices |
+| HarmonyOS | `ohos`/`hm` | ✓ v1.2.0 | OS integration |
 
 ### Platform Detection
 
@@ -72,6 +74,9 @@ export function detectPlatform(): Platform {
   if (globalThis.tt) return Platform.DOUYIN_MINIPROGRAM
   if (globalThis.xhs) return Platform.XIAOHONGSHU
   if (globalThis.wx) return Platform.WEAPP
+  
+  // Alipay mini-program (new addition)
+  if (globalThis.my && globalThis.my.canIUse) return Platform.ALIPAY_MINIPROGRAM
   
   // HarmonyOS
   if (globalThis.ohos || globalThis.hm) return Platform.HARMONYOS
@@ -119,6 +124,33 @@ export class WeChatStorageAdapter implements StorageAdapter {
   
   async set<T>(key: string, value: T): Promise<void> {
     wx.setStorageSync(key, JSON.stringify(value))
+  }
+}
+```
+
+**Alipay Mini Program (new):**
+```typescript
+export class AlipayStorageAdapter implements StorageAdapter {
+  async get<T>(key: string): Promise<T | null> {
+    if (typeof my !== 'undefined' && my.getStorageSync) {
+      const result = my.getStorageSync(key)
+      return result ? JSON.parse(result) : null
+    } else {
+      // Fallback to universal storage
+      const item = localStorage.getItem(key)
+      return item ? JSON.parse(item) : null
+    }
+  }
+  
+  async set<T>(key: string, value: T): Promise<void> {
+    if (typeof my !== 'undefined' && my.setStorageSync) {
+      my.setStorageSync({
+        key,
+        data: JSON.stringify(value)
+      })
+    } else {
+      localStorage.setItem(key, JSON.stringify(value))
+    }
   }
 }
 ```
@@ -173,6 +205,8 @@ export async function createStorageAdapter() {
   switch (platform) {
     case Platform.WEAPP:
       return new WeChatStorageAdapter()
+    case Platform.ALIPAY_MINIPROGRAM:  // New addition
+      return new AlipayStorageAdapter()
     case Platform.DOUYIN_MINIPROGRAM:
       return new DouyinStorageAdapter()
     case Platform.GO_DISTRIBUTED:
@@ -182,6 +216,15 @@ export async function createStorageAdapter() {
   }
 }
 ```
+
+## Alipay Mini-Program Specific Features
+
+The Alipay adapter includes special features for financial and payment applications:
+
+- **Payment Integration**: Direct access to Alipay's payment APIs
+- **Financial Services**: Credit, loans, insurance integrations
+- **Security Features**: Biometric authentication (facial recognition)
+- **Life Services**: Utility payments, transportation, lifestyle services
 
 ## Error Handling & Fallbacks
 
@@ -206,12 +249,28 @@ This ensures the application continues functioning even when certain APIs are un
 Each adapter is tested in isolation using platform-specific mocks:
 
 ```typescript
-describe('GoDistributedStorageAdapter', () => {
-  it('should fallback to in-memory store', async () => {
-    const adapter = new GoDistributedStorageAdapter()
+describe('AlipayStorageAdapter', () => {
+  it('should use Alipay APIs when available', async () => {
+    // Mock Alipay environment
+    global.my = {
+      getStorageSync: (key) => '{"value": "test"}',
+      setStorageSync: () => {}
+    }
+    
+    const adapter = new AlipayStorageAdapter()
     await adapter.set('key', { value: 'test' })
     const result = await adapter.get('key')
     expect(result).toEqual({ value: 'test' })
+  })
+  
+  it('should fallback to localStorage', async () => {
+    // Remove Alipay mock
+    delete global.my
+    
+    const adapter = new AlipayStorageAdapter()
+    await adapter.set('key', { value: 'fallback' })
+    const result = await adapter.get('key')
+    expect(result).toEqual({ value: 'fallback' })
   })
 })
 ```

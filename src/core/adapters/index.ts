@@ -1,6 +1,6 @@
 /**
  * 平台适配器统一导出
- * 包含H5、小程序、APP、抖音、高德、小红书、Go分布式等多端支持
+ * 包含H5、小程序、APP、抖音、高德、小红书、支付宝、Go分布式等多端支持
  */
 
 import { Platform, detectPlatform } from '../types/platform'
@@ -17,6 +17,8 @@ export async function createStorageAdapter() {
       return import('./amap').then(mod => new mod.AmapStorageAdapter())
     case Platform.XIAOHONGSHU: 
       return import('./xiaohongshu').then(mod => new mod.XiaohongshuStorageAdapter())
+    case Platform.ALIPAY_MINIPROGRAM:
+      return import('./alipay').then(mod => new mod.AlipayStorageAdapter())
     case Platform.GO_DISTRIBUTED:
       return import('./go-distributed').then(mod => new mod.GoDistributedStorageAdapter())
     default:
@@ -39,6 +41,8 @@ export async function createPlatformService() {
       return import('./amap').then(mod => new mod.AmapPlatformService())
     case Platform.XIAOHONGSHU: 
       return import('./xiaohongshu').then(mod => new mod.XiaohongshuPlatformService())
+    case Platform.ALIPAY_MINIPROGRAM:
+      return import('./alipay').then(mod => new mod.AlipayPlatformService())
     case Platform.GO_DISTRIBUTED:
       return import('./go-distributed').then(mod => new mod.GoDistributedPlatformService())
     default:

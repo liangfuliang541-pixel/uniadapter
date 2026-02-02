@@ -8,6 +8,7 @@ export enum Platform {
   HARMONYOS = 'harmonyos',
   DOUYIN_MINIPROGRAM = 'douyin',
   XIAOHONGSHU = 'xiaohongshu',
+  ALIPAY_MINIPROGRAM = 'alipay',
   REACT_NATIVE = 'react-native',
   GAODE_MAP = 'amap',
   GO_DISTRIBUTED = 'go-distributed',
@@ -50,6 +51,11 @@ export function detectPlatform(): Platform {
   // 检测微信小程序
   if (typeof (globalThis as any).wx !== 'undefined') {
     return Platform.WEAPP
+  }
+  
+  // 检测支付宝小程序
+  if (typeof (globalThis as any).my !== 'undefined' && (globalThis as any).my.canIUse) {
+    return Platform.ALIPAY_MINIPROGRAM
   }
 
   // 检测鸿蒙 / HarmonyOS (通过 userAgent 或全局对象识别)

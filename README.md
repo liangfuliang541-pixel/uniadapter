@@ -8,7 +8,7 @@
 ![Build Status](https://img.shields.io/github/actions/workflow/status/liangfuliang541-pixel/uniadapter/test.yml)
 ![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)
 ![Language TypeScript](https://img.shields.io/badge/Language-TypeScript-blue)
-![Platform Support](https://img.shields.io/badge/Platform-8%2B_Supported-orange)
+![Platform Support](https://img.shields.io/badge/Platform-9%2B_Supported-orange)
 ![Contributors](https://img.shields.io/github/contributors/liangfuliang541-pixel/uniadapter)
 ![Last Commit](https://img.shields.io/github/last-commit/liangfuliang541-pixel/uniadapter)
 
@@ -44,6 +44,7 @@ UniAdapter 是一个创新的多端适配框架，通过适配器模式解决前
 |------|------|----------|
 | 🌐 Web/H5 | `h5` | 浏览器API完整适配 |
 | 🐦 微信小程序 | `weapp` | 微信生态深度集成 |
+| 🤲 支付宝小程序 | `alipay` | 支付、金融、生活服务集成 |
 | 🎵 抖音小程序 | `douyin` | 音视频、社交分享优化 |
 | 📝 小红书小程序 | `xiaohongshu` | 社区内容分享 |
 | 🗺️ 高德地图 | `amap` | 位置服务、路线导航 |
@@ -150,6 +151,13 @@ const authenticated = await biometric.authenticate('请验证身份')
 
 ## 🎨 特色功能
 
+### 🔥 支付宝小程序适配
+- 支付功能集成
+- 金融服务API适配
+- 人脸验证支持
+- 生活号功能集成
+- 小程序码生成与扫描
+
 ### 🔧 抖音小程序适配
 - 优化音视频播放体验
 - 原生分享功能支持
@@ -183,6 +191,10 @@ const authenticated = await biometric.authenticate('请验证身份')
 应用代码 → 统一API → 适配器工厂 → 平台适配器
                               ├─ H5适配器
                               ├─ 小程序适配器
+                              │  ├─ 微信小程序
+                              │  ├─ 支付宝小程序
+                              │  ├─ 抖音小程序
+                              │  └─ 小红书小程序
                               ├─ 原生APP适配器
                               └─ 服务适配器
 ```
@@ -204,7 +216,7 @@ const authenticated = await biometric.authenticate('请验证身份')
 | 核心库体积 | < 5KB (Gzipped) | 经过Tree-shaking优化 |
 | 启动时间 | < 50ms | 快速初始化 |
 | 运行时开销 | 0 | 无额外性能消耗 |
-| 支持平台数 | 8+ | Web、小程序、APP、Go微服务等 |
+| 支持平台数 | 9+ | Web、小程序、APP、Go微服务等 |
 | 包含组件数 | 15+ | 丰富的适配器和Hook |
 | GitHub Stars | 💫 | 持续增长中 |
 | npm下载量 | 📈 | 快速增长中 |
@@ -232,6 +244,7 @@ initDebug({ level: 'verbose' })
 - ✅ v1.0 - 基础多端适配框架
 - ✅ v1.1 - 新增抖音、高德、小红书支持
 - ✅ v1.2 - 新增Go分布式系统支持
+- ✅ v1.2.1 - 新增支付宝小程序支持
 - 🔜 v2.0 - AI能力集成与生态扩展
 
 ### 开源生态
