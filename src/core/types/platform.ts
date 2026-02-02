@@ -11,6 +11,8 @@ export enum Platform {
   REACT_NATIVE = 'react-native',
   GAODE_MAP = 'amap',
   GO_DISTRIBUTED = 'go-distributed',
+  NEXT_JS = 'nextjs',
+  NUXT = 'nuxt',
   UNKNOWN = 'unknown'
 }
 
@@ -76,6 +78,20 @@ export function detectPlatform(): Platform {
   
   // 检测Web环境
   if (typeof window !== 'undefined' && typeof document !== 'undefined') {
+    // Detect Next.js client runtime
+    try {
+      if (typeof (globalThis as any).__NEXT_DATA__ !== 'undefined') {
+        return Platform.NEXT_JS
+      }
+    } catch (e) {}
+
+    // Detect Nuxt client runtime
+    try {
+      if (typeof (globalThis as any).__NUXT__ !== 'undefined') {
+        return Platform.NUXT
+      }
+    } catch (e) {}
+
     return Platform.H5
   }
   

@@ -27,6 +27,10 @@ export async function createStorageAdapter() {
 export async function createPlatformService() {
   const platform = detectPlatform()
   switch (platform) {
+    case Platform.NEXT_JS:
+      return import('./nextjs').then(mod => new mod.NextJsPlatformAdapter())
+    case Platform.NUXT:
+      return import('./nuxt').then(mod => new mod.NuxtPlatformAdapter())
     case Platform.HARMONYOS:
       return import('./harmonyos').then(mod => new mod.HarmonyOSPlatformService())
     case Platform.DOUYIN_MINIPROGRAM: 
