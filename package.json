@@ -63,7 +63,8 @@
     "plugin:test": "vitest run --reporter=verbose tests/plugin-system.test.ts",
     "plugin:build": "tsc --project tsconfig.plugin.json",
     "cli:init": "tsx src/cli/index.ts init",
-    "cli": "node dist/cli.js"
+    "cli": "node dist/cli.js",
+    "build:mcp": "node scripts/build-mcp.mjs"
   },
   "peerDependencies": {
     "react": ">=17.0.0",
@@ -72,6 +73,7 @@
   "devDependencies": {
     "@commitlint/cli": "^19.3.0",
     "@commitlint/config-conventional": "^19.2.2",
+    "@modelcontextprotocol/sdk": "^1.29.0",
     "@nx/workspace": "^19.0.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
@@ -114,6 +116,8 @@
     ]
   },
   "bin": {
-    "@liangfu/uniadapter": "./dist/cli.js"
+    "@liangfu/uniadapter": "./dist/cli.js",
+    "uniadapter-mcp": "./dist/mcp/index.js",
+    "@liangfu/uniadapter-mcp": "./dist/mcp/index.js"
   }
 }
