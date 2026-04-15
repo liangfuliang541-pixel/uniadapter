@@ -33,6 +33,7 @@ export { useUniState } from './hooks/useUniState'
 export { useUniRouter } from './hooks/useUniRouter'
 export { useUniRequest, RequestError, type RequestInterceptor } from './hooks/useUniRequest'
 export { usePlatform } from './hooks/usePlatform'
+export { RequestCache, createRequestCache, getGlobalCache, type CacheConfig, type CacheEntry, type CacheStrategy, type CacheMode } from './hooks/useCache'
 
 // VibeEngine
 export { VibeEngine } from './vibe-engine'

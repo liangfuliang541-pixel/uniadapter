@@ -1,11 +1,18 @@
 import { useCallback, useRef } from 'react'
 import { detectPlatform, Platform } from '../core/types/platform'
+import { RequestCache, CacheConfig, CacheMode, getGlobalCache } from './useCache'
 
 interface RequestOptions extends RequestInit {
   /** 请求超时时间（毫秒） */
   timeout?: number
   /** 请求头 */
   headers?: Record<string, string>
+  /** 缓存模式 */
+  cache?: CacheMode | boolean
+  /** 缓存 TTL（毫秒），false 表示不缓存 */
+  cacheTtl?: number | false
+  /** 跳过缓存 */
+  skipCache?: boolean
 }
 
 /**
@@ -47,13 +54,12 @@ export interface RequestInterceptor {
  *   return config
  * })
  */
-export function useUniRequest() {
+export function useUniRequest(cacheConfig?: CacheConfig) {
   const platform = detectPlatform()
   const requestInterceptors = useRef<Array<(config: any) => any>>([])
   const responseInterceptors = useRef<Array<(response: any) => any>>([])
   const errorInterceptors = useRef<Array<(error: RequestError) => any>>([])
-
-  const resolveUrl = useCallback((url: string): string => {
+  const cache = useRef<RequestCache>(new RequestCache(cacheConfig)).current
     if (typeof url !== 'string') return url
     if (url.startsWith('http://') || url.startsWith('https://')) return url
     const base =
@@ -100,9 +106,48 @@ export function useUniRequest() {
   }, [])
 
   /**
-   * 处理平台特定的错误
+   * 包装请求以支持缓存
    */
-  const handlePlatformError = useCallback((err: any, platform: Platform): RequestError => {
+  const wrapWithCache = useCallback(
+    async (
+      fn: () => Promise<any>,
+      url: string,
+      cacheMode?: CacheMode,
+      cacheTtl?: number,
+      skipCache?: boolean
+    ): Promise<any> => {
+      // 尝试从缓存读取
+      if (!skipCache && (cacheMode === 'cache-first' || cacheMode === 'stale-while-revalidate')) {
+        const cached = cache.get(url)
+        if (cached) {
+          if (cacheMode === 'cache-first') {
+            return cached
+          }
+          // stale-while-revalidate: 返回缓存，同时在后台更新
+          fn().then(data => cache.set(url, data, {}, cacheTtl)).catch(() => {})
+          return cached
+        }
+      }
+
+      // 执行网络请求
+      try {
+        const data = await fn()
+        // 缓存成功响应
+        if (cacheMode !== 'network-only' && cacheTtl !== false) {
+          cache.set(url, data, {}, cacheTtl)
+        }
+        return data
+      } catch (error) {
+        // 尝试返回过期缓存作为降级
+        if (cacheMode === 'stale-while-revalidate' || cacheMode === 'cache-first') {
+          const stale = cache.get(url)
+          if (stale) return stale
+        }
+        throw error
+      }
+    },
+    [cache]
+  )
     let message = '网络请求失败'
     let code = 'UNKNOWN_ERROR'
     let status: number | undefined
@@ -133,86 +178,96 @@ export function useUniRequest() {
   const get = useCallback(async (url: string, options?: RequestOptions): Promise<any> => {
     const resolvedUrl = resolveUrl(url)
     const timeout = options?.timeout ?? 10000
+    const cacheMode = options?.cache === false ? 'network-only' : (options?.cache === true ? 'cache-first' : options?.cache)
+    const cacheTtl = options?.cacheTtl === false ? undefined : options?.cacheTtl
 
-    let config = applyRequestInterceptors({ url: resolvedUrl, ...options })
+    return wrapWithCache(
+      async () => {
+        let config = applyRequestInterceptors({ url: resolvedUrl, ...options })
 
-    try {
-      switch (platform) {
-        case Platform.DOUYIN_MINIPROGRAM:
-          return await new Promise((resolve, reject) => {
-            ;(globalThis as any).tt?.request?.({
-              url: config.url,
-              method: 'GET',
-              ...config,
-              success: (res: any) => {
-                try {
-                  const response = applyResponseInterceptors(res.data)
-                  resolve(response)
-                } catch (e) {
-                  reject(new RequestError('响应处理失败', 'RESPONSE_PARSE_ERROR', undefined, e))
+        try {
+          switch (platform) {
+            case Platform.DOUYIN_MINIPROGRAM:
+              return await new Promise((resolve, reject) => {
+                ;(globalThis as any).tt?.request?.({
+                  url: config.url,
+                  method: 'GET',
+                  ...config,
+                  success: (res: any) => {
+                    try {
+                      const response = applyResponseInterceptors(res.data)
+                      resolve(response)
+                    } catch (e) {
+                      reject(new RequestError('响应处理失败', 'RESPONSE_PARSE_ERROR', undefined, e))
+                    }
+                  },
+                  fail: (err: any) => reject(handlePlatformError(err, platform)),
+                })
+              })
+            case Platform.WEAPP:
+              return await new Promise((resolve, reject) => {
+                ;(globalThis as any).wx?.request?.({
+                  url: config.url,
+                  method: 'GET',
+                  ...config,
+                  success: (res: any) => {
+                    try {
+                      const response = applyResponseInterceptors(res.data)
+                      resolve(response)
+                    } catch (e) {
+                      reject(new RequestError('响应处理失败', 'RESPONSE_PARSE_ERROR', undefined, e))
+                    }
+                  },
+                  fail: (err: any) => reject(handlePlatformError(err, platform)),
+                })
+              })
+            case Platform.ALIPAY_MINIPROGRAM:
+              return await new Promise((resolve, reject) => {
+                ;(globalThis as any).my?.httpRequest?.({
+                  url: config.url,
+                  method: 'GET',
+                  ...config,
+                  success: (res: any) => {
+                    try {
+                      const response = applyResponseInterceptors(res.data)
+                      resolve(response)
+                    } catch (e) {
+                      reject(new RequestError('响应处理失败', 'RESPONSE_PARSE_ERROR', undefined, e))
+                    }
+                  },
+                  fail: (err: any) => reject(handlePlatformError(err, platform)),
+                })
+              })
+            default: {
+              const controller = new AbortController()
+              const timer = setTimeout(() => controller.abort(), timeout)
+              try {
+                const res = await fetch(config.url, { method: 'GET', signal: controller.signal, ...options })
+                clearTimeout(timer)
+                if (!res.ok) {
+                  throw new RequestError(`HTTP ${res.status}`, 'HTTP_ERROR', res.status)
                 }
-              },
-              fail: (err: any) => reject(handlePlatformError(err, platform)),
-            })
-          })
-        case Platform.WEAPP:
-          return await new Promise((resolve, reject) => {
-            ;(globalThis as any).wx?.request?.({
-              url: config.url,
-              method: 'GET',
-              ...config,
-              success: (res: any) => {
-                try {
-                  const response = applyResponseInterceptors(res.data)
-                  resolve(response)
-                } catch (e) {
-                  reject(new RequestError('响应处理失败', 'RESPONSE_PARSE_ERROR', undefined, e))
-                }
-              },
-              fail: (err: any) => reject(handlePlatformError(err, platform)),
-            })
-          })
-        case Platform.ALIPAY_MINIPROGRAM:
-          return await new Promise((resolve, reject) => {
-            ;(globalThis as any).my?.httpRequest?.({
-              url: config.url,
-              method: 'GET',
-              ...config,
-              success: (res: any) => {
-                try {
-                  const response = applyResponseInterceptors(res.data)
-                  resolve(response)
-                } catch (e) {
-                  reject(new RequestError('响应处理失败', 'RESPONSE_PARSE_ERROR', undefined, e))
-                }
-              },
-              fail: (err: any) => reject(handlePlatformError(err, platform)),
-            })
-          })
-        default: {
-          const controller = new AbortController()
-          const timer = setTimeout(() => controller.abort(), timeout)
-          try {
-            const res = await fetch(config.url, { method: 'GET', signal: controller.signal, ...options })
-            clearTimeout(timer)
-            if (!res.ok) {
-              throw new RequestError(`HTTP ${res.status}`, 'HTTP_ERROR', res.status)
+                const data = await res.json()
+                return applyResponseInterceptors(data)
+              } catch (e: any) {
+                clearTimeout(timer)
+                throw handlePlatformError(e, platform)
+              }
             }
-            const data = await res.json()
-            return applyResponseInterceptors(data)
-          } catch (e: any) {
-            clearTimeout(timer)
-            throw handlePlatformError(e, platform)
           }
+        } catch (error) {
+          if (error instanceof RequestError) {
+            throw applyErrorInterceptors(error)
+          }
+          throw applyErrorInterceptors(handlePlatformError(error, platform))
         }
-      }
-    } catch (error) {
-      if (error instanceof RequestError) {
-        throw applyErrorInterceptors(error)
-      }
-      throw applyErrorInterceptors(handlePlatformError(error, platform))
-    }
-  }, [platform, resolveUrl, applyRequestInterceptors, applyResponseInterceptors, applyErrorInterceptors, handlePlatformError])
+      },
+      resolvedUrl,
+      cacheMode,
+      cacheTtl,
+      options?.skipCache
+    )
+  }, [platform, resolveUrl, applyRequestInterceptors, applyResponseInterceptors, applyErrorInterceptors, handlePlatformError, wrapWithCache])
 
   const post = useCallback(async (url: string, data?: any, options?: RequestOptions): Promise<any> => {
     const resolvedUrl = resolveUrl(url)
