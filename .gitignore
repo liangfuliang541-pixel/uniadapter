@@ -42,5 +42,10 @@ coverage/
 # Local
 .qoder/
 
+# Generated
+public/
+.nx/
+.husky/
+
 # npm tokens (NEVER commit these)
 .npmrc
