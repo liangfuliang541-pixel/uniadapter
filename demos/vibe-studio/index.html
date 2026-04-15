@@ -1,0 +1,1782 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VibePage Playground · UniAdapter</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --bg: #0d1117;
+      --bg2: #161b22;
+      --bg3: #21262d;
+      --border: #30363d;
+      --text: #e6edf3;
+      --text2: #8b949e;
+      --green: #07c160;
+      --blue: #388bfd;
+      --red: #f85149;
+      --yellow: #f0a020;
+      --purple: #a371f7;
+      --radius: 8px;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: ui-monospace, 'SF Mono', Menlo, Monaco, Consolas, monospace;
+      font-size: 13px;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ── Header ── */
+    .header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 10px 20px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg2);
+      flex-shrink: 0;
+    }
+    .header-logo {
+      font-size: 18px;
+    }
+    .header-title {
+      font-weight: 700;
+      font-size: 14px;
+    }
+    .header-sub {
+      color: var(--text2);
+      font-size: 12px;
+    }
+    .header-right {
+      margin-left: auto;
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+    .header-badge {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 3px 10px;
+      font-size: 11px;
+      color: var(--green);
+    }
+    .btn {
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-size: 12px;
+      padding: 5px 12px;
+      cursor: pointer;
+      font-family: inherit;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+    }
+    .btn:hover { background: var(--border); }
+    .btn-primary {
+      background: var(--green);
+      border-color: var(--green);
+      color: #fff;
+      font-weight: 600;
+    }
+    .btn-primary:hover { opacity: 0.9; }
+    .btn-primary:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn-danger { border-color: var(--red); color: var(--red); }
+
+    /* ── Main ── */
+    .main {
+      display: flex;
+      flex: 1;
+      overflow: hidden;
+    }
+
+    /* ── Left panel: prompt ── */
+    .panel-left {
+      width: 380px;
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+    }
+    .panel-left-tabs {
+      display: flex;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .tab {
+      padding: 8px 16px;
+      font-size: 12px;
+      cursor: pointer;
+      border-bottom: 2px solid transparent;
+      color: var(--text2);
+    }
+    .tab.active {
+      color: var(--text);
+      border-bottom-color: var(--green);
+    }
+    .panel-left-body {
+      flex: 1;
+      overflow-y: auto;
+      padding: 14px;
+    }
+
+    /* Platform selector */
+    .platform-selector {
+      display: flex;
+      gap: 6px;
+      margin-bottom: 14px;
+      flex-wrap: wrap;
+    }
+    .platform-btn {
+      padding: 5px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 11px;
+      cursor: pointer;
+      background: var(--bg2);
+      color: var(--text2);
+      font-family: inherit;
+    }
+    .platform-btn.active {
+      border-color: var(--green);
+      color: var(--green);
+      background: rgba(7, 193, 96, 0.1);
+    }
+
+    /* Prompt textarea */
+    .prompt-area {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 13px;
+      padding: 12px;
+      resize: none;
+      min-height: 120px;
+      outline: none;
+      line-height: 1.6;
+    }
+    .prompt-area:focus { border-color: var(--green); }
+
+    /* Suggestions */
+    .suggestions {
+      margin-top: 14px;
+    }
+    .suggestions-label {
+      font-size: 11px;
+      color: var(--text2);
+      margin-bottom: 8px;
+    }
+    .suggestion-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .suggestion {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      color: var(--text);
+      text-align: left;
+      font-family: inherit;
+      transition: border-color 0.15s;
+    }
+    .suggestion:hover { border-color: var(--green); }
+    .suggestion-emoji { margin-right: 6px; }
+
+    /* Settings */
+    .settings {
+      margin-top: 16px;
+      padding-top: 14px;
+      border-top: 1px solid var(--border);
+    }
+    .settings-label {
+      font-size: 11px;
+      color: var(--text2);
+      margin-bottom: 6px;
+    }
+    .settings-row {
+      margin-bottom: 10px;
+    }
+    .settings-input {
+      width: 100%;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 12px;
+      padding: 6px 10px;
+      outline: none;
+    }
+    .settings-input:focus { border-color: var(--blue); }
+    .settings-note {
+      font-size: 11px;
+      color: var(--text2);
+      margin-top: 4px;
+    }
+
+    /* History */
+    .history-label {
+      font-size: 11px;
+      color: var(--text2);
+      margin-bottom: 8px;
+    }
+    .history-item {
+      padding: 8px 10px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin-bottom: 6px;
+      font-size: 12px;
+      cursor: pointer;
+      color: var(--text);
+      background: var(--bg2);
+      font-family: inherit;
+      text-align: left;
+      width: 100%;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .history-item:hover { border-color: var(--blue); color: var(--blue); }
+
+    /* ── Right panel: output ── */
+    .panel-right {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .output-tabs {
+      display: flex;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding: 0 14px;
+      flex-shrink: 0;
+      background: var(--bg2);
+    }
+    .output-tab {
+      padding: 8px 12px;
+      font-size: 12px;
+      cursor: pointer;
+      color: var(--text2);
+      border-bottom: 2px solid transparent;
+    }
+    .output-tab.active {
+      color: var(--text);
+      border-bottom-color: var(--blue);
+    }
+    .output-tab-new {
+      margin-left: auto;
+      color: var(--green);
+      font-size: 12px;
+    }
+    .output-content {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    /* Empty state */
+    .empty {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100%;
+      gap: 14px;
+      color: var(--text2);
+    }
+    .empty-emoji { font-size: 48px; }
+    .empty h3 { font-size: 16px; font-weight: 600; color: var(--text); }
+    .empty p { font-size: 13px; max-width: 400px; text-align: center; line-height: 1.6; }
+    .empty-steps {
+      display: flex;
+      gap: 16px;
+      margin-top: 8px;
+    }
+    .empty-step {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+    .empty-step-num {
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: var(--bg3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      border: 1px solid var(--border);
+    }
+    .empty-step-text { font-size: 11px; }
+
+    /* Streaming message */
+    .msg-user {
+      display: flex;
+      gap: 10px;
+      padding: 12px 16px;
+      align-items: flex-start;
+    }
+    .msg-avatar-u {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0;
+    }
+    .msg-bubble-u {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px 12px 12px 4px;
+      padding: 10px 14px;
+      max-width: 70%;
+      line-height: 1.6;
+    }
+
+    .msg-assistant {
+      display: flex;
+      gap: 10px;
+      padding: 12px 16px;
+      align-items: flex-start;
+    }
+    .msg-avatar-a {
+      width: 28px; height: 28px; border-radius: 50%;
+      background: linear-gradient(135deg, #07c160, #06ad56);
+      display: flex; align-items: center; justify-content: center; font-size: 12px; flex-shrink: 0;
+    }
+    .msg-status {
+      display: flex; align-items: center; gap: 8px;
+      padding: 6px 16px;
+      font-size: 11px;
+      color: var(--text2);
+      border-bottom: 1px solid var(--border);
+    }
+    .msg-status-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--green);
+      animation: pulse 1.5s infinite;
+    }
+    .msg-typing {
+      display: inline-block;
+      width: 16px;
+      height: 16px;
+    }
+    .msg-typing::after {
+      content: '';
+      display: block;
+      width: 4px; height: 4px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: blink 1s infinite;
+      margin: 6px auto;
+    }
+
+    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0} }
+
+    /* Code files */
+    .files-list {
+      padding: 12px 16px;
+    }
+    .file-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      margin-bottom: 10px;
+    }
+    .file-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 12px;
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+    }
+    .file-name {
+      font-size: 12px; font-weight: 600;
+      display: flex; align-items: center; gap: 6px;
+    }
+    .file-lang-badge {
+      font-size: 10px;
+      padding: 1px 6px;
+      border-radius: 4px;
+      background: var(--bg3);
+      color: var(--purple);
+    }
+    .file-actions {
+      display: flex; gap: 5px;
+    }
+    .file-action {
+      font-size: 11px;
+      padding: 2px 8px;
+      border: 1px solid var(--border);
+      border-radius: 4px;
+      cursor: pointer;
+      background: none;
+      color: var(--text2);
+      font-family: inherit;
+    }
+    .file-action:hover { color: var(--text); border-color: var(--text2); }
+    .file-action.copied { color: var(--green); border-color: var(--green); }
+    .file-code {
+      background: var(--bg);
+      overflow: auto;
+      max-height: 350px;
+    }
+    .file-code pre {
+      margin: 0;
+      padding: 12px;
+      font-size: 12px;
+      line-height: 1.7;
+      white-space: pre;
+    }
+
+    /* Info banner */
+    .info-banner {
+      background: rgba(7, 193, 96, 0.1);
+      border: 1px solid var(--green);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      margin: 12px 16px;
+      font-size: 12px;
+      line-height: 1.6;
+      color: var(--green);
+    }
+
+    /* Error */
+    .error-msg {
+      margin: 12px 16px;
+      background: rgba(248, 81, 73, 0.1);
+      border: 1px solid var(--red);
+      border-radius: var(--radius);
+      padding: 10px 14px;
+      color: var(--red);
+      font-size: 12px;
+    }
+
+    /* Welcome cards (for demo mode) */
+    .demo-cards {
+      padding: 14px;
+    }
+    .demo-cards-title {
+      font-size: 11px;
+      color: var(--text2);
+      margin-bottom: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .demo-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 12px;
+      margin-bottom: 8px;
+      cursor: pointer;
+      transition: border-color 0.15s;
+    }
+    .demo-card:hover { border-color: var(--green); }
+    .demo-card-title {
+      font-size: 13px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .demo-card-desc {
+      font-size: 11px;
+      color: var(--text2);
+      line-height: 1.5;
+    }
+    .demo-card-platforms {
+      margin-top: 6px;
+      display: flex;
+      gap: 4px;
+    }
+    .demo-card-pf {
+      font-size: 10px;
+      padding: 1px 6px;
+      background: var(--bg3);
+      border-radius: 4px;
+      color: var(--text2);
+    }
+
+    /* Syntax highlight colors */
+    .hl-keyword { color: #ff7b72; font-weight: 600; }
+    .hl-string { color: #a5d6ff; }
+    .hl-comment { color: #8b949e; font-style: italic; }
+    .hl-prop { color: #79c0ff; }
+    .hl-number { color: #ffa657; }
+    .hl-fn { color: #d2a8ff; }
+    .hl-tag { color: #7ee787; }
+    .hl-attr { color: #ffa657; }
+    .hl-value { color: #a5d6ff; }
+    .hl-punctuation { color: #8b949e; }
+
+    /* Responsive */
+    @media (max-width: 700px) {
+      .panel-left { width: 100%; border-right: none; border-bottom: 1px solid var(--border); max-height: 40vh; }
+      .main { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header">
+  <span class="header-logo">✨</span>
+  <span class="header-title">VibePage Playground</span>
+  <span class="header-sub">· AI 一句话生成小程序页面</span>
+  <div class="header-right">
+    <span class="header-badge">● UniAdapter v2.0</span>
+    <button class="btn" onclick="shareResult()" title="分享">🔗 分享</button>
+    <button class="btn" onclick="downloadZip()" title="下载">📦 下载</button>
+    <button class="btn btn-danger" onclick="clearAll()">🗑 清空</button>
+  </div>
+</div>
+
+<!-- Main -->
+<div class="main">
+
+  <!-- Left panel -->
+  <div class="panel-left">
+    <div class="panel-left-tabs">
+      <div class="tab active" id="tab-prompt" onclick="switchTab('prompt')">💬 生成</div>
+      <div class="tab" id="tab-demo" onclick="switchTab('demo')">🎨 示例</div>
+      <div class="tab" id="tab-history" onclick="switchTab('history')">📜 历史</div>
+    </div>
+
+    <!-- Prompt tab -->
+    <div id="panel-prompt" class="panel-left-body">
+      <!-- Platform selector -->
+      <div class="platform-selector" id="platform-selector">
+        <button class="platform-btn active" data-platform="weapp" onclick="selectPlatform(this)">微信小程序</button>
+        <button class="platform-btn" data-platform="alipay" onclick="selectPlatform(this)">支付宝</button>
+        <button class="platform-btn" data-platform="douyin" onclick="selectPlatform(this)">抖音小程序</button>
+        <button class="platform-btn" data-platform="h5" onclick="selectPlatform(this)">H5 / Web</button>
+      </div>
+
+      <!-- Prompt -->
+      <textarea
+        id="prompt-input"
+        class="prompt-area"
+        placeholder="描述你想要的小程序页面...
+
+例如：帮我做一个商品详情页、用户登录页、搜索结果页、个人中心..."
+        onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();generate()}"
+      ></textarea>
+
+      <!-- Generate button -->
+      <button class="btn btn-primary" style="width:100%;margin-top:10px;justify-content:center;padding:10px" onclick="generate()" id="gen-btn">
+        ✨ 生成页面
+      </button>
+
+      <!-- Suggestions -->
+      <div class="suggestions">
+        <div class="suggestions-label">试试这些 · Quick Examples</div>
+        <div class="suggestion-grid" id="suggestions"></div>
+      </div>
+
+      <!-- Settings -->
+      <div class="settings">
+        <div class="settings-label">⚙️ API 配置（可选 / Optional）</div>
+        <div class="settings-row">
+          <div class="settings-note">填入 OpenRouter API Key 以使用 AI 生成，否则使用内置示例</div>
+          <input type="password" id="api-key" class="settings-input" placeholder="sk-or-..." style="margin-top:6px" />
+        </div>
+        <div class="settings-row">
+          <select id="model-select" class="settings-input" style="width:100%">
+            <optgroup label="Claude">
+              <option value="anthropic/claude-3.5-sonnet" selected>Claude 3.5 Sonnet</option>
+              <option value="anthropic/claude-3-haiku">Claude 3 Haiku</option>
+            </optgroup>
+            <optgroup label="GPT">
+              <option value="openai/gpt-4o">GPT-4o</option>
+              <option value="openai/gpt-4o-mini">GPT-4o Mini</option>
+            </optgroup>
+            <optgroup label="Gemini">
+              <option value="google/gemini-2.0-flash">Gemini 2.0 Flash</option>
+            </optgroup>
+            <optgroup label="DeepSeek">
+              <option value="deepseek/deepseek-chat-v3">DeepSeek V3</option>
+            </optgroup>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Demo tab -->
+    <div id="panel-demo" class="panel-left-body" style="display:none">
+      <div class="demo-cards-title">内置示例 · Built-in Demos</div>
+      <div id="demo-cards"></div>
+    </div>
+
+    <!-- History tab -->
+    <div id="panel-history" class="panel-left-body" style="display:none">
+      <div class="history-label">生成历史（本地存储）</div>
+      <div id="history-list"></div>
+      <button class="btn" style="width:100%;margin-top:10px" onclick="clearHistory()">清空历史</button>
+    </div>
+  </div>
+
+  <!-- Right panel -->
+  <div class="panel-right">
+    <div class="output-tabs">
+      <div class="output-tab active">📄 代码输出</div>
+      <div class="output-tab-new" id="file-count"></div>
+    </div>
+    <div class="output-content" id="output-content">
+      <div class="empty" id="empty-state">
+        <div class="empty-emoji">✨</div>
+        <h3>告诉 AI 你想要什么页面</h3>
+        <p>描述你的需求，VibePage 立即生成完整的小程序页面源代码。<br/>支持微信、支付宝、抖音、H5 四端。</p>
+        <div class="empty-steps">
+          <div class="empty-step">
+            <div class="empty-step-num">1</div>
+            <div class="empty-step-text">描述页面需求</div>
+          </div>
+          <div class="empty-step">
+            <div class="empty-step-num">2</div>
+            <div class="empty-step-text">AI 生成代码</div>
+          </div>
+          <div class="empty-step">
+            <div class="empty-step-num">3</div>
+            <div class="empty-step-text">复制到项目</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State ─────────────────────────────────────────────────────────────────────
+let state = {
+  platform: 'weapp',
+  messages: [],
+  generating: false,
+  abortCtrl: null,
+  currentFiles: [],
+  history: JSON.parse(localStorage.getItem('vibe_history') || '[]'),
+  currentPrompt: '',
+}
+
+const suggestions = [
+  '帮我做一个商品详情页，包含商品图片、名称、价格、购买按钮',
+  '用户登录和注册页面，支持手机号验证码登录',
+  '搜索结果列表页，支持筛选和排序',
+  '个人中心页面，包含用户信息、订单、设置入口',
+  '帮我做一个订单确认页，包含商品列表、地址、支付方式',
+  '文章详情页，支持标题、作者、发布时间、正文内容',
+];
+
+const demos = [
+  {
+    title: '商品详情页',
+    desc: '包含轮播图、商品信息、规格选择、加购按钮、店铺入口',
+    platforms: ['weapp', 'alipay', 'douyin', 'h5'],
+    prompt: '帮我做一个商品详情页，包含商品图片轮播、商品名称、价格（原价和现价）、规格选择（颜色/尺码）、加购按钮、店铺入口、相似商品推荐',
+  },
+  {
+    title: '用户登录页',
+    desc: '支持手机号+验证码登录、微信一键登录、用户协议勾选',
+    platforms: ['weapp', 'alipay', 'douyin', 'h5'],
+    prompt: '用户登录注册页面，支持手机号验证码登录、微信一键登录、用户协议和隐私政策勾选、记住登录状态',
+  },
+  {
+    title: '搜索列表页',
+    desc: '搜索框、筛选标签、排序方式、商品列表卡片',
+    platforms: ['weapp', 'alipay', 'douyin', 'h5'],
+    prompt: '搜索结果列表页，顶部搜索框可修改关键词，筛选标签（综合/销量/价格），排序按钮，商品卡片列表展示图片/标题/价格/销量',
+  },
+  {
+    title: '个人中心',
+    desc: '用户头像、会员等级、订单入口、资产、设置',
+    platforms: ['weapp', 'alipay', 'douyin', 'h5'],
+    prompt: '个人中心页面，头像昵称和会员等级，四个订单入口（待付款/待发货/待收货/已完成），我的资产（积分/优惠券/余额），功能列表（收货地址/设置/关于我们）',
+  },
+  {
+    title: '订单确认页',
+    desc: '收货地址、商品列表、支付方式、配送方式、优惠券',
+    platforms: ['weapp', 'alipay', 'douyin', 'h5'],
+    prompt: '订单确认页面，收货地址选择，商品列表卡片（图片/标题/规格/价格/数量），支付方式选择（微信/支付宝），配送方式，优惠券选择，订单备注，实付金额计算',
+  },
+  {
+    title: '首页',
+    desc: '搜索框、banner、分类导航、商品推荐',
+    platforms: ['weapp', 'alipay', 'douyin', 'h5'],
+    prompt: '小程序首页，顶部分类导航横滑，中间banner轮播，分类图标入口，限时秒杀区块，热门推荐商品网格布局',
+  },
+];
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+function init() {
+  renderSuggestions();
+  renderDemos();
+  renderHistory();
+  checkUrlParams();
+}
+
+function checkUrlParams() {
+  const params = new URLSearchParams(location.search);
+  const p = params.get('prompt');
+  const pf = params.get('platform');
+  const demo = params.get('demo');
+  if (demo) {
+    const d = demos[parseInt(demo)];
+    if (d) {
+      document.getElementById('prompt-input').value = d.prompt;
+      selectPlatformByName(d.platforms[0]);
+      setTimeout(() => generate(), 100);
+    }
+  } else if (p) {
+    document.getElementById('prompt-input').value = decodeURIComponent(p);
+    if (pf) selectPlatformByName(pf);
+  }
+}
+
+function renderSuggestions() {
+  const el = document.getElementById('suggestions');
+  el.innerHTML = suggestions.map((s, i) =>
+    `<button class="suggestion" onclick="useSuggestion(${i})">
+      <span class="suggestion-emoji">💡</span>${s.replace('帮我做一个', '').replace('用户登录和注册', '登录注册').replace('搜索结果列表页', '搜索列表').replace('个人中心页面', '个人中心').replace('帮我做一个', '')}
+    </button>`
+  ).join('');
+}
+
+function renderDemos() {
+  const el = document.getElementById('demo-cards');
+  el.innerHTML = demos.map((d, i) => `
+    <div class="demo-card" onclick="runDemo(${i})">
+      <div class="demo-card-title">${d.title}</div>
+      <div class="demo-card-desc">${d.desc}</div>
+      <div class="demo-card-platforms">
+        ${d.platforms.map(p => `<span class="demo-card-pf">${pfLabel(p)}</span>`).join('')}
+      </div>
+    </div>
+  `).join('');
+}
+
+function renderHistory() {
+  const el = document.getElementById('history-list');
+  if (state.history.length === 0) {
+    el.innerHTML = '<div style="font-size:12px;color:var(--text2);text-align:center;padding:20px">暂无历史记录</div>';
+    return;
+  }
+  el.innerHTML = state.history.map((h, i) =>
+    `<button class="history-item" onclick="restoreHistory(${i})">${h.prompt.slice(0, 60)}${h.prompt.length > 60 ? '...' : ''}</button>`
+  ).join('');
+}
+
+function pfLabel(p) {
+  return { weapp: '微信', alipay: '支付宝', douyin: '抖音', h5: 'H5' }[p] || p;
+}
+
+// ── Tab switching ─────────────────────────────────────────────────────────────
+function switchTab(tab) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.getElementById('tab-' + tab).classList.add('active');
+  ['prompt', 'demo', 'history'].forEach(t => {
+    document.getElementById('panel-' + t).style.display = t === tab ? '' : 'none';
+  });
+}
+
+// ── Platform ─────────────────────────────────────────────────────────────────
+function selectPlatform(btn) {
+  document.querySelectorAll('.platform-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  state.platform = btn.dataset.platform;
+}
+
+function selectPlatformByName(name) {
+  document.querySelectorAll('.platform-btn').forEach(b => {
+    b.classList.toggle('active', b.dataset.platform === name);
+  });
+  state.platform = name;
+}
+
+// ── Suggestions ──────────────────────────────────────────────────────────────
+function useSuggestion(i) {
+  document.getElementById('prompt-input').value = suggestions[i];
+  document.getElementById('prompt-input').focus();
+}
+
+function runDemo(i) {
+  const d = demos[i];
+  document.getElementById('prompt-input').value = d.prompt;
+  selectPlatformByName(d.platforms[0]);
+  generate();
+}
+
+// ── Generate ─────────────────────────────────────────────────────────────────
+async function generate() {
+  const prompt = document.getElementById('prompt-input').value.trim();
+  if (!prompt || state.generating) return;
+
+  const apiKey = document.getElementById('api-key').value.trim();
+  const model = document.getElementById('model-select').value;
+
+  state.currentPrompt = prompt;
+  state.generating = true;
+  state.currentFiles = [];
+  state.messages.push({ role: 'user', content: prompt, files: [] });
+  renderMessages();
+  setGenBtnState(true);
+  document.getElementById('empty-state').style.display = 'none';
+
+  // If no API key, use built-in demo with realistic response
+  if (!apiKey) {
+    await generateDemo(prompt, model);
+    return;
+  }
+
+  // Real AI generation
+  state.abortCtrl = new AbortController();
+  const userMsgId = Date.now();
+
+  try {
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${apiKey}`,
+        'HTTP-Referer': location.href,
+        'X-Title': 'UniAdapter VibePage Playground',
+      },
+      body: JSON.stringify({
+        model: model,
+        messages: [
+          { role: 'system', content: systemPrompt(state.platform) },
+          { role: 'user', content: `目标平台：${state.platform}。需求：${prompt}` },
+        ],
+        stream: true,
+        temperature: 0.3,
+        max_tokens: 4000,
+      }),
+      signal: state.abortCtrl.signal,
+    });
+
+    if (!response.ok) {
+      const err = await response.text();
+      addError(`API 错误 (${response.status}): ${err}`);
+      state.generating = false;
+      setGenBtnState(false);
+      return;
+    }
+
+    if (!response.body) throw new Error('流式响应不可用');
+
+    let fullContent = '';
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
+
+    // Create assistant message placeholder
+    state.messages.push({ role: 'assistant', content: '', files: [], streaming: true });
+    renderMessages();
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+      buffer += decoder.decode(value, { stream: true });
+      const lines = buffer.split('\n');
+      buffer = lines.pop() || '';
+
+      for (const line of lines) {
+        if (!line.startsWith('data: ')) continue;
+        const data = line.slice(6).trim();
+        if (data === '[DONE]') break;
+        try {
+          const json = JSON.parse(data);
+          const chunk = json.choices?.[0]?.delta?.content;
+          if (chunk) {
+            fullContent += chunk;
+            updateAssistantContent(fullContent);
+          }
+        } catch {}
+      }
+    }
+
+    const files = parseFiles(fullContent);
+    state.messages = state.messages.map(m =>
+      m.streaming ? { ...m, content: fullContent, files, streaming: false } : m
+    );
+    state.currentFiles = files;
+    saveToHistory(prompt, files);
+    renderMessages();
+    document.getElementById('file-count').textContent = `生成 ${files.length} 个文件 ✅`;
+
+  } catch (err) {
+    if (err.name !== 'AbortError') {
+      addError(err.message || '生成失败');
+    }
+  } finally {
+    state.generating = false;
+    setGenBtnState(false);
+  }
+}
+
+async function generateDemo(prompt, model) {
+  // Simulate AI generation with realistic demo output
+  const demoOutput = buildDemoOutput(prompt, state.platform);
+  const files = parseFiles(demoOutput);
+
+  state.messages.push({ role: 'assistant', content: demoOutput, files: [], streaming: true });
+  renderMessages();
+  setGenBtnState(true);
+
+  // Simulate streaming delay
+  await new Promise(resolve => setTimeout(resolve, 800));
+  state.messages = state.messages.map(m =>
+    m.streaming ? { ...m, content: demoOutput, files, streaming: false } : m
+  );
+  state.currentFiles = files;
+  saveToHistory(prompt, files);
+  renderMessages();
+  setGenBtnState(false);
+  state.generating = false;
+  document.getElementById('file-count').textContent = `生成 ${files.length} 个文件 ✅`;
+  document.getElementById('file-count').style.color = 'var(--green)';
+}
+
+function addError(msg) {
+  state.messages.push({ role: 'assistant', content: '', files: [], error: msg });
+  renderMessages();
+}
+
+function updateAssistantContent(content) {
+  const files = parseFiles(content);
+  const last = state.messages[state.messages.length - 1];
+  if (last && last.streaming) {
+    last.content = content;
+    if (files.length > 0) last.files = files;
+    renderMessages();
+  }
+}
+
+function stopGenerate() {
+  if (state.abortCtrl) state.abortCtrl.abort();
+  state.generating = false;
+  setGenBtnState(false);
+  state.messages = state.messages.map(m =>
+    m.streaming ? { ...m, streaming: false } : m
+  );
+  renderMessages();
+}
+
+function setGenBtnState(generating) {
+  const btn = document.getElementById('gen-btn');
+  if (generating) {
+    btn.innerHTML = '⏹ 停止生成';
+    btn.onclick = stopGenerate;
+    btn.style.background = 'var(--red)';
+    btn.style.borderColor = 'var(--red)';
+  } else {
+    btn.innerHTML = '✨ 生成页面';
+    btn.onclick = generate;
+    btn.style.background = '';
+    btn.style.borderColor = '';
+  }
+}
+
+// ── Parsing ──────────────────────────────────────────────────────────────────
+function parseFiles(content) {
+  const files = [];
+  // Match ---FILE:filename--- ... ``` ... ```
+  const filePattern = /---FILE:([^\n]+)---\s*\n?([\s\S]*?)(?=---FILE:|$)/g;
+  let match;
+  while ((match = filePattern.exec(content)) !== null) {
+    const fname = match[1].trim();
+    const body = match[2].trim();
+    // Remove language markers <LANG:typescript> etc.
+    const clean = body
+      .replace(/<LANG:(\w+)>\n?/g, '')
+      .replace(/<\/CODEBLOCK>/g, '')
+      .trim();
+    if (clean && clean.length > 10) {
+      files.push({
+        filename: fname,
+        content: clean,
+        lang: detectLang(fname),
+      });
+    }
+  }
+  // Fallback
+  if (files.length === 0 && content.trim().length > 50) {
+    files.push({
+      filename: state.platform === 'weapp' ? 'pages/demo/index.ts' :
+                state.platform === 'alipay' ? 'pages/demo/index.ts' :
+                state.platform === 'douyin' ? 'pages/demo/index.ts' : 'pages/demo/index.tsx',
+      content: content.trim(),
+      lang: 'typescript',
+    });
+  }
+  return files;
+}
+
+function detectLang(filename) {
+  if (/wxml|axml|ttml/.test(filename)) return 'wxml';
+  if (/wxss|acss|ttss/.test(filename)) return 'css';
+  if (/json/.test(filename)) return 'json';
+  if (/tsx/.test(filename)) return 'tsx';
+  return 'typescript';
+}
+
+// ── Render ───────────────────────────────────────────────────────────────────
+function renderMessages() {
+  const container = document.getElementById('output-content');
+
+  let html = '';
+  for (const msg of state.messages) {
+    if (msg.role === 'user') {
+      html += `
+        <div class="msg-user">
+          <div class="msg-avatar-u">👤</div>
+          <div class="msg-bubble-u">${escapeHtml(msg.content)}</div>
+        </div>`;
+    } else if (msg.role === 'assistant') {
+      if (msg.error) {
+        html += `
+        <div class="msg-assistant">
+          <div class="msg-avatar-a">✨</div>
+          <div style="flex:1">
+            <div class="error-msg">❌ ${escapeHtml(msg.error)}</div>
+          </div>
+        </div>`;
+      } else {
+        html += `
+        <div class="msg-assistant">
+          <div class="msg-avatar-a">✨</div>
+          <div style="flex:1">
+            <div class="msg-status">
+              ${msg.streaming
+                ? '<span class="msg-status-dot"></span><span>生成中...</span>'
+                : '<span>✅ 已生成</span>'}
+            </div>
+            ${msg.files && msg.files.length > 0
+              ? msg.files.map((f, i) => renderFile(f, i)).join('')
+              : msg.streaming
+                ? `<div style="padding:12px 16px;font-size:12px;color:var(--text2);font-family:inherit">
+                     ${escapeHtml(msg.content.slice(-200))}<span style="animation:blink 1s infinite;color:var(--green)">▊</span>
+                   </div>`
+                : ''}
+          </div>
+        </div>`;
+      }
+    }
+  }
+
+  container.innerHTML = html;
+  container.scrollTop = container.scrollHeight;
+}
+
+function renderFile(file, idx) {
+  const langColors = {
+    typescript: '#3178c6', tsx: '#3178c6', javascript: '#f7df1e',
+    wxml: '#07c160', axml: '#1677ff', ttml: '#ff6b6b',
+    css: '#264de4', wxss: '#264de4', acss: '#1677ff',
+    json: '#f0a020', jsx: '#61dafb',
+  };
+  const color = langColors[file.lang] || '#8b949e';
+  return `
+    <div class="files-list">
+      <div class="file-item">
+        <div class="file-header">
+          <div class="file-name">
+            📄 ${file.filename}
+            <span class="file-lang-badge" style="color:${color}">${file.lang}</span>
+          </div>
+          <div class="file-actions">
+            <button class="file-action" id="copy-${idx}" onclick="copyFile(${idx})">📋 复制</button>
+            <button class="file-action" onclick="downloadFile(${idx})">💾 下载</button>
+          </div>
+        </div>
+        <div class="file-code">
+          <pre><code>${highlight(file.content, file.lang)}</code></pre>
+        </div>
+      </div>
+    </div>`;
+}
+
+// ── Syntax highlight ─────────────────────────────────────────────────────────
+function escapeHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function highlight(code, lang) {
+  let text = escapeHtml(code);
+
+  // Comments
+  text = text.replace(/(\/\/[^\n]*|\/\*[\s\S]*?\*\/|# [^\n]*)/g,
+    '<span class="hl-comment">$1</span>');
+
+  // Strings
+  text = text.replace(/('(?:[^'\\]|\\.)*'|"(?:[^"\\]|\\.)*"|`(?:[^`\\]|\\.)*`)/g,
+    '<span class="hl-string">$1</span>');
+
+  // Keywords
+  const kw = ['import','export','from','const','let','var','function','return',
+    'if','else','for','while','class','interface','type','async','await','new',
+    'this','extends','implements','default','Page','Component','useState',
+    'useEffect','useUniState','useUniRouter','useUniRequest','usePlatform',
+    'importPage','usePlugin','getPlatformCapabilities'];
+  for (const k of kw) {
+    text = text.replace(new RegExp(`\\b(${k})\\b`, 'g'),
+      '<span class="hl-keyword">$1</span>');
+  }
+
+  // Properties
+  text = text.replace(/(\w+)(?=\s*:(?![:]))/g,
+    '<span class="hl-prop">$1</span>');
+
+  // Numbers
+  text = text.replace(/\b(\d+(?:\.\d+)?)\b/g,
+    '<span class="hl-number">$1</span>');
+
+  // Tags (for XML/HTML)
+  if (['wxml','axml','ttml'].includes(lang)) {
+    text = text.replace(/(&lt;\/?)(\w+)/g, '$1<span class="hl-tag">$2</span>');
+    text = text.replace(/(\s)(\w[\w-]*)(=)/g, '$1<span class="hl-attr">$2</span>$3');
+    text = text.replace(/"([^"]*)"/g, '"<span class="hl-value">$1</span>"');
+  }
+
+  return text;
+}
+
+// ── Actions ──────────────────────────────────────────────────────────────────
+async function copyFile(idx) {
+  const file = state.currentFiles[idx];
+  if (!file) return;
+  await navigator.clipboard.writeText(file.content);
+  const btn = document.getElementById('copy-' + idx);
+  btn.textContent = '✅ 已复制';
+  btn.classList.add('copied');
+  setTimeout(() => {
+    btn.textContent = '📋 复制';
+    btn.classList.remove('copied');
+  }, 2000);
+}
+
+function downloadFile(idx) {
+  const file = state.currentFiles[idx];
+  if (!file) return;
+  const blob = new Blob([file.content], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = file.filename.split('/').pop();
+  a.click();
+}
+
+function downloadZip() {
+  if (!state.currentFiles.length) {
+    alert('先生成代码再下载');
+    return;
+  }
+  // Simple approach: download each file separately
+  state.currentFiles.forEach((f, i) => downloadFile(i));
+}
+
+function shareResult() {
+  const p = encodeURIComponent(state.currentPrompt);
+  const url = `${location.origin}${location.pathname}?prompt=${p}&platform=${state.platform}`;
+  navigator.clipboard.writeText(url).then(() => {
+    const btn = document.querySelector('[onclick="shareResult()"]');
+    const orig = btn.textContent;
+    btn.textContent = '✅ 链接已复制!';
+    setTimeout(() => btn.textContent = orig, 2000);
+  });
+}
+
+function clearAll() {
+  if (!confirm('确定清空所有内容?')) return;
+  state.messages = [];
+  state.currentFiles = [];
+  state.currentPrompt = '';
+  document.getElementById('output-content').innerHTML =
+    '<div class="empty" id="empty-state"><div class="empty-emoji">✨</div><h3>告诉 AI 你想要什么页面</h3></div>';
+  document.getElementById('file-count').textContent = '';
+  document.getElementById('prompt-input').value = '';
+}
+
+function clearHistory() {
+  state.history = [];
+  localStorage.removeItem('vibe_history');
+  renderHistory();
+}
+
+function restoreHistory(i) {
+  const h = state.history[i];
+  if (!h) return;
+  document.getElementById('prompt-input').value = h.prompt;
+  selectPlatformByName(h.platform);
+  state.messages = [];
+  state.currentFiles = h.files;
+  state.messages.push({ role: 'user', content: h.prompt, files: [] });
+  state.messages.push({ role: 'assistant', content: '', files: h.files });
+  document.getElementById('empty-state').style.display = 'none';
+  renderMessages();
+  document.getElementById('file-count').textContent = `生成 ${h.files.length} 个文件`;
+  document.getElementById('file-count').style.color = 'var(--green)';
+  switchTab('prompt');
+}
+
+function saveToHistory(prompt, files) {
+  state.history = [{ prompt, files: files.slice(), platform: state.platform, time: Date.now() }, ...state.history].slice(0, 20);
+  localStorage.setItem('vibe_history', JSON.stringify(state.history));
+  renderHistory();
+}
+
+// ── System prompt ─────────────────────────────────────────────────────────────
+function systemPrompt(platform) {
+  const bt = '`';
+  return '你是 UniAdapter VibePage，专为跨端小程序开发训练的 AI 助手。' +
+    '\n\n根据用户需求生成 UniAdapter/VibeUI 页面源代码。' +
+    '\n\n要求：' +
+    '\n1. 只输出 UniAdapter 适配器代码，不要包装层' +
+    '\n2. 使用 TypeScript（.ts）或平台对应模板语言' +
+    '\n3. 代码必须完整、可运行' +
+    '\n4. 包含中文注释' +
+    '\n5. 保持简洁' +
+    '\n\n输出格式（用 ---FILE:filename--- 标记每个文件）：\n\n' +
+    '---FILE:pages/demo/index.ts---\n' +
+    '<LANG:typescript>\n' +
+    '// 页面逻辑代码\n' +
+    'Page({ ... })\n' +
+    '</CODEBLOCK>\n\n' +
+    '---FILE:pages/demo/index.wxml---\n' +
+    '<LANG:wxml>\n' +
+    '<view class="container"></view>\n' +
+    '</CODEBLOCK>\n\n' +
+    '---FILE:pages/demo/index.json---\n' +
+    '<LANG:json>\n' +
+    '{ "usingComponents": {} }\n' +
+    '</CODEBLOCK>\n\n' +
+    '---FILE:pages/demo/index.wxss---\n' +
+    '<LANG:css>\n' +
+    '.container { padding: 24rpx; }\n' +
+    '</CODEBLOCK>\n\n' +
+    '只输出代码，不要解释。';
+}
+
+// ── Demo output builder ──────────────────────────────────────────────────────
+function buildDemoOutput(prompt, platform) {
+  const isProduct = /商品|详情/.test(prompt);
+  const isLogin = /登录|注册|验证码/.test(prompt);
+  const isSearch = /搜索|列表|筛选/.test(prompt);
+  const isProfile = /个人中心|用户信息|会员/.test(prompt);
+  const isOrder = /订单|确认|支付/.test(prompt);
+  const isHome = /首页|banner|轮播/.test(prompt);
+
+  if (isProduct || isLogin || isSearch || isProfile || isOrder || isHome) {
+    return buildPageDemo(prompt, platform, { isProduct, isLogin, isSearch, isProfile, isOrder, isHome });
+  }
+  return buildGenericDemo(prompt, platform);
+}
+
+function buildPageDemo(prompt, platform, flags) {
+  const p = platform;
+  const isWeapp = p === 'weapp';
+  const isAlipay = p === 'alipay';
+  const isDouyin = p === 'douyin';
+  const isH5 = p === 'h5';
+
+  const tplExt = isWeapp ? 'wxml' : isAlipay ? 'axml' : isDouyin ? 'ttml' : 'html';
+  const styleExt = isWeapp ? 'wxss' : isAlipay ? 'acss' : isDouyin ? 'ttss' : 'css';
+  const comp = isWeapp ? 'useUniState,useUniRouter' : isAlipay ? 'useUniState,useUniRouter' : isDouyin ? 'useUniState,useUniRouter' : 'useUniState,useUniRouter';
+
+  let pageContent = '';
+  let tplContent = '';
+  let styleContent = '';
+  let jsonContent = '';
+
+  if (flags.isProduct) {
+    pageContent = `import { ${comp} } from '@liangfu/uniadapter'
+
+// 商品详情页
+const { data, setData } = useUniState<{
+  goods: { id: string; name: string; price: number; origPrice: number; images: string[] }
+  skuList: { id: string; name: string; options: string[] }[]
+  selectedSku: Record<string, string>
+  quantity: number
+  tabIndex: number
+}>({
+  goods: {
+    id: '10001',
+    name: '简约设计师款全棉T恤',
+    price: 89,
+    origPrice: 199,
+    images: [
+      'https://img.yourcdn.com/goods/10001/1.jpg',
+      'https://img.yourcdn.com/goods/10001/2.jpg',
+      'https://img.yourcdn.com/goods/10001/3.jpg',
+    ],
+  },
+  skuList: [
+    { id: 'color', name: '颜色', options: ['黑色', '白色', '浅灰'] },
+    { id: 'size', name: '尺码', options: ['S', 'M', 'L', 'XL'] },
+  ],
+  selectedSku: {},
+  quantity: 1,
+  tabIndex: 0,
+})
+
+const { navigateTo } = useUniRouter()
+
+// 切换 SKU
+function selectSku(skuId: string, option: string) {
+  setData('selectedSku', { ...data.selectedSku, [skuId]: option })
+}
+
+// 加入购物车
+async function addToCart() {
+  const unselected = data.skuList.find(s => !data.selectedSku[s.id])
+  if (unselected) {
+    uni.showToast({ title: \`请选择\${unselected.name}\`, icon: 'none' })
+    return
+  }
+  uni.showLoading({ title: '加入中...' })
+  // await request('/cart/add', { goodsId: data.goods.id, ...data.selectedSku, quantity: data.quantity })
+  uni.hideLoading()
+  uni.showToast({ title: '已加入购物车', icon: 'success' })
+}
+
+// 立即购买
+function buyNow() {
+  const unselected = data.skuList.find(s => !data.selectedSku[s.id])
+  if (unselected) {
+    uni.showToast({ title: \`请选择\${unselected.name}\`, icon: 'none' })
+    return
+  }
+  navigateTo('/pages/order/confirm', {
+    goodsId: data.goods.id,
+    ...data.selectedSku,
+    quantity: data.quantity,
+  })
+}
+
+Page()`
+
+    tplContent = `<view class="goods-detail">
+  <!-- 图片轮播 -->
+  <swiper class="goods-swiper" indicator-dots autoplay circular>
+    <block wx:for="{{goods.images}}" wx:key="index">
+      <swiper-item>
+        <image class="goods-image" src="{{item}}" mode="aspectFill" />
+      </swiper-item>
+    </block>
+  </swiper>
+
+  <!-- 价格区域 -->
+  <view class="price-section">
+    <text class="price">¥{{goods.price}}</text>
+    <text class="orig-price">¥{{goods.origPrice}}</text>
+    <view class="share-btn">
+      <button size="mini" open-type="share">分享</button>
+    </view>
+  </view>
+
+  <!-- 商品名称 -->
+  <view class="goods-name">{{goods.name}}</view>
+
+  <!-- SKU 选择 -->
+  <view class="sku-section">
+    <block wx:for="{{skuList}}" wx:key="id">
+      <view class="sku-row">
+        <text class="sku-label">{{item.name}}</text>
+        <view class="sku-options">
+          <view
+            wx:for="{{item.options}}"
+            wx:for-item="opt"
+            wx:key="opt"
+            class="sku-opt {{selectedSku[item.id] === opt ? 'active' : ''}}"
+            bindtap="selectSku"
+            data-skuid="{{item.id}}"
+            data-option="{{opt}}"
+          >{{opt}}</view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- Tab 切换 -->
+  <view class="tabs">
+    <view class="tab {{tabIndex === 0 ? 'active' : ''}}" bindtap="setData('tabIndex', 0)">商品详情</view>
+    <view class="tab {{tabIndex === 1 ? 'active' : ''}}" bindtap="setData('tabIndex', 1)">用户评价</view>
+  </view>
+
+  <!-- 底部操作栏 -->
+  <view class="action-bar">
+    <view class="action-icons">
+      <view class="action-icon">🏠<text>首页</text></view>
+      <view class="action-icon">❤️<text>收藏</text></view>
+      <view class="action-icon">🛒<text>购物车</text></view>
+    </view>
+    <view class="action-btns">
+      <view class="btn-add" bindtap="addToCart">加入购物车</view>
+      <view class="btn-buy" bindtap="buyNow">立即购买</view>
+    </view>
+  </view>
+</view>`
+
+    styleContent = `.goods-detail { padding-bottom: 120rpx; }
+.goods-swiper { height: 750rpx; }
+.goods-image { width: 100%; height: 100%; }
+.price-section { padding: 24rpx; display: flex; align-items: baseline; gap: 16rpx; }
+.price { font-size: 48rpx; color: #ff4757; font-weight: 700; }
+.orig-price { font-size: 28rpx; color: #999; text-decoration: line-through; }
+.share-btn { margin-left: auto; }
+.goods-name { padding: 0 24rpx 24rpx; font-size: 32rpx; line-height: 1.6; font-weight: 600; }
+.sku-section { padding: 24rpx; border-top: 1rpx solid #eee; }
+.sku-row { margin-bottom: 24rpx; }
+.sku-label { display: block; font-size: 28rpx; color: #666; margin-bottom: 16rpx; }
+.sku-options { display: flex; flex-wrap: wrap; gap: 16rpx; }
+.sku-opt { padding: 12rpx 24rpx; border: 1rpx solid #ddd; border-radius: 8rpx; font-size: 26rpx; }
+.sku-opt.active { border-color: #ff4757; color: #ff4757; background: rgba(255,71,87,0.05); }
+.tabs { display: flex; border-top: 1rpx solid #eee; }
+.tab { flex: 1; text-align: center; padding: 24rpx 0; font-size: 28rpx; color: #666; border-bottom: 4rpx solid transparent; }
+.tab.active { color: #ff4757; border-bottom-color: #ff4757; }
+.action-bar { position: fixed; bottom: 0; left: 0; right: 0; height: 100rpx; display: flex; align-items: center; padding: 0 24rpx; background: #fff; border-top: 1rpx solid #eee; box-shadow: 0 -2rpx 10rpx rgba(0,0,0,0.05); }
+.action-icons { display: flex; gap: 32rpx; }
+.action-icon { display: flex; flex-direction: column; align-items: center; font-size: 20rpx; }
+.action-btns { display: flex; margin-left: 24rpx; }
+.btn-add { background: #ff9500; color: #fff; padding: 0 32rpx; height: 72rpx; line-height: 72rpx; border-radius: 36rpx 0 0 36rpx; font-size: 28rpx; }
+.btn-buy { background: #ff4757; color: #fff; padding: 0 32rpx; height: 72rpx; line-height: 72rpx; border-radius: 0 36rpx 36rpx 0; font-size: 28rpx; }`
+
+    jsonContent = `{ "navigationBarTitleText": "商品详情", "usingComponents": {} }`
+  } else if (flags.isLogin) {
+    pageContent = `import { useUniState } from '@liangfu/uniadapter'
+
+// 登录注册页
+const { data, setData } = useUniState<{
+  phone: string
+  code: string
+  agreeProtocol: boolean
+  loginWay: 'phone' | 'wechat'
+  countdown: number
+}>({
+  phone: '',
+  code: '',
+  agreeProtocol: false,
+  loginWay: 'phone',
+  countdown: 0,
+})
+
+const { switchTab } = useUniRouter()
+
+let countdownTimer: number
+
+function onPhoneInput(e: any) {
+  setData('phone', e.detail.value)
+}
+
+function onCodeInput(e: any) {
+  setData('code', e.detail.value)
+}
+
+// 发送验证码
+async function sendCode() {
+  if (!data.phone || data.phone.length !== 11) {
+    uni.showToast({ title: '请输入正确手机号', icon: 'none' })
+    return
+  }
+  setData('countdown', 60)
+  countdownTimer = setInterval(() => {
+    setData('countdown', data.countdown - 1)
+    if (data.countdown <= 0) clearInterval(countdownTimer)
+  }, 1000)
+  // await request('/sms/send', { phone: data.phone })
+  uni.showToast({ title: '验证码已发送', icon: 'success' })
+}
+
+// 登录
+async function login() {
+  if (!data.agreeProtocol) {
+    uni.showToast({ title: '请先同意用户协议', icon: 'none' })
+    return
+  }
+  // await request('/user/login', { phone: data.phone, code: data.code })
+  uni.showToast({ title: '登录成功', icon: 'success' })
+  setTimeout(() => switchTab('home'), 1500)
+}
+
+// 微信登录
+function wechatLogin() {
+  // #ifdef MP-WEIXIN
+  wx.getUserProfile({ desc: '用于完善会员资料', success: (res) => { login() } })
+  // #endif
+}
+
+Page()`
+    tplContent = `<view class="login-page">
+  <view class="logo-area">
+    <view class="logo">✨</view>
+    <view class="app-name">你的小程序</view>
+  </view>
+
+  <!-- 手机号登录 -->
+  <view class="form-area">
+    <view class="input-row">
+      <text class="input-label">+86</text>
+      <input
+        class="input-field"
+        type="number"
+        maxlength="11"
+        placeholder="请输入手机号"
+        value="{{phone}}"
+        bindinput="onPhoneInput"
+      />
+    </view>
+
+    <view class="input-row">
+      <input
+        class="input-field"
+        type="number"
+        maxlength="6"
+        placeholder="请输入验证码"
+        value="{{code}}"
+        bindinput="onCodeInput"
+      />
+      <view class="code-btn {{countdown > 0 ? 'disabled' : ''}}" bindtap="sendCode">
+        {{countdown > 0 ? countdown + 's' : '获取验证码'}}
+      </view>
+    </view>
+
+    <view class="protocol-row">
+      <checkbox-group bindchange="setData('agreeProtocol', !$event.detail.value.length)">
+        <label>
+          <checkbox value="agree" />
+        </label>
+      </checkbox-group>
+      <text class="protocol-text">我已阅读并同意</text>
+      <text class="protocol-link">《用户协议》</text>
+      <text class="protocol-text">和</text>
+      <text class="protocol-link">《隐私政策》</text>
+    </view>
+
+    <button class="login-btn" bindtap="login">登录</button>
+
+    <view class="divider"><text>其他登录方式</text></view>
+
+    <button class="wechat-btn" bindtap="wechatLogin" open-type="getUserProfile">
+      <text>微信一键登录</text>
+    </button>
+  </view>
+</view>`
+    styleContent = `.login-page { min-height: 100vh; background: #fff; padding: 80rpx 48rpx; }
+.logo-area { text-align: center; margin-bottom: 80rpx; }
+.logo { width: 120rpx; height: 120rpx; border-radius: 24rpx; background: linear-gradient(135deg, #667eea, #764ba2); margin: 0 auto 24rpx; display: flex; align-items: center; justify-content: center; font-size: 60rpx; }
+.app-name { font-size: 40rpx; font-weight: 700; }
+.form-area { }
+.input-row { display: flex; align-items: center; border-bottom: 1rpx solid #eee; padding: 24rpx 0; }
+.input-label { font-size: 30rpx; margin-right: 16rpx; color: #333; }
+.input-field { flex: 1; font-size: 30rpx; }
+.code-btn { font-size: 28rpx; color: #667eea; white-space: nowrap; padding: 8rpx 16rpx; }
+.code-btn.disabled { color: #999; }
+.protocol-row { display: flex; align-items: center; margin: 24rpx 0; font-size: 24rpx; }
+.protocol-text { color: #999; margin: 0 4rpx; }
+.protocol-link { color: #667eea; }
+.login-btn { background: linear-gradient(135deg, #667eea, #764ba2); color: #fff; border-radius: 48rpx; height: 96rpx; line-height: 96rpx; font-size: 32rpx; font-weight:  600; border: none; margin-top: 32rpx; }
+.divider { text-align: center; color: #999; font-size: 24rpx; margin: 40rpx 0; position: relative; }
+.divider::before, .divider::after { content: ''; position: absolute; top: 50%; width: 120rpx; height: 1rpx; background: #eee; }
+.divider::before { left: 0; }
+.divider::after { right: 0; }
+.wechat-btn { background: #07c160; color: #fff; border-radius: 48rpx; height: 96rpx; line-height: 96rpx; font-size: 32rpx; }`
+    jsonContent = `{ "navigationBarTitleText": "登录", "navigationStyle": "custom" }`
+  } else if (flags.isSearch) {
+    pageContent = `import { useUniState, useUniRouter } from '@liangfu/uniadapter'
+
+// 搜索列表页
+const { data, setData } = useUniState<{
+  keyword: string
+  goodsList: { id: string; name: string; price: number; sales: number; image: string }[]
+  filterIndex: number
+  sortIndex: number
+  filters: string[]
+  sorts: string[]
+  loading: boolean
+}>({
+  keyword: '',
+  goodsList: [],
+  filterIndex: 0,
+  sortIndex: 0,
+  filters: ['综合', '销量', '价格', '新品'],
+  sorts: ['综合排序', '价格升序', '价格降序'],
+  loading: false,
+})
+
+const { navigateTo } = useUniRouter()
+
+// 搜索
+function onSearch(value: string) {
+  setData('keyword', value)
+  loadGoods()
+}
+
+// 切换筛选
+function setFilter(i: number) {
+  setData('filterIndex', i)
+  loadGoods()
+}
+
+// 切换排序
+function setSort(i: number) {
+  setData('sortIndex', i)
+  loadGoods()
+}
+
+// 加载商品
+async function loadGoods() {
+  setData('loading', true)
+  // const res = await request('/goods/search', { keyword: data.keyword, sort: data.sorts[data.sortIndex] })
+  // Mock 数据
+  setData('goodsList', [
+    { id: '1', name: '简约设计师款纯棉T恤 夏季新款', price: 89, sales: 3260, image: 'https://img.yourcdn.com/g1.jpg' },
+    { id: '2', name: '复古休闲运动短裤 男款', price: 129, sales: 1840, image: 'https://img.yourcdn.com/g2.jpg' },
+    { id: '3', name: '轻薄透气防晒衣 女款', price: 199, sales: 980, image: 'https://img.yourcdn.com/g3.jpg' },
+    { id: '4', name: '高街宽松阔腿牛仔裤', price: 169, sales: 2560, image: 'https://img.yourcdn.com/g4.jpg' },
+  ])
+  setData('loading', false)
+}
+
+// 跳转详情
+function goDetail(id: string) {
+  navigateTo('/pages/goods/detail', { id })
+}
+
+Page()`
+    tplContent = `<view class="search-page">
+  <!-- 搜索框 -->
+  <view class="search-bar">
+    <input
+      class="search-input"
+      placeholder="搜索商品"
+      value="{{keyword}}"
+      bindconfirm="onSearch"
+    />
+    <view class="search-icon">🔍</view>
+  </view>
+
+  <!-- 筛选和排序 -->
+  <view class="filter-bar">
+    <view class="filter-tabs">
+      <view
+        wx:for="{{filters}}"
+        wx:key="index"
+        class="filter-tab {{filterIndex === index ? 'active' : ''}}"
+        bindtap="setFilter"
+        data-i="{{index}}"
+      >{{item}}</view>
+    </view>
+    <view class="sort-btn" bindtap="setSort">
+      <text>{{sorts[sortIndex]}}</text>
+      <text>▼</text>
+    </view>
+  </view>
+
+  <!-- 商品列表 -->
+  <view class="goods-list">
+    <block wx:for="{{goodsList}}" wx:key="id">
+      <view class="goods-card" bindtap="goDetail" data-id="{{item.id}}">
+        <image class="goods-img" src="{{item.image}}" mode="aspectFill" />
+        <view class="goods-info">
+          <text class="goods-name">{{item.name}}</text>
+          <view class="goods-bottom">
+            <text class="goods-price">¥{{item.price}}</text>
+            <text class="goods-sales">销量 {{item.sales}}</text>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <view wx:if="{{loading}}" class="loading">加载中...</view>
+</view>`
+    styleContent = `.search-page { min-height: 100vh; background: #f5f5f5; }
+.search-bar { background: #fff; padding: 16rpx 24rpx; display: flex; align-items: center; gap: 16rpx; }
+.search-input { flex: 1; height: 72rpx; background: #f5f5f5; border-radius: 36rpx; padding: 0 32rpx; font-size: 28rpx; }
+.search-icon { font-size: 36rpx; }
+.filter-bar { background: #fff; display: flex; align-items: center; padding: 0 24rpx; border-bottom: 1rpx solid #eee; }
+.filter-tabs { display: flex; flex: 1; }
+.filter-tab { padding: 24rpx 20rpx; font-size: 28rpx; color: #666; border-bottom: 4rpx solid transparent; }
+.filter-tab.active { color: #ff4757; border-bottom-color: #ff4757; }
+.sort-btn { display: flex; align-items: center; gap: 4rpx; font-size: 26rpx; color: #666; padding: 24rpx; }
+.goods-list { display: flex; flex-wrap: wrap; gap: 2rpx; background: #f5f5f5; padding: 2rpx; }
+.goods-card { width: calc(50% - 1rpx); background: #fff; margin-bottom: 2rpx; }
+.goods-img { width: 100%; height: 360rpx; }
+.goods-info { padding: 16rpx; }
+.goods-name { font-size: 28rpx; line-height: 1.5; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+.goods-bottom { display: flex; justify-content: space-between; align-items: center; margin-top: 12rpx; }
+.goods-price { font-size: 32rpx; color: #ff4757; font-weight: 700; }
+.goods-sales { font-size: 22rpx; color: #999; }
+.loading { text-align: center; padding: 24rpx; color: #999; font-size: 26rpx; }`
+    jsonContent = `{ "navigationBarTitleText": "搜索", "enablePullDownRefresh": true }`
+  } else {
+    // Generic/Profile page
+    pageContent = `import { useUniState, useUniRouter } from '@liangfu/uniadapter'
+
+// 页面逻辑
+const { data, setData } = useUniState({
+  // 根据页面类型填充
+})
+
+const { navigateTo } = useUniRouter()
+
+Page()`
+    tplContent = `<view class="page">
+  <view class="page-content">
+    <!-- 页面内容（根据需求生成） -->
+    <view class="placeholder">VibePage 正在生成你的页面...</view>
+  </view>
+</view>`
+    styleContent = `.page { min-height: 100vh; background: #f5f5f5; }
+.page-content { padding: 24rpx; }
+.placeholder { text-align: center; padding: 80rpx 0; color: #999; font-size: 28rpx; }`
+    jsonContent = `{ "usingComponents": {} }`
+  }
+
+  // Build file blocks
+  let result = `---\FILE:pages/demo/index.ts---\n<LANG:typescript>\n${pageContent}\n</CODEBLOCK>\n\n`
+  if (tplContent) {
+    result += `---\FILE:pages/demo/index.${tplExt}---\n<LANG:${tplExt}>\n${tplContent}\n</CODEBLOCK>\n\n`
+  }
+  if (styleContent) {
+    result += `---\FILE:pages/demo/index.${styleExt}---\n<LANG:css>\n${styleContent}\n</CODEBLOCK>\n\n`
+  }
+  if (jsonContent) {
+    result += `---\FILE:pages/demo/index.json---\n<LANG:json>\n${jsonContent}\n</CODEBLOCK>\n`
+  }
+
+  return result;
+}
+
+function buildGenericDemo(prompt, platform) {
+  return `---\FILE:pages/demo/index.ts---\n<LANG:typescript>\nimport { useUniState, useUniRouter } from '@liangfu/uniadapter'
+
+// ${prompt}
+const { data, setData } = useUniState({})
+
+const { navigateTo } = useUniRouter()
+
+// TODO: 实现页面逻辑
+Page()\n</CODEBLOCK>\n\n---\FILE:pages/demo/index.wxml---\n<LANG:wxml>\n<view class="page-container">\n  <text class="title">${prompt}</text>\n  <text class="desc">VibePage Playground 演示模式</text>\n</view>\n</CODEBLOCK>\n\n---\FILE:pages/demo/index.wxss---\n<LANG:css>\n.page-container {\n  padding: 48rpx;\n  text-align: center;\n}\n.title {\n  font-size: 36rpx;\n  font-weight: 600;\n  display: block;\n  margin-bottom: 24rpx;\n}\n.desc {\n  font-size: 28rpx;\n  color: #999;\n}\n</CODEBLOCK>\n\n---\FILE:pages/demo/index.json---\n<LANG:json>\n{\n  "navigationBarTitleText": "页面示例",\n  "usingComponents": {}\n}\n</CODEBLOCK>\n`
+}
+
+// ── Boot ─────────────────────────────────────────────────────────────────────
+init();
+</script>
+
+</body>
+</html>
