@@ -64,9 +64,9 @@ uniadapter/
 │   │   │   ├── h5.ts           # Web/H5 适配器
 │   │   │   ├── alipay.ts       # 支付宝小程序适配器
 │   │   │   ├── douyin.ts       # 抖音小程序适配器
-│   │   │   └── go-distributed.ts # Go 微服务适配器
-│   │   ├── adapter.ts          # 核心适配器类
-│   │   ├── platform-detector.ts # 平台检测
+│   │   │   └── xiaohongshu.ts  # 小红书小程序适配器
+│   │   ├── plugin-system/      # 插件系统
+│   │   └── types/              # 类型定义
 │   │   └── plugin-system/      # 插件系统
 │   ├── hooks/                   # React Hooks
 │   │   ├── useUniState.ts      # 统一状态管理
@@ -81,80 +81,13 @@ uniadapter/
 
 ## 🔧 开发指南
 
-### 添加新平台适配器（以抖音小程序为例）
+### 添加新平台适配器（以小红书小程序为例）
 
-**1. 创建适配器文件** `src/core/adapters/douyin.ts`:
-
-```typescript
-import { BaseAdapter, PlatformType } from '../adapter'
-
-export class DouyinAdapter extends BaseAdapter {
-  readonly type = PlatformType.MINI_PROGRAM
-  readonly name = 'douyin'
-
-  // 重写平台特有 API
-  getExtraInfo() {
-    return {
-      ...super.getExtraInfo(),
-      appName: 'douyin',
-    }
-  }
-
-  // 实现 storage API
-  storage = {
-    get: (key: string) => tt.getStorageSync(key),
-    set: (key: string, value: any) => tt.setStorageSync(key, value),
-    remove: (key: string) => tt.removeStorageSync(key),
-    clear: () => tt.clearStorageSync(),
-  }
-
-  // 实现路由 API
-  router = {
-    push: (url: string) => tt.navigateTo({ url }),
-    replace: (url: string) => tt.redirectTo({ url }),
-    back: () => tt.navigateBack(),
-  }
-
-  // 实现请求 API
-  request = {
-    get: (url: string, options?: RequestOptions) => 
-      tt.request({ url, method: 'GET', ...options }),
-    post: (url: string, data?: any, options?: RequestOptions) => 
-      tt.request({ url, method: 'POST', data, ...options }),
-  }
-}
-```
-
-**2. 注册适配器** 在 `src/core/adapters/index.ts` 中添加：
-
-```typescript
-export { DouyinAdapter } from './douyin'
-```
-
-**3. 添加平台检测** 在 `src/core/platform-detector.ts` 中添加检测逻辑
-
-**4. 编写测试** 在 `src/core/adapters/__tests__/douyin.test.ts`:
-
-```typescript
-import { DouyinAdapter } from '../douyin'
-
-describe('DouyinAdapter', () => {
-  it('should have correct platform name', () => {
-    const adapter = new DouyinAdapter()
-    expect(adapter.name).toBe('douyin')
-  })
-
-  it('should implement storage API', () => {
-    const adapter = new DouyinAdapter()
-    expect(adapter.storage).toBeDefined()
-    expect(adapter.storage.get).toBeDefined()
-  })
-})
-```
-
-**5. 更新文档** 在 `docs/douyin-integration.md` 添加使用说明
+参考现有实现 `src/core/adapters/xiaohongshu.ts`，实现对应接口后注册到 `src/core/adapters/index.ts`。
 
 ---
+
+
 
 ## 📝 提 PR 流程
 

@@ -91,7 +91,8 @@ for (const [platform, result] of allResults) {
 | 🎵 **抖音小程序** | ✅ 完善 | tt.setStorageSync | tt.request | tt.request | tt.getLocation | tt.shareAppMessage |
 | 📕 **小红书小程序** | ✅ 完善 | sylinks.* | sylinks.request | sylinks.request | sylinks.getLocation | sylinks.share |
 | 🗺️ **高德地图** | ✅ 完善 | 原生 API | 原生 API | 原生 API | AMap.Location | 原生 API |
-| ⚛️ **React Native** | ✅ 完善 | AsyncStorage | fetch | crypto-js | @react-native-community/geolocation | React Native Share |
+
+> ⚠️ 平台状态仅供参考，实际功能以 API Reference 为准。
 
 ---
 
@@ -106,19 +107,13 @@ npm install @liangfu/uniadapter
 ### 方式一：直接使用适配器（无 AI）
 
 ```typescript
-import { createStorageAdapter, createRequestAdapter, useUniState } from '@liangfu/uniadapter'
+import { createStorageAdapter, createPlatformService, useUniState } from '@liangfu/uniadapter'
 
 // 存储 — 一次编写，所有平台工作
 const storage = await createStorageAdapter()
 await storage.set('token', 'user_token_123')
 const token = await storage.get('token')
-
-// 请求 — 自动适配各平台网络 API
-const request = createRequestAdapter()
-const data = await request.get('/api/user/profile')
-
-// React Hooks
-const { state, setState } = useUniState('user', null)
+// Storage 自动适配：微信用 wx.setStorageSync / H5 用 localStorage / 抖音用 tt.setStorageSync
 ```
 
 ### 方式二：VibeEngine（AI 生成，推荐）
@@ -153,7 +148,7 @@ const { code } = await engine.generate({
 ### 方式三：VibeStudio（可视化 IDE）
 
 ```tsx
-import { VibeStudio } from '@liangfu/uniadapter/vibe'
+import { VibeStudio } from '@liangfu/uniadapter'
 
 // 在 React 中嵌入 VibeStudio IDE
 function App() {
@@ -208,46 +203,44 @@ await storage.get<T>(key)
 await storage.remove(key)
 await storage.clear()
 
-// 加密存储（敏感数据）
-await storage.setSecure('token', sensitiveValue)
+// 批量操作
+await storage.setMultiple({ key1: 'a', key2: 123 })
 ```
 
-### Request（网络请求）
+### HTTP 请求（React）
 
 ```typescript
-import { createRequestAdapter } from '@liangfu/uniadapter'
+import { useUniRequest } from '@liangfu/uniadapter'
 
-const request = createRequestAdapter()
+function UserList() {
+  const { get, post, loading } = useUniRequest()
 
-// GET
-const data = await request.get('/api/users')
+  const fetchUsers = async () => {
+    const data = await get('/api/users')
+    return data
+  }
 
-// POST
-const result = await request.post('/api/login', { username, password })
+  const login = async (username: string, password: string) => {
+    return await post('/api/login', { username, password })
+  }
 
-// 文件上传
-const uploaded = await request.upload('/api/upload', file, {
-  onProgress: (percent) => console.log(`${percent}%`)
-})
+  return (
+    <div>
+      <button onClick={fetchUsers} disabled={loading}>获取用户</button>
+    </div>
+  )
+}
 ```
 
-### Hooks
+### 平台检测
 
 ```typescript
-import { useUniState, useUniRequest, usePlatform } from '@liangfu/uniadapter'
+import { usePlatform } from '@liangfu/uniadapter'
 
-// 统一状态管理（跨平台持久化）
-const [token, setToken] = useUniState('token', '')
-
-// 统一请求（带 Loading 状态）
-const { data, loading, error } = useUniRequest('/api/user', {
-  method: 'GET',
-  headers: { Authorization: `Bearer ${token}` }
-})
-
-// 获取当前平台信息
-const platform = usePlatform()
-// platform: { name: 'weapp', capabilities: { storage: true, ... } }
+function PlatformBadge() {
+  const { name, isWeb, isMiniProgram, isMobile } = usePlatform()
+  return <div>当前: {name} / Web: {isWeb} / 小程序: {isMiniProgram}</div>
+}
 ```
 
 ---

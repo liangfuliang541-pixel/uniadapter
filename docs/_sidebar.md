@@ -3,4 +3,3 @@
 - [Getting Started](usage-guide.md)
 - [API Reference](api-reference.md)
 - [Alipay Integration](alipay-integration.md)
-- [Go Integration](go-integration.md)

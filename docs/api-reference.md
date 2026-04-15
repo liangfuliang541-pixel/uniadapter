@@ -12,7 +12,7 @@ import { usePlatform } from 'uniadapter'
 const platform = usePlatform()
 // {
 //   name: 'weapp' | 'douyin' | 'h5' | ...
-//   type: 'mini-program' | 'web' | 'app' | 'distributed'
+//   type: 'mini-program' | 'web' | 'app'
 //   isWeb: boolean
 //   isMiniProgram: boolean
 //   isApp: boolean
@@ -91,9 +91,7 @@ switch (platform) {
   case Platform.WEAPP:
     // WeChat Mini Program
     break
-  case Platform.GO_DISTRIBUTED:
-    // Go Distributed System
-    break
+  // case Platform.GO_DISTRIBUTED: (reserved)
 }
 ```
 
@@ -103,9 +101,6 @@ switch (platform) {
 - `Platform.DOUYIN_MINIPROGRAM` - Douyin
 - `Platform.XIAOHONGSHU` - Xiaohongshu
 - `Platform.GAODE_MAP` - Gaode Map
-- `Platform.REACT_NATIVE` - React Native
-- `Platform.GO_DISTRIBUTED` - Go Distributed
-- `Platform.HARMONYOS` - HarmonyOS
 - `Platform.UNKNOWN` - Unknown
 
 ## Adapter Types
@@ -149,7 +144,7 @@ interface FileAdapter {
 ```typescript
 interface PlatformInfo {
   name: string
-  type: 'web' | 'mini-program' | 'app' | 'distributed'
+  type: 'web' | 'mini-program' | 'app'
   isWeb: boolean
   isMiniProgram: boolean
   isApp: boolean

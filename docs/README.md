@@ -1,45 +1,58 @@
-# Documentation
+# UniAdapter Documentation
 
-## Contents
+See the main [README.md](../README.md) for the complete documentation.
 
-- **[Architecture](./project-overview.md)** - System design, adapter patterns, and platform support
-- **[Getting Started](./usage-guide.md)** - Installation, basic usage, and common patterns
-- **[API Reference](./api-reference.md)** - Complete API documentation with examples
-- **[Go Integration](./go-integration.md)** - Distributed system and microservices integration
+## Quick Reference
 
-## Quick Links
+### npm
 
-| Topic | Reference |
-|-------|-----------|
-| Installation | [usage-guide.md](./usage-guide.md#installation) |
-| Core APIs | [api-reference.md](./api-reference.md) |
-| Platform Detection | [api-reference.md#detectPlatform](./api-reference.md) |
-| Go RPC Integration | [go-integration.md](./go-integration.md) |
+```bash
+npm install @liangfu/uniadapter
+```
+
+### Platform Detection
+
+```typescript
+import { detectPlatform, Platform } from '@liangfu/uniadapter'
+const platform = detectPlatform()
+```
+
+### Storage
+
+```typescript
+import { useUniStorage } from '@liangfu/uniadapter'
+const storage = useUniStorage()
+await storage.set('key', 'value')
+const value = await storage.get('key')
+```
+
+### HTTP Request
+
+```typescript
+import { useUniRequest } from '@liangfu/uniadapter'
+const { get, post } = useUniRequest()
+const data = await get('/api/users')
+```
+
+### AI Code Generation (VibeEngine)
+
+```typescript
+import { VibeEngine } from '@liangfu/uniadapter'
+const engine = new VibeEngine({ platform: 'weapp' })
+const result = await engine.generate({ prompt: '用户登录', apiKey: '...' })
+console.log(result.code)
+```
 
 ## Supported Platforms
 
-- Web/H5 (Chrome, Firefox, Safari)
-- WeChat Mini Program (wx)
-- Douyin Mini Program (tt)
-- Xiaohongshu Mini Program (xhs)
-- Gaode Map (AMap)
-- React Native
-- Go Distributed Systems
-- HarmonyOS (OHOS)
+| Platform | Key API |
+|----------|---------|
+| H5 / Web | localStorage, fetch |
+| WeChat | wx.getStorage, wx.request |
+| Douyin | tt.getStorage, tt.request |
+| Xiaohongshu | xhs.* |
+| AMap | AMap.* |
 
-## Version History
+## API Reference
 
-**v1.2.0** - Current
-- Go distributed system support (RPC, message queue, service discovery)
-- HarmonyOS platform integration
-- Full test coverage (98/98 tests passing)
-- Type-safe APIs with complete TypeScript definitions
-
-**v1.1.0**
-- Douyin, Gaode Map, Xiaohongshu support
-- Performance optimizations
-- Enhanced type definitions
-
-**v1.0.0**
-- Initial release
-- Web, WeChat Mini Program, React Native
+Full API docs: [api-reference.md](./api-reference.md)
