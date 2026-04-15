@@ -1,0 +1,80 @@
+{
+  "name": "VibeHub",
+  "version": "1.0.0",
+  "description": "UniAdapter 精品页面模板市场",
+  "platforms": ["weapp", "alipay", "douyin", "h5"],
+  "templates": [
+    {
+      "id": "login",
+      "name": "登录页",
+      "description": "手机号 + 验证码登录，带协议勾选",
+      "platforms": ["weapp", "alipay", "h5"],
+      "category": "auth",
+      "difficulty": "easy",
+      "usage": "uniadapter template add login"
+    },
+    {
+      "id": "home",
+      "name": "首页",
+      "description": "Banner 轮播 + 分类入口 + 商品推荐",
+      "platforms": ["weapp", "alipay", "douyin", "h5"],
+      "category": "commerce",
+      "difficulty": "medium",
+      "usage": "uniadapter template add home"
+    },
+    {
+      "id": "product-list",
+      "name": "商品列表",
+      "description": "双列瀑布流 + 筛选排序 + 下拉刷新",
+      "platforms": ["weapp", "alipay", "douyin", "h5"],
+      "category": "commerce",
+      "difficulty": "medium",
+      "usage": "uniadapter template add product-list"
+    },
+    {
+      "id": "product-detail",
+      "name": "商品详情",
+      "description": "商品轮播图 + 规格选择 + 购买按钮悬浮栏",
+      "platforms": ["weapp", "alipay", "douyin", "h5"],
+      "category": "commerce",
+      "difficulty": "medium",
+      "usage": "uniadapter template add product-detail"
+    },
+    {
+      "id": "cart",
+      "name": "购物车",
+      "description": "多选结算 + 数量编辑 + 删除确认",
+      "platforms": ["weapp", "alipay", "h5"],
+      "category": "commerce",
+      "difficulty": "medium",
+      "usage": "uniadapter template add cart"
+    },
+    {
+      "id": "profile",
+      "name": "个人中心",
+      "description": "头像 + 订单入口 + 功能菜单列表",
+      "platforms": ["weapp", "alipay", "douyin", "h5"],
+      "category": "user",
+      "difficulty": "easy",
+      "usage": "uniadapter template add profile"
+    },
+    {
+      "id": "order-confirm",
+      "name": "订单确认",
+      "description": "地址选择 + 支付方式 + 优惠券 + 价格明细",
+      "platforms": ["weapp", "alipay", "h5"],
+      "category": "commerce",
+      "difficulty": "medium",
+      "usage": "uniadapter template add order-confirm"
+    },
+    {
+      "id": "search",
+      "name": "搜索页",
+      "description": "搜索框 + 历史记录 + 热门搜索 + 结果展示",
+      "platforms": ["weapp", "alipay", "douyin", "h5"],
+      "category": "discovery",
+      "difficulty": "easy",
+      "usage": "uniadapter template add search"
+    }
+  ]
+}

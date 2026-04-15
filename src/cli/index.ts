@@ -83,6 +83,11 @@ async function main() {
       break
     }
 
+    case 'template':
+    case 'tpl': {
+      await handleTemplate(args)
+      break
+    }
     default: {
       error(`未知命令: ${command}`)
       printHelp()
@@ -331,6 +336,70 @@ async function handleInit(args: string[]) {
 
 // ── 工具 ────────────────────────────────────────────────────────────────────
 
+// ── template 命令 ───────────────────────────────────────────────────────────────
+
+async function handleTemplate(args: string[]) {
+  const action = args[0] || 'list'
+  const name = args[1]
+  const CLI_DIR = __dirname
+  const MANIFEST = path.join(CLI_DIR, '../templates/manifest.json')
+  
+  if (!fs.existsSync(MANIFEST)) {
+    error('Templates not found. Run from project root.')
+    return
+  }
+  const manifest = JSON.parse(fs.readFileSync(MANIFEST, 'utf-8'))
+  
+  if (action === 'list' || !action) {
+    log(`\n${colors.bold}VibeHub Templates${colors.reset} - ${manifest.templates.length} templates available`)
+    log(String('─').repeat(52))
+    
+    const catMap: Record<string, string> = { auth: 'AUTH', commerce: 'COMMERCE', user: 'USER', discovery: 'DISCOVERY' }
+    for (const cat of ['auth', 'commerce', 'user', 'discovery']) {
+      const items = (manifest.templates as any[]).filter((t: any) => t.category === cat)
+      if (!items.length) continue
+      log(`\n  ${colors.bold}[${catMap[cat]}]${colors.reset}`)
+      for (const t of items as any[]) {
+        const diff = t.difficulty === 'easy' ? '🟢' : '🟡'
+        log(`    ${diff} ${colors.green}${String(t.id).padEnd(16)}${colors.reset} ${t.name}`)
+        log(`    ${' '.repeat(18)}${colors.gray}${t.description}${colors.reset}`, 'gray')
+        log(`    ${' '.repeat(18)}Platforms: ${t.platforms.join('/')}`, 'gray')
+      }
+    }
+    log('\n  Usage: uniadapter template add <name>')
+    log('  Example: uniadapter template add login')
+    return
+  }
+  
+  if (action === 'add') {
+    if (!name) { error('Usage: uniadapter template add <name>'); return }
+    const tmpl = (manifest.templates as any[]).find((t: any) => t.id === name)
+    if (!tmpl) { error(`Template "${name}" not found. Run: uniadapter template list`); return }
+    const src = path.join(CLI_DIR, '../templates', name + '.tsx')
+    if (!fs.existsSync(src)) { error('Template file not found: ' + src); return }
+    const destDir = path.join(process.cwd(), 'src/pages', name)
+    fs.mkdirSync(destDir, { recursive: true })
+    const dest = path.join(destDir, 'index.tsx')
+    fs.copyFileSync(src, dest)
+    const cfg = path.join(destDir, 'index.config.ts')
+    fs.writeFileSync(cfg, `export default { navigationBarTitleText: '${tmpl.name}' }\n`)
+    success(`Template added: ${dest}`)
+    info('Next: add to app.config.ts pages array, then npm run dev:weapp')
+    return
+  }
+  
+  if (action === 'preview') {
+    if (!name) { error('Usage: uniadapter template preview <name>'); return }
+    log(`\n  🌐 Preview: https://uniblock.app/vibehub/preview/${name}`)
+    log('  (Coming soon: local preview)\n')
+    return
+  }
+  
+  error(`Unknown action: ${action}`)
+  info('Available: list, add, preview')
+}
+
+//
 function capitalize(str: string): string {
   return str.charAt(0).toUpperCase() + str.slice(1)
 }
