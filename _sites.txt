@@ -1,0 +1,86 @@
+=== shadcn_main ===
+URL: https://ui.shadcn.com
+Title: The Foundation for your Design System - shadcn/ui
+H1: The Foundation for your Design System
+MetaDesc: width=device-width, initial-scale=1
+Length: 440099 chars
+  [natural language: 2 mentions]
+  [prompt: 4 mentions]
+  [build: 18 mentions]
+  [component: 465 mentions]
+
+=== v0_dev ===
+URL: https://v0.dev
+Title: v0 by Vercel - Build Agents, Apps, and Websites with AI
+H1: What do you want to create?
+MetaDesc: width=device-width, initial-scale=1, maximum-scale=1
+Length: 1021503 chars
+  [generate: 2 mentions]
+  [vibe: 1 mentions]
+  [prompt: 18 mentions]
+  [build: 18 mentions]
+  [component: 28 mentions]
+
+=== bolt_new ===
+URL: https://bolt.new
+Title: Bolt AI builder: Websites, apps &amp; prototypes
+H1: N/A
+MetaDesc: width=device-width, initial-scale=1
+Length: 84379 chars
+  [vibe: 1 mentions]
+  [prompt: 18 mentions]
+  [build: 37 mentions]
+  [component: 6 mentions]
+
+=== github_shadcn ===
+URL: https://github.com/shadcn-ui/ui
+Title: GitHub - shadcn-ui/ui: A set of beautifully-designed, accessible components and a code distribution 
+H1: Search code, repositories, users, issues, pull requests...
+MetaDesc: v2:90753c76-f27b-21ec-c598-67e68a1c33dd
+Length: 323651 chars
+  [prompt: 4 mentions]
+  [build: 52 mentions]
+  [component: 291 mentions]
+
+=== github_bolt ===
+ERROR: HTTP Error 404: Not Found
+
+=== lovable ===
+URL: https://lovable.dev
+Title: AI App Builder | Vibe Code Apps &amp; Websites with AI, Fast
+H1: AI App Builder
+MetaDesc: width=device-width, initial-scale=1, viewport-fit=cover, user-scalable=no
+Length: 373777 chars
+  [generate: 2 mentions]
+  [vibe: 6 mentions]
+  [build: 57 mentions]
+  [component: 24 mentions]
+
+=== tldraw ===
+URL: https://tldraw.com
+Title: tldraw • very good free whiteboard
+H1: tldraw - free and instant collaborative whiteboarding
+MetaDesc: strict-origin-when-cross-origin
+Length: 12802 chars
+
+===  Windsurf ===
+URL: https://windsurf.ai
+Title: Reply Logo
+H1: N/A
+MetaDesc: width=device-width, initial-scale=1
+Length: 1733544 chars
+  [generate: 1 mentions]
+  [prompt: 6 mentions]
+  [build: 10 mentions]
+  [component: 1 mentions]
+
+=== Cursor ===
+URL: https://cursor.com
+Title: Cursor: The best way to code with AI
+H1: Built to make you extraordinarily productive, Cursor is the best way to code with AI.
+MetaDesc: width=device-width, initial-scale=1
+Length: 694033 chars
+  [generate: 3 mentions]
+  [build: 48 mentions]
+  [component: 30 mentions]
+

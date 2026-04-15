@@ -21,3 +21,4 @@
  */
 export { VibeEngine, type VibeGenerateOptions, type VibeGenerateResult, type VibeIntent } from './engine'
 export { VibeStudio, type VibeStudioConfig, type VibeStudioConfig } from './studio'
+export { VibePage, type VibePageProps, type ChatMessage, type GeneratedFile } from './chat'
