@@ -1,180 +1,58 @@
-# ✨ UniAdapter 2.0 — Vibe Coding × 跨端适配
+# UniAdapter 2.0
 
-[English](README-en.md) | 简体中文
+**用自然语言描述功能，AI 自动生成跨端最优代码。**
 
-> **2026 年最火开发范式**：用自然语言描述功能，AI 自动生成跨端最优代码。
-> 一个框架，解决 Taro/uni-app 的所有适配痛点。
+一个框架，解决微信/支付宝/抖音/小红书小程序的适配痛点。
 
 [![npm](https://img.shields.io/npm/v/@liangfu/uniadapter?style=flat-square)](https://www.npmjs.com/package/@liangfu/uniadapter)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square)](https://www.typescriptlang.org/)
-[![React](https://img.shields.io/badge/React-18+-61dafb?style=flat-square)](https://react.dev/)
 [![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
-[![stars](https://img.shields.io/github/stars/liangfuliang541-pixel/uniadapter?style=flat-square)](https://github.com/liangfuliang541-pixel/uniadapter)
-[![issues](https://img.shields.io/github/issues/liangfuliang541-pixel/uniadapter?style=flat-square)](https://github.com/liangfuliang541-pixel/uniadapter/issues)
 
 ---
 
-## 🎯 核心理念
-
-**UniAdapter = 统一适配层 + AI 代码生成引擎**
-
-传统方案：
-```
-写代码 → 适配各平台 → 调试差异 → 修复兼容问题 → 维护多套代码  ❌ 痛苦
-```
-
-UniAdapter 2.0：
-```
-描述你想要什么 → AI 生成最优跨端代码 → 直接使用  ✅ 快乐
-```
-
----
-
-## ⚡ VibeEngine — 描述即所得
-
-### 什么是 Vibe Coding？
-
-[Vibe Coding](https://www.collinsdictionary.com/word-lists/a-z-in-vogue/collins-dictionary-word-of-the-year-2026) 是 2026 年柯林斯词典年度词汇，由 OpenAI 联合创始人 Andrej Karpathy 提出：
-
-> *"你只管描述想要什么，AI 负责写代码"*
-
-UniAdapter 将这一理念引入跨端开发领域。
-
-### 它如何工作？
-
-```typescript
-import { VibeEngine } from '@liangfu/uniadapter'
-
-// 初始化（自动检测当前平台）
-const engine = new VibeEngine({ platform: 'weapp' })
-
-// 用自然语言描述你的需求
-const result = await engine.generate({
-  prompt: '用户登录并保存 token，支持下拉刷新',
-  apiKey: process.env.OPENAI_API_KEY, // 或 DEEPSEEK_API_KEY
-  model: 'deepseek-chat', // gpt-4o / claude-3.5-sonnet / deepseek-chat
-})
-
-console.log(result.code)
-// 输出：微信小程序最优实现，自动适配 wx.login / wx.setStorageSync / ...
-console.log(result.cached)    // 是否来自缓存
-console.log(result.duration)  // 生成耗时
-```
-
-### 多平台一次生成
-
-```typescript
-import { VibeEngine } from '@liangfu/uniadapter'
-
-const engine = new VibeEngine()
-const platforms = ['weapp', 'alipay', 'douyin', 'h5'] as const
-
-// 并行生成所有平台版本
-const allResults = await engine.generateAll(
-  '获取用户信息并显示头像昵称',
-  platforms
-)
-
-for (const [platform, result] of allResults) {
-  console.log(`=== ${platform} ===`)
-  console.log(result.code)
-}
-```
-
-### 支持的平台
-
-| 平台 | 状态 | Storage | Request | Crypto | Location | Share |
-|------|------|---------|---------|--------|----------|-------|
-| 🌐 **Web/H5** | ✅ 完善 | localStorage | fetch | Web Crypto | Geolocation API | Web Share |
-| 💬 **微信小程序** | ✅ 完善 | wx.setStorageSync | wx.request | wx.request httpEncrypt | wx.getLocation | wx.showShareMenu |
-| 💰 **支付宝小程序** | ✅ 完善 | my.setStorageSync | my.httpRequest | my.httpRequest | my.getLocation | my.openCustomerServiceChat |
-| 🎵 **抖音小程序** | ✅ 完善 | tt.setStorageSync | tt.request | tt.request | tt.getLocation | tt.shareAppMessage |
-| 📕 **小红书小程序** | ✅ 完善 | sylinks.* | sylinks.request | sylinks.request | sylinks.getLocation | sylinks.share |
-| 🗺️ **高德地图** | ✅ 完善 | 原生 API | 原生 API | 原生 API | AMap.Location | 原生 API |
-
-> ⚠️ 平台状态仅供参考，实际功能以 API Reference 为准。
-
----
-
-## 🚀 快速开始
-
-### 安装
+## 安装
 
 ```bash
 npm install @liangfu/uniadapter
 ```
 
-### 方式一：直接使用适配器（无 AI）
+## 快速开始
+
+### 方式一：直接使用适配器（无需 AI）
 
 ```typescript
-import { createStorageAdapter, createPlatformService, useUniState } from '@liangfu/uniadapter'
+import { createStorageAdapter, useUniRequest } from '@liangfu/uniadapter'
 
-// 存储 — 一次编写，所有平台工作
+// 存储 — 自动适配当前平台
 const storage = await createStorageAdapter()
 await storage.set('token', 'user_token_123')
 const token = await storage.get('token')
-// Storage 自动适配：微信用 wx.setStorageSync / H5 用 localStorage / 抖音用 tt.setStorageSync
+
+// HTTP 请求（React Hook）
+function UserList() {
+  const { get, post } = useUniRequest()
+  return <button onClick={() => get('/api/users')}>获取</button>
+}
 ```
 
-### 方式二：VibeEngine（AI 生成，推荐）
-
-```bash
-# 设置环境变量
-export OPENAI_API_KEY=sk-xxx
-# 或
-export DEEPSEEK_API_KEY=sk-xxx
-# 或
-export ANTHROPIC_API_KEY=sk-xxx
-```
+### 方式二：VibeEngine（AI 代码生成）
 
 ```typescript
 import { VibeEngine } from '@liangfu/uniadapter'
 
-const engine = new VibeEngine({
-  platform: 'weapp',
-  cacheTtl: 3600000, // 缓存 1 小时
-})
+const engine = new VibeEngine({ platform: 'weapp' })
 
-// 自然语言 → 平台最优代码
 const { code } = await engine.generate({
   prompt: '实现图片上传，支持压缩和进度显示',
-  cache: true, // 启用缓存
 })
 
-// 保存生成的代码到文件
-// ...
+console.log(code)
+// 自动生成微信小程序最优实现
 ```
 
-### 方式三：VibeStudio（可视化 IDE）
+### 方式三：VibeMCP（Cursor/Claude Code 插件）
 
-```tsx
-import { VibeStudio } from '@liangfu/uniadapter'
-
-// 在 React 中嵌入 VibeStudio IDE
-function App() {
-  return (
-    <VibeStudio
-      defaultPrompt="用户登录并保存 token"
-      defaultPlatform="weapp"
-      apiKey={process.env.OPENAI_API_KEY}
-      onGenerate={(result) => {
-        // 开发者获取生成的代码
-        console.log(result.code)
-      }}
-    />
-  )
-}
-```
-
----
-
-## 🤖 VibeMCP 2.0 — AI Coding Agent 的小程序开发专家模式
-
-让 Cursor / Claude Code / Windsurf 等所有 AI Coding Agent 秒变小程序开发专家。
-
-### 安装配置
-
-在 Cursor/Windsurf 的 MCP 配置中添加（`Settings → MCP → Add Server`）：
+在 Cursor/Windsurf 的 MCP 配置中添加：
 
 ```json
 {
@@ -187,59 +65,28 @@ function App() {
 }
 ```
 
-### 可用工具（15 个）
+然后直接在 AI 助手中描述需求：
 
-| 工具 | 功能 |
-|------|------|
-| `vibe_generate` | 自然语言生成小程序代码 |
-| `agent_decompose` | 需求拆解 → 任务列表 |
-| `agent_implement` | 单任务代码生成 |
-| `agent_review` | 代码审查 + 评分 |
-| `agent_workflow` | 全流程编排（需求→规格→代码→审查） |
-| `platform_api_ref` | 微信/支付宝/抖音 API 知识库 |
-| `platform_capabilities` | 平台能力对比矩阵 |
-| `platform_quirks` | 平台差异与已知坑 |
-| `adapt_cross_platform` | 跨平台代码互转 |
-| `list_components` | VibeUI 组件列表 |
-| `list_page_templates` | VibeHub 模板列表 |
-| `check_weapp_code` | 微信代码规范检查 |
-| `generate_test_cases` | 生成测试用例 |
-
-### 示例对话
-
-```
-你: 帮我做一个电商小程序，包含商品列表、购物车、支付
-
-VibeMCP:
-1. agent_decompose → 拆解为 7 个任务（登录、商品列表、详情、购物车、支付、订单、个人中心）
-2. agent_implement → 逐个生成各页面代码
-3. agent_review → 检查代码规范
-4. agent_workflow → 输出完整页面结构
-```
+> "帮我做一个电商小程序，包含商品列表、购物车、支付"
 
 ---
 
-## 🏗️ 架构
+## 支持的平台
 
-```
-┌─────────────────────────────────────────────┐
-│                 VibeEngine                  │
-│  自然语言理解 → 意图识别 → 代码生成          │
-├─────────────────────────────────────────────┤
-│              UniAdapter Core                │
-│  统一 API (IStorage / IRequest / ...)       │
-├──────────┬──────────┬──────────┬──────────┤
-│  H5适配器 │ 微信适配器│ 支付宝适配│ 抖音适配  │
-│          │          │          │          │
-├──────────┴──────────┴──────────┴──────────┤
-│           Platform Capabilities             │
-│  Storage · Request · Crypto · Location     │
-└─────────────────────────────────────────────┘
-```
+| 平台 | Storage | Request | Router | Share | 备注 |
+|------|---------|---------|---------|--------|-------|
+| 微信小程序 | ✅ | ✅ | ✅ | ✅ | 完整实现 |
+| 支付宝小程序 | ✅ | ✅ | ✅ | ⚠️ 部分 | 部分 API 差异 |
+| 抖音小程序 | ✅ | ✅ | ✅ | ✅ | 完整实现 |
+| 小红书小程序 | ✅ | ✅ | ✅ | ⚠️ 部分 | 部分 API 差异 |
+| Web/H5 | ✅ | ✅ | ✅ | ⚠️ 部分 | 浏览器限制 |
+| 高德地图 | ✅ | ✅ | ✅ | — | 原生 API 封装 |
+
+> 标注 ⚠️ 的功能为部分实现，请参考 API 文档确认具体支持情况。
 
 ---
 
-## 🔑 核心 API
+## 核心 API
 
 ### Storage（存储）
 
@@ -247,15 +94,10 @@ VibeMCP:
 import { createStorageAdapter } from '@liangfu/uniadapter'
 
 const storage = await createStorageAdapter()
-
-// 同步操作
 await storage.set(key, value)
-await storage.get<T>(key)
+const val = await storage.get(key)
 await storage.remove(key)
 await storage.clear()
-
-// 批量操作
-await storage.setMultiple({ key1: 'a', key2: 123 })
 ```
 
 ### HTTP 请求（React）
@@ -263,23 +105,9 @@ await storage.setMultiple({ key1: 'a', key2: 123 })
 ```typescript
 import { useUniRequest } from '@liangfu/uniadapter'
 
-function UserList() {
+function App() {
   const { get, post, loading } = useUniRequest()
-
-  const fetchUsers = async () => {
-    const data = await get('/api/users')
-    return data
-  }
-
-  const login = async (username: string, password: string) => {
-    return await post('/api/login', { username, password })
-  }
-
-  return (
-    <div>
-      <button onClick={fetchUsers} disabled={loading}>获取用户</button>
-    </div>
-  )
+  return <button onClick={() => get('/api/users')}>加载</button>
 }
 ```
 
@@ -288,106 +116,48 @@ function UserList() {
 ```typescript
 import { usePlatform } from '@liangfu/uniadapter'
 
-function PlatformBadge() {
-  const { name, isWeb, isMiniProgram, isMobile } = usePlatform()
-  return <div>当前: {name} / Web: {isWeb} / 小程序: {isMiniProgram}</div>
-}
+const { name, isWeapp, isAlipay, isDouyin } = usePlatform()
 ```
 
 ---
 
-## 🆚 对比其他框架
+## VibeEngine 意图识别
 
-| 特性 | UniAdapter | Taro | uni-app | Remax |
-|------|-----------|------|---------|-------|
-| **Vibe Coding AI 生成** | ✅ 原生支持 | ❌ | ❌ | ❌ |
-| **统一 API** | ✅ 完整 | ⚠️ 有限 | ⚠️ 部分 | ⚠️ 部分 |
-| **TypeScript** | ✅ 5.0+ | ✅ | ⚠️ | ✅ |
-| **包大小** | ~8KB gzip | ~200KB | ~300KB | ~150KB |
-| **学习曲线** | 平缓 | 陡峭 | 较陡 | 中等 |
-| **React Native** | ✅ | ✅ | ❌ | ⚠️ |
-| **小红书小程序** | ✅ | ❌ | ❌ | ❌ |
-| **配置复杂度** | 低 | 高 | 中 | 中 |
+| 意图 | 关键词 | 生成内容 |
+|------|--------|---------|
+| storage | 存/取/删/token | Storage API 最优实现 |
+| request | 请求/加载/fetch | 跨平台请求适配代码 |
+| navigation | 跳转/导航/返回 | 页面路由代码 |
+| ui | 显示/列表/弹窗 | UI 组件代码 |
+| system | 分享/登录/定位 | 平台系统能力调用 |
 
 ---
 
-## 📖 VibeEngine 意图类型
-
-VibeEngine 自动识别以下意图类型：
-
-| 意图类型 | 关键词示例 | 生成内容 |
-|---------|-----------|---------|
-| **storage** | 存/取/删/缓存/token | Storage API 最优实现 |
-| **request** | 请求/加载/网络/fetch | 跨平台请求适配代码 |
-| **navigation** | 跳转/导航/返回 | 页面路由代码 |
-| **ui** | 显示/列表/弹窗/按钮 | UI 组件代码 |
-| **system** | 分享/登录/定位/权限 | 平台系统能力调用 |
-
----
-
-## ⚙️ 配置
-
-### 环境变量
+## 环境变量
 
 ```bash
-# LLM API Keys（至少配置一个）
+# 至少配置一个
 OPENAI_API_KEY=sk-xxx
+# 或
 DEEPSEEK_API_KEY=sk-xxx
+# 或
 ANTHROPIC_API_KEY=sk-xxx
-
-# 缓存配置（可选）
-UNIADAPTER_CACHE_TTL=3600000
-```
-
-### VibeEngine 配置
-
-```typescript
-const engine = new VibeEngine({
-  platform: 'weapp',           // 默认平台（自动检测）
-  cacheTtl: 3600000,           // 缓存 TTL（毫秒）
-})
-
-// 配置 LLM
-engine.configureLlm({
-  apiKey: 'your-api-key',
-  baseUrl: 'https://api.deepseek.com', // 支持代理
-  model: 'deepseek-chat',
-})
 ```
 
 ---
 
-## 📦 发布说明
+## 构建发布
 
 ```bash
-# 构建库
-npm run build
-
-# 发布到 npm
-npm publish
+npm install
+npm run build      # 构建所有平台
+npm run build -- --platform weapp   # 只构建微信小程序
+npm run test       # 运行测试
+npm publish        # 发布 npm
 ```
 
 ---
 
-## 🤝 如何贡献
-
-欢迎提交 Issue 和 PR！
-
-1. Fork 本仓库
-2. 创建特性分支 `git checkout -b feature/amazing`
-3. 提交更改 `git commit -m 'feat: add amazing feature'`
-4. 推送分支 `git push origin feature/amazing`
-5. 创建 Pull Request
-
----
-
-## 📄 License
+## License
 
 MIT License © 2026 [liangfuliang541-pixel](https://github.com/liangfuliang541-pixel)
-
----
-
-<p align="center">
-  <strong>给个 Star 吧！</strong><br>
-  如果这个项目对你有帮助，请给我们一个 ⭐️
-</p>

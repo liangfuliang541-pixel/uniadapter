@@ -7,7 +7,7 @@
 Returns information about the current platform.
 
 ```typescript
-import { usePlatform } from 'uniadapter'
+import { usePlatform } from '@liangfu/uniadapter'
 
 const platform = usePlatform()
 // {
@@ -80,7 +80,7 @@ const { name, type, isWeb, isMiniProgram, isApp, isMobile } = usePlatform()
 Manually detect the current platform.
 
 ```typescript
-import { detectPlatform, Platform } from 'uniadapter'
+import { detectPlatform, Platform } from '@liangfu/uniadapter'
 
 const platform = detectPlatform()
 
@@ -169,7 +169,7 @@ interface RequestOptions {
 
 ```typescript
 import React from 'react'
-import { useUniState } from 'uniadapter'
+import { useUniState } from '@liangfu/uniadapter'
 
 export function Counter() {
   const [count, setCount] = useUniState(0)
@@ -188,7 +188,7 @@ export function Counter() {
 
 ```typescript
 import React from 'react'
-import { usePlatform } from 'uniadapter'
+import { usePlatform } from '@liangfu/uniadapter'
 
 export function App() {
   const platform = usePlatform()
@@ -205,7 +205,7 @@ export function App() {
 
 ```typescript
 import React from 'react'
-import { useUniRequest } from 'uniadapter'
+import { useUniRequest } from '@liangfu/uniadapter'
 
 export function UserList() {
   const request = useUniRequest()
@@ -239,7 +239,7 @@ export function UserList() {
 Register a plugin with optional lifecycle hooks.
 
 ```typescript
-import { registerPlugin, activatePlugin, onPluginEvent } from 'uniadapter'
+import { registerPlugin, activatePlugin, onPluginEvent } from '@liangfu/uniadapter'
 
 registerPlugin({ name: 'my-plugin', activate: () => { /* ... */ } })
 ```
@@ -260,7 +260,7 @@ Event payloads include enriched fields: `event`, `name`, `plugin`, `timestamp`, 
 
 ```typescript
 import React from 'react'
-import { useUniRouter } from 'uniadapter'
+import { useUniRouter } from '@liangfu/uniadapter'
 
 export function Navigation() {
   const router = useUniRouter()

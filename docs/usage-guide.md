@@ -11,7 +11,7 @@ npm install uniadapter
 ### Platform Detection
 
 ```typescript
-import { detectPlatform, Platform } from 'uniadapter'
+import { detectPlatform, Platform } from '@liangfu/uniadapter'
 
 const platform = detectPlatform()
 
@@ -23,7 +23,7 @@ if (platform === Platform.WEAPP) {
 ### State Management
 
 ```typescript
-import { useUniState } from 'uniadapter'
+import { useUniState } from '@liangfu/uniadapter'
 
 function Counter() {
   const [count, setCount] = useUniState(0)
@@ -39,7 +39,7 @@ function Counter() {
 ### Navigation
 
 ```typescript
-import { useUniRouter } from 'uniadapter'
+import { useUniRouter } from '@liangfu/uniadapter'
 
 function Navigation() {
   const { push, replace, goBack } = useUniRouter()
@@ -55,7 +55,7 @@ function Navigation() {
 ### HTTP Requests
 
 ```typescript
-import { useUniRequest } from 'uniadapter'
+import { useUniRequest } from '@liangfu/uniadapter'
 
 function DataFetch() {
   const { get, post, put, del } = useUniRequest()
@@ -79,7 +79,7 @@ function DataFetch() {
 ### Conditional Rendering by Platform
 
 ```typescript
-import { usePlatform } from 'uniadapter'
+import { usePlatform } from '@liangfu/uniadapter'
 
 function Layout() {
   const { isMiniProgram } = usePlatform()
@@ -171,7 +171,7 @@ function UserManager() {
 ### Microservice RPC Calls
 
 ```typescript
-import { useUniRequest } from 'uniadapter'
+import { useUniRequest } from '@liangfu/uniadapter'
 
 function ServiceConsumer() {
   const request = useUniRequest()
@@ -188,7 +188,7 @@ function ServiceConsumer() {
 ### Message Queue Publishing
 
 ```typescript
-import { useUniRequest } from 'uniadapter'
+import { useUniRequest } from '@liangfu/uniadapter'
 
 async function publishEvent(eventType, payload) {
   const request = useUniRequest()
@@ -214,7 +214,7 @@ async function publishEvent(eventType, payload) {
 
 ```typescript
 import { describe, it, expect } from 'vitest'
-import { useUniState } from 'uniadapter'
+import { useUniState } from '@liangfu/uniadapter'
 
 describe('Counter', () => {
   it('should increment', () => {

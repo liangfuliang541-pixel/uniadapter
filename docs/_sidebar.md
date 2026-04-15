@@ -1,5 +1,3 @@
 - [Home](/)
-- [Architecture](project-overview.md)
 - [Getting Started](usage-guide.md)
 - [API Reference](api-reference.md)
-- [Alipay Integration](alipay-integration.md)
