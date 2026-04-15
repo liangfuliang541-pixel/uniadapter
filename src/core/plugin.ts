@@ -1,5 +1,4 @@
-﻿// @ts-nocheck
-export type UniAdapterPlugin = {
+﻿export type UniAdapterPlugin = {
 
 
   name: string
@@ -146,11 +145,19 @@ class SimpleEmitter {
 
 
 
-  emit(event: PluginEvent, payload: { name: string; plugin?: UniAdapterPlugin }) {
+  emit(event: PluginEvent, payload: Partial<Omit<PluginEventPayload, 'event' | 'timestamp'>>) {
 
-
-    const enriched: PluginEventPayload = Object.assign({ event, timestamp: Date.now() } as any, payload as any)
-
+    const enriched: PluginEventPayload = {
+      event,
+      timestamp: Date.now(),
+      name: payload.name || '',
+      plugin: payload.plugin,
+      reason: payload.reason,
+      cycle: payload.cycle,
+      attempts: payload.attempts,
+      rolledBack: payload.rolledBack,
+      error: payload.error,
+    }
 
     const set = this.listeners.get(event)
 

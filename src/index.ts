@@ -31,7 +31,7 @@ export type { PlatformCapabilities } from './core/types/platform'
 // Hooks
 export { useUniState } from './hooks/useUniState'
 export { useUniRouter } from './hooks/useUniRouter'
-export { useUniRequest } from './hooks/useUniRequest'
+export { useUniRequest, RequestError, type RequestInterceptor } from './hooks/useUniRequest'
 export { usePlatform } from './hooks/usePlatform'
 
 // VibeEngine

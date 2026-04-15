@@ -1,5 +1,5 @@
 export { useUniState } from './useUniState'
 export { useUniRouter } from './useUniRouter'
-export { useUniRequest } from './useUniRequest'
+export { useUniRequest, RequestError, type RequestInterceptor } from './useUniRequest'
 export { usePlatform, useIsWeb, useIsMiniProgram, useIsApp, useIsMobile } from './usePlatform'
 export { useToast } from './useToast'
