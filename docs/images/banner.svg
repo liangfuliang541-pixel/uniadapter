@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 400" width="1200" height="400">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1a1a2e;stop-opacity:1" />
+      <stop offset="50%" style="stop-color:#16213e;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#0f3460;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#667eea;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#764ba2;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="secondaryGrad" x1="0%" y1="0" x2="100%" y2="0">
+      <stop offset="0%" style="stop-color:#f093fb;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#f5576c;stop-opacity:1" />
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="3" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  
+  <!-- 背景 -->
+  <rect width="1200" height="400" fill="url(#bgGrad)" rx="12"/>
+  
+  <!-- 装饰圆环 -->
+  <circle cx="1050" cy="350" r="200" fill="none" stroke="rgba(102,126,234,0.1)" stroke-width="60"/>
+  <circle cx="150" cy="50" r="150" fill="none" stroke="rgba(118,75,162,0.08)" stroke-width="40"/>
+  
+  <!-- 顶部装饰线 -->
+  <rect x="50" y="40" width="80" height="4" fill="url(#primaryGrad)" rx="2"/>
+  <rect x="140" y="40" width="30" height="4" fill="url(#secondaryGrad)" rx="2"/>
+  
+  <!-- Logo -->
+  <g transform="translate(80, 130)">
+    <circle cx="50" cy="50" r="45" fill="url(#primaryGrad)" opacity="0.2"/>
+    <circle cx="50" cy="50" r="35" fill="url(#primaryGrad)"/>
+    <text x="50" y="62" font-family="Arial, sans-serif" font-size="36" font-weight="700" fill="white" text-anchor="middle">U</text>
+  </g>
+  
+  <!-- 标题 -->
+  <text x="210" y="140" font-family="'Segoe UI', Arial, sans-serif" font-size="56" font-weight="700" fill="white">UniAdapter</text>
+  <text x="210" y="175" font-family="'Segoe UI', Arial, sans-serif" font-size="22" fill="rgba(255,255,255,0.7)">智能多端适配器框架</text>
+  
+  <!-- 标签 -->
+  <g transform="translate(210, 200)">
+    <rect x="0" y="0" width="70" height="26" rx="13" fill="rgba(102,126,234,0.3)"/>
+    <text x="35" y="17" font-family="Arial, sans-serif" font-size="12" fill="#a8b4ff" text-anchor="middle">TypeScript</text>
+    
+    <rect x="80" y="0" width="55" height="26" rx="13" fill="rgba(245,87,108,0.3)"/>
+    <text x="107" y="17" font-family="Arial, sans-serif" font-size="12" fill="#ff8fa3" text-anchor="middle">< 5KB</text>
+    
+    <rect x="145" y="0" width="55" height="26" rx="13" fill="rgba(118,75,162,0.3)"/>
+    <text x="172" y="17" font-family="Arial, sans-serif" font-size="12" fill="#c4b5fd" text-anchor="middle">零侵入</text>
+  </g>
+  
+  <!-- 代码示例区 -->
+  <g transform="translate(600, 60)">
+    <!-- 代码卡片背景 -->
+    <rect x="0" y="0" width="550" height="280" rx="10" fill="rgba(255,255,255,0.05)" stroke="rgba(255,255,255,0.1)" stroke-width="1"/>
+    
+    <!-- 代码头部 -->
+    <rect x="0" y="0" width="550" height="32" rx="10" fill="rgba(255,255,255,0.03)"/>
+    <rect x="0" y="22" width="550" height="10" fill="rgba(255,255,255,0.03)"/>
+    <circle cx="18" cy="16" r="5" fill="#ff5f56"/>
+    <circle cx="36" cy="16" r="5" fill="#ffbd2e"/>
+    <circle cx="54" cy="16" r="5" fill="#27c93f"/>
+    <text x="80" y="20" font-family="'Courier New', monospace" font-size="11" fill="rgba(255,255,255,0.4)">App.tsx</text>
+    
+    <!-- 代码内容 -->
+    <text x="20" y="60" font-family="'Courier New', monospace" font-size="13" fill="#a8b4ff">
+      <tspan fill="#c792ea">import</tspan> <tspan fill="#82aaff">{ usePlatform</tspan>
+    </text>
+    <text x="20" y="80" font-family="'Courier New', monospace" font-size="13" fill="#82aaff">, useUniState }</text>
+    <text x="20" y="80" font-family="'Courier New', monospace" font-size="13" fill="#c792ea"> from</tspan>
+    <text x="20" y="100" font-family="'Courier New', monospace" font-size="13" fill="#c3e88d">'uniadapter'</text>
+    
+    <text x="20" y="130" font-family="'Courier New', monospace" font-size="13" fill="#89ddff">function</text>
+    <text x="95" y="130" font-family="'Courier New', monospace" font-size="13" fill="#82aaff"> App</text>
+    <text x="130" y="130" font-family="'Courier New', monospace" font-size="13" fill="#ffd580">()</text>
+    <text x="140" y="130" font-family="'Courier New', monospace" font-size="13" fill="#89ddff"> {'{'}</text>
+    
+    <text x="40" y="155" font-family="'Courier New', monospace" font-size="13" fill="#89ddff">const</text>
+    <text x="90" y="155" font-family="'Courier New', monospace" font-size="13" fill="#f78c6c"> platform</text>
+    <text x="155" y="155" font-family="'Courier New', monospace" font-size="13" fill="#89ddff">=</text>
+    <text x="175" y="155" font-family="'Courier New', monospace" font-size="13" fill="#82aaff">usePlatform</text>
+    <text x="270" y="155" font-family="'Courier New', monospace" font-size="13" fill="#ffd580">()</text>
+    
+    <text x="40" y="180" font-family="'Courier New', monospace" font-size="13" fill="#89ddff">const</text>
+    <text x="90" y="180" font-family="'Courier New', monospace" font-size="13" fill="#ffd580">[</text>
+    <text x="100" y="180" font-family="'Courier New', monospace" font-size="13" fill="#f78c6c">count</text>
+    <text x="140" y="180" font-family="'Courier New', monospace" font-size="13" fill="#ffd580">, ]</text>
+    <text x="170" y="180" font-family="'Courier New', monospace" font-size="13" fill="#89ddff">=</</text>
+    <text x="190" y="180" font-family="'Courier New', monospace" font-size="13" fill="#82aaff">useUniState</text>
+    <text x="270" y="180" font-family="'Courier New', monospace" font-size="13" fill="#ffd580">(0)</text>
+    
+    <text x="40" y="205" font-family="'Courier New', monospace" font-size="13" fill="#ff5370">return</text>
+    <text x="90" y="205" font-family="'Courier New', monospace" font-size="13" fill="#ffd580">&lt;</text>
+    <text x="105" y="205" font-family="'Courier New', monospace" font-size="13" fill="#f07178">div</text>
+    <text x="130" y="205" font-family="'Courier New', monospace" font-size="13" fill="#ffd580">&gt;</text>
+    
+    <text x="60" y="230" font-family="'Courier New', monospace" font-size="13" fill="#ffd580">&lt;</text>
+    <text x="75" y="230" font-family="'Courier New', monospace" font-size="13" fill="#f07178">p</text>
+    <text x="90" y="230" font-family="'Courier New', monospace" font-size="13" fill="#ffd580">&gt;{'{'}</text>
+    <text x="105" y="230" font-family="'Courier New', monospace" font-size="13" fill="#f78c6c">platform.name</text>
+    <text x="205" y="230" font-family="'Courier New', monospace" font-size="13" fill="#ffd580">{'}'}&lt;/</text>
+    <text x="245" y="230" font-family="'Courier New', monospace" font-size="13" fill="#f07178">p</text>
+    <text x="260" y="230" font-family="'Courier New', monospace" font-size="13" fill="#ffd580">&gt;</text>
+    
+    <text x="60" y="255" font-family="'Courier New', monospace" font-size="13" fill="#ffd580">&lt;/</text>
+    <text x="75" y="255" font-family="'Courier New', monospace" font-size="13" fill="#f07178">div</text>
+    <text x="115" y="255" font-family="'Courier New', monospace" font-size="13" fill="#ffd580">&gt;</text>
+    
+    <text x="40" y="270" font-family="'Courier New', monospace" font-size="13" fill="#ffd580">{'}'}</text>
+  </g>
+  
+  <!-- 底部平台徽章 -->
+  <g transform="translate(80, 320)">
+    <text x="0" y="0" font-family="'Segoe UI', Arial, sans-serif" font-size="14" fill="rgba(255,255,255,0.5)">支持平台:</text>
+    
+    <g transform="translate(90, -12)">
+      <rect x="0" y="0" width="50" height="22" rx="4" fill="rgba(255,255,255,0.1)"/>
+      <text x="25" y="15" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle">Web</text>
+    </g>
+    
+    <g transform="translate(148, -12)">
+      <rect x="0" y="0" width="70" height="22" rx="4" fill="rgba(255,255,255,0.1)"/>
+      <text x="35" y="15" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle">微信小程序</text>
+    </g>
+    
+    <g transform="translate(226, -12)">
+      <rect x="0" y="0" width="70" height="22" rx="4" fill="rgba(255,255,255,0.1)"/>
+      <text x="35" y="15" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle">支付宝</text>
+    </g>
+    
+    <g transform="translate(304, -12)">
+      <rect x="0" y="0" width="55" height="22" rx="4" fill="rgba(255,255,255,0.1)"/>
+      <text x="27" y="15" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle">抖音</text>
+    </g>
+    
+    <g transform="translate(367, -12)">
+      <rect x="0" y="0" width="55" height="22" rx="4" fill="rgba(255,255,255,0.1)"/>
+      <text x="27" y="15" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle">小红书</text>
+    </g>
+    
+    <g transform="translate(430, -12)">
+      <rect x="0" y="0" width="70" height="22" rx="4" fill="rgba(245,87,108,0.3)"/>
+      <text x="35" y="15" font-family="Arial, sans-serif" font-size="11" fill="#f5576c" text-anchor="middle">Go 微服务</text>
+    </g>
+    
+    <g transform="translate(508, -12)">
+      <rect x="0" y="0" width="55" height="22" rx="4" fill="rgba(255,255,255,0.1)"/>
+      <text x="27" y="15" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle">RN App</text>
+    </g>
+    
+    <g transform="translate(571, -12)">
+      <rect x="0" y="0" width="55" height="22" rx="4" fill="rgba(255,255,255,0.1)"/>
+      <text x="27" y="15" font-family="Arial, sans-serif" font-size="11" fill="white" text-anchor="middle">高德</text>
+    </g>
+    
+    <text x="635" y="3" font-family="Arial, sans-serif" font-size="11" fill="rgba(255,255,255,0.4)">+ more...</text>
+  </g>
+  
+  <!-- 右下角 Star 按钮 -->
+  <g transform="translate(1050, 340)">
+    <a href="https://github.com/liangfuliang541-pixel/uniadapter" target="_blank">
+      <rect x="0" y="0" width="100" height="36" rx="18" fill="rgba(255,255,255,0.1)" stroke="rgba(255,255,255,0.2)" stroke-width="1"/>
+      <text x="50" y="22" font-family="Arial, sans-serif" font-size="13" fill="white" text-anchor="middle">⭐ Star</text>
+    </a>
+  </g>
+</svg>
