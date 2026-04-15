@@ -1,4 +1,4 @@
-/**
+﻿/**
  * UniAdapter 插件系统核心
  * UniAdapter Plugin System Core
  * 
@@ -9,7 +9,7 @@
 import { Platform } from '../types/platform'
 
 /**
- * 插件上下文接�?
+ * 插件上下文接�?
  * Plugin context interface
  */
 export interface PluginContext {
@@ -22,13 +22,13 @@ export interface PluginContext {
   /** 事件钩子 Event hooks */
   hooks: PluginHooks
   
-  /** 注册平台适配�?Register platform adapter */
+  /** 注册平台适配�?Register platform adapter */
   registerAdapter: (adapter: PlatformAdapter) => void
   
-  /** 注册中间�?Register middleware */
+  /** 注册中间�?Register middleware */
   registerMiddleware: (middleware: Middleware) => void
   
-  /** 日志记录�?Logger */
+  /** 日志记录�?Logger */
   logger: PluginLogger
 }
 
@@ -37,7 +37,7 @@ export interface PluginContext {
  * Plugin hooks interface
  */
 export interface PluginHooks {
-  /** 初始化钩�?Initialization hook */
+  /** 初始化钩�?Initialization hook */
   onInit: (callback: () => void) => void
   
   /** 启动钩子 Startup hook */
@@ -51,29 +51,29 @@ export interface PluginHooks {
 }
 
 /**
- * 平台适配器接�?
+ * 平台适配器接�?
  * Platform adapter interface
  */
 export interface PlatformAdapter {
-  /** 适配器名�?Adapter name */
+  /** 适配器名�?Adapter name */
   name: string
   
-  /** 支持的平�?Supported platforms */
+  /** 支持的平�?Supported platforms */
   platforms: Platform[]
   
-  /** 初始化适配�?Initialize adapter */
+  /** 初始化适配�?Initialize adapter */
   init: (context: PluginContext) => Promise<void>
   
-  /** 销毁适配�?Destroy adapter */
+  /** 销毁适配�?Destroy adapter */
   destroy: () => Promise<void>
 }
 
 /**
- * 中间件接�?
+ * 中间件接�?
  * Middleware interface
  */
 export interface Middleware {
-  /** 中间件名�?Middleware name */
+  /** 中间件名�?Middleware name */
   name: string
   
   /** 处理请求 Process request */
@@ -81,7 +81,7 @@ export interface Middleware {
 }
 
 /**
- * 插件日志记录�?
+ * 插件日志记录�?
  * Plugin logger
  */
 export interface PluginLogger {
@@ -105,10 +105,10 @@ export interface Plugin {
   /** 插件描述 Plugin description */
   description?: string
   
-  /** 依赖的其他插�?Dependencies on other plugins */
+  /** 依赖的其他插�?Dependencies on other plugins */
   dependencies?: string[]
   
-  /** 支持的平�?Supported platforms (为空表示支持所有平�?empty means all platforms) */
+  /** 支持的平�?Supported platforms (为空表示支持所有平�?empty means all platforms) */
   platforms?: Platform[]
   
   /** 插件配置架构 Plugin configuration schema */
@@ -117,7 +117,7 @@ export interface Plugin {
   /** 安装插件 Install plugin */
   install: (context: PluginContext) => Promise<void> | void
   
-  /** 卸载插件 Uninstall plugin (可�?optional) */
+  /** 卸载插件 Uninstall plugin (可�?optional) */
   uninstall?: (context: PluginContext) => Promise<void> | void
   
   /** 启用插件 Enable plugin */
@@ -139,7 +139,7 @@ export class PluginManager {
   private context: PluginContext
   
   /**
-   * 创建插件管理�?
+   * 创建插件管理�?
    * Create plugin manager
    * 
    * @param platform 当前平台 Current platform
@@ -150,13 +150,13 @@ export class PluginManager {
   }
   
   /**
-   * 创建插件上下�?
+   * 创建插件上下�?
    * Create plugin context
    */
   private createPluginContext(platform: Platform, config: Record<string, any>): PluginContext {
     const hooks: PluginHooks = {
       onInit: (callback) => {
-        // 简化实�?Simplified implementation
+        // 简化实�?Simplified implementation
         callback()
       },
       onStart: (callback) => {
@@ -197,14 +197,14 @@ export class PluginManager {
    * Register plugin
    * 
    * @param plugin 插件定义 Plugin definition
-   * @throws 如果插件已存在或依赖不满�?If plugin already exists or dependencies not satisfied
+   * @throws 如果插件已存在或依赖不满�?If plugin already exists or dependencies not satisfied
    */
   register(plugin: Plugin): void {
     if (this.plugins.has(plugin.name)) {
       throw new Error(`Plugin '${plugin.name}' is already registered`)
     }
     
-    // 检查平台兼容�?Check platform compatibility
+    // 检查平台兼容�?Check platform compatibility
     if (plugin.platforms && plugin.platforms.length > 0) {
       if (!plugin.platforms.includes(this.context.platform)) {
         throw new Error(
@@ -214,7 +214,7 @@ export class PluginManager {
       }
     }
     
-    // 检查依�?Check dependencies
+    // 检查依�?Check dependencies
     if (plugin.dependencies) {
       for (const dep of plugin.dependencies) {
         if (!this.plugins.has(dep)) {
@@ -315,7 +315,7 @@ export class PluginManager {
   }
   
   /**
-   * 获取所有插�?
+   * 获取所有插�?
    * Get all plugins
    * 
    * @returns 插件列表 Plugin list
@@ -335,7 +335,7 @@ export class PluginManager {
   }
   
   /**
-   * 检查插件是否启�?
+   * 检查插件是否启�?
    * Check if plugin is enabled
    * 
    * @param pluginName 插件名称 Plugin name
@@ -346,7 +346,7 @@ export class PluginManager {
   }
   
   /**
-   * 应用中间�?
+   * 应用中间�?
    * Apply middlewares
    * 
    * @param request 请求 Request
@@ -376,10 +376,10 @@ export class PluginManager {
   }
   
   /**
-   * 获取平台适配�?
+   * 获取平台适配�?
    * Get platform adapter
    * 
-   * @param adapterName 适配器名�?Adapter name
+   * @param adapterName 适配器名�?Adapter name
    * @returns 适配器实例或undefined Adapter instance or undefined
    */
   getAdapter(adapterName: string): PlatformAdapter | undefined {
@@ -387,10 +387,10 @@ export class PluginManager {
   }
   
   /**
-   * 获取所有适配�?
+   * 获取所有适配�?
    * Get all adapters
    * 
-   * @returns 适配器列�?Adapter list
+   * @returns 适配器列�?Adapter list
    */
   getAllAdapters(): PlatformAdapter[] {
     return Array.from(this.platformAdapters.values())
@@ -401,12 +401,12 @@ export class PluginManager {
    * Destroy plugin manager
    */
   async destroy(): Promise<void> {
-    // 禁用所有插�?Disable all plugins
+    // 禁用所有插�?Disable all plugins
     for (const pluginName of this.enabledPlugins) {
       await this.disable(pluginName)
     }
     
-    // 销毁所有适配�?Destroy all adapters
+    // 销毁所有适配�?Destroy all adapters
     for (const adapter of this.platformAdapters.values()) {
       try {
         await adapter.destroy()
@@ -425,19 +425,19 @@ export class PluginManager {
 }
 
 /**
- * 创建插件管理器实�?
+ * 创建插件管理器实�?
  * Create plugin manager instance
  * 
  * @param platform 当前平台 Current platform
  * @param config 配置 Configuration
- * @returns 插件管理器实�?Plugin manager instance
+ * @returns 插件管理器实�?Plugin manager instance
  */
 export function createPluginManager(platform: Platform, config?: Record<string, any>): PluginManager {
   return new PluginManager(platform, config)
 }
 
 /**
- * 导出类型和实�?
+ * 导出类型和实�?
  * Export types and instances
  */
 export default {

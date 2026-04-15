@@ -1,4 +1,4 @@
-// @ts-nocheck
+ï»¿// @ts-nocheck
 export type UniAdapterPlugin = {
 
 
@@ -695,7 +695,7 @@ export function listPlugins(): UniAdapterPlugin[] {
       if (!nameMap.has(d)) {
 
 
-        // missing dependency â€?emit error but continue
+        // missing dependency ï¿½?emit error but continue
 
 
         emitter.emit('error', { name: p.name, plugin: p })
@@ -794,7 +794,7 @@ export function listPlugins(): UniAdapterPlugin[] {
   if (result.length !== items.length) {
 
 
-    // cycle detected â€?emit error and fallback to priority ordering
+    // cycle detected ï¿½?emit error and fallback to priority ordering
 
 
     emitter.emit('error', { name: 'listPlugins', plugin: undefined })

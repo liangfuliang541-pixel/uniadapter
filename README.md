@@ -1,311 +1,349 @@
-﻿# 馃殌 UniAdapter - 鏅鸿兘澶氱閫傞厤鍣ㄦ鏋?
+# ✨ UniAdapter 2.0 — Vibe Coding × 跨端适配
 
-<p align="center">
-  <img src="https://raw.githubusercontent.com/liangfuliang541-pixel/uniadapter/main/docs/images/logo.svg" width="200" alt="UniAdapter Logo"/>
-</p>
+[English](README-en.md) | 简体中文
 
-<p align="center">
-  <strong>涓€濂椾唬鐮侊紝閫傞厤鎵€鏈夊钩鍙?/strong><br>
-  <sub>姣?Taro 鏇磋交閲?路 姣?uni-app 鏇寸伒娲?路 闆朵镜鍏?路 < 5KB</sub>
-</p>
+> **2025 年最火开发范式**：用自然语言描述功能，AI 自动生成跨端最优代码。
+> 一个框架，解决 Taro/uni-app 的所有适配痛点。
 
-<p align="center">
-  <img src="https://img.shields.io/npm/v/uniadapter?style=flat-square" alt="npm">
-  <img src="https://img.shields.io/npm/dm/uniadapter?style=flat-square" alt="Downloads">
-  <img src="https://img.shields.io/github/stars/liangfuliang541-pixel/uniadapter?style=flat-square" alt="Stars">
-  <img src="https://img.shields.io/github/license/liangfuliang541-pixel/uniadapter?style=flat-square" alt="License">
-  <img src="https://img.shields.io/badge/TypeScript--blue?style=flat-square" alt="TypeScript">
-</p>
+[![npm](https://img.shields.io/npm/v/@liangfu/uniadapter?style=flat-square)](https://www.npmjs.com/package/@liangfu/uniadapter)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=flat-square)](https://www.typescriptlang.org/)
+[![React](https://img.shields.io/badge/React-18+-61dafb?style=flat-square)](https://react.dev/)
+[![License](https://img.shields.io/badge/license-MIT-green?style=flat-square)](LICENSE)
+[![stars](https://img.shields.io/github/stars/liangfuliang541-pixel/uniadapter?style=flat-square)](https://github.com/liangfuliang541-pixel/uniadapter)
+[![issues](https://img.shields.io/github/issues/liangfuliang541-pixel/uniadapter?style=flat-square)](https://github.com/liangfuliang541-pixel/uniadapter/issues)
 
 ---
 
-## 猸?涓轰粈涔堥€夋嫨 UniAdapter锛?
+## 🎯 核心理念
 
-| 鐗规€?| UniAdapter | Taro | uni-app | Rax |
-|------|:----------:|:----:|:--------:|:---:|
-| **鍖呬綋绉?* | **< 5KB** | ~500KB | ~800KB | ~300KB |
-| **渚靛叆鎬?* | **闆朵镜鍏?* | 楂?| 楂?| 涓?|
-| **Go 寰湇鍔?* | **鉁?鏀寔** | 鉂?| 鉂?| 鉂?|
-| **瀛︿範鎴愭湰** | **鏋佷綆** | 涓?| 涓?| 楂?|
-| **React Hooks** | **鉁?鍘熺敓** | 闇€閫傞厤 | 闇€閫傞厤 | 閮ㄥ垎 |
-| **鎸夐渶鍔犺浇** | **鉁?鑷姩** | 閮ㄥ垎 | 閮ㄥ垎 | 閮ㄥ垎 |
-| **TypeScript** | **鉁?瀹屾暣** | 鉁?| 鉁?| 鉁?|
+**UniAdapter = 统一适配层 + AI 代码生成引擎**
 
-> **UniAdapter 鏄洰鍓嶅敮涓€鏀寔 Go 鍒嗗竷寮忕郴缁熺殑澶氱閫傞厤妗嗘灦**锛岃浣犱粠鍓嶇鍒板悗绔井鏈嶅姟浣跨敤鍚屼竴濂楅€傞厤鐞嗗康銆?
-
----
-
-## 馃摫 鏀寔骞冲彴
-
-| 骞冲彴 | 鏍囪瘑 | 鐘舵€?|
-|------|------|------|
-| 馃寪 Web / H5 | `h5` | 鉁?绋冲畾 |
-| 馃惁 寰俊灏忕▼搴?| `weapp` | 鉁?绋冲畾 |
-| 馃挵 鏀粯瀹濆皬绋嬪簭 | `alipay` | 鉁?绋冲畾 |
-| 馃幍 鎶栭煶灏忕▼搴?| `douyin` | 鉁?绋冲畾 |
-| 馃摑 灏忕孩涔﹀皬绋嬪簭 | `xiaohongshu` | 鉁?绋冲畾 |
-| 馃椇锔?楂樺痉鍦板浘 | `amap` | 鉁?绋冲畾 |
-| 馃摫 React Native | `react-native` | 鉁?绋冲畾 |
-| 馃悽 Go 鍒嗗竷寮忕郴缁?| `go-distributed` | 鉁?绋冲畾 |
-| 馃攳 娴忚鍣ㄦ墿灞?| `extension` | 馃敎 寮€鍙戜腑 |
-| 馃煝 楦胯挋 OS | `harmonyos` | 馃敎 寮€鍙戜腑 |
-
----
-
-## 馃幆 鏍稿績鐞嗗康
-
+传统方案：
 ```
-Write Once, Run Everywhere with Intelligence
+写代码 → 适配各平台 → 调试差异 → 修复兼容问题 → 维护多套代码  ❌ 痛苦
 ```
 
-UniAdapter 閫氳繃**閫傞厤鍣ㄦā寮?*瑙ｅ喅璺ㄥ钩鍙板吋瀹归棶棰橈細
-- 鑷姩妫€娴嬭繍琛岀幆澧?
-- 闆朵镜鍏ユ帴鍏ョ幇鏈夐」鐩?
-- 缂栬瘧鏃朵紭鍖栵紝杩愯鏃堕浂寮€閿€
-- 瀹屾暣 TypeScript 绫诲瀷鏀寔
+UniAdapter 2.0：
+```
+描述你想要什么 → AI 生成最优跨端代码 → 直接使用  ✅ 快乐
+```
 
 ---
 
-## 馃殌 蹇€熷紑濮?
+## ⚡ VibeEngine — 描述即所得
 
-### 瀹夎
+### 什么是 Vibe Coding？
+
+[Vibe Coding](https://www.collinsdictionary.com/word-lists/a-z-in-vogue/collins-dictionary-word-of-the-year-2025) 是 2025 年柯林斯词典年度词汇，由 OpenAI 联合创始人 Andrej Karpathy 提出：
+
+> *"你只管描述想要什么，AI 负责写代码"*
+
+UniAdapter 将这一理念引入跨端开发领域。
+
+### 它如何工作？
+
+```typescript
+import { VibeEngine } from '@liangfu/uniadapter'
+
+// 初始化（自动检测当前平台）
+const engine = new VibeEngine({ platform: 'weapp' })
+
+// 用自然语言描述你的需求
+const result = await engine.generate({
+  prompt: '用户登录并保存 token，支持下拉刷新',
+  apiKey: process.env.OPENAI_API_KEY, // 或 DEEPSEEK_API_KEY
+  model: 'deepseek-chat', // gpt-4o / claude-3.5-sonnet / deepseek-chat
+})
+
+console.log(result.code)
+// 输出：微信小程序最优实现，自动适配 wx.login / wx.setStorageSync / ...
+console.log(result.cached)    // 是否来自缓存
+console.log(result.duration)  // 生成耗时
+```
+
+### 多平台一次生成
+
+```typescript
+import { VibeEngine } from '@liangfu/uniadapter'
+
+const engine = new VibeEngine()
+const platforms = ['weapp', 'alipay', 'douyin', 'h5'] as const
+
+// 并行生成所有平台版本
+const allResults = await engine.generateAll(
+  '获取用户信息并显示头像昵称',
+  platforms
+)
+
+for (const [platform, result] of allResults) {
+  console.log(`=== ${platform} ===`)
+  console.log(result.code)
+}
+```
+
+### 支持的平台
+
+| 平台 | 状态 | Storage | Request | Crypto | Location | Share |
+|------|------|---------|---------|--------|----------|-------|
+| 🌐 **Web/H5** | ✅ 完善 | localStorage | fetch | Web Crypto | Geolocation API | Web Share |
+| 💬 **微信小程序** | ✅ 完善 | wx.setStorageSync | wx.request | wx.request httpEncrypt | wx.getLocation | wx.showShareMenu |
+| 💰 **支付宝小程序** | ✅ 完善 | my.setStorageSync | my.httpRequest | my.httpRequest | my.getLocation | my.openCustomerServiceChat |
+| 🎵 **抖音小程序** | ✅ 完善 | tt.setStorageSync | tt.request | tt.request | tt.getLocation | tt.shareAppMessage |
+| 📕 **小红书小程序** | ✅ 完善 | sylinks.* | sylinks.request | sylinks.request | sylinks.getLocation | sylinks.share |
+| 🗺️ **高德地图** | ✅ 完善 | 原生 API | 原生 API | 原生 API | AMap.Location | 原生 API |
+| ⚛️ **React Native** | ✅ 完善 | AsyncStorage | fetch | crypto-js | @react-native-community/geolocation | React Native Share |
+
+---
+
+## 🚀 快速开始
+
+### 安装
 
 ```bash
 npm install @liangfu/uniadapter
-# 鎴?
-yarn add uniadapter
-# 鎴?
-pnpm add uniadapter
 ```
 
-### 鍩虹绀轰緥
+### 方式一：直接使用适配器（无 AI）
+
+```typescript
+import { createStorageAdapter, createRequestAdapter, useUniState } from '@liangfu/uniadapter'
+
+// 存储 — 一次编写，所有平台工作
+const storage = await createStorageAdapter()
+await storage.set('token', 'user_token_123')
+const token = await storage.get('token')
+
+// 请求 — 自动适配各平台网络 API
+const request = createRequestAdapter()
+const data = await request.get('/api/user/profile')
+
+// React Hooks
+const { state, setState } = useUniState('user', null)
+```
+
+### 方式二：VibeEngine（AI 生成，推荐）
+
+```bash
+# 设置环境变量
+export OPENAI_API_KEY=sk-xxx
+# 或
+export DEEPSEEK_API_KEY=sk-xxx
+# 或
+export ANTHROPIC_API_KEY=sk-xxx
+```
+
+```typescript
+import { VibeEngine } from '@liangfu/uniadapter'
+
+const engine = new VibeEngine({
+  platform: 'weapp',
+  cacheTtl: 3600000, // 缓存 1 小时
+})
+
+// 自然语言 → 平台最优代码
+const { code } = await engine.generate({
+  prompt: '实现图片上传，支持压缩和进度显示',
+  cache: true, // 启用缓存
+})
+
+// 保存生成的代码到文件
+// ...
+```
+
+### 方式三：VibeStudio（可视化 IDE）
 
 ```tsx
-import { usePlatform, useUniState, useUniRequest, useUniRouter } from 'uniadapter'
+import { VibeStudio } from '@liangfu/uniadapter/vibe'
 
+// 在 React 中嵌入 VibeStudio IDE
 function App() {
-  // 馃殌 鑷姩妫€娴嬪綋鍓嶅钩鍙?
-  const platform = usePlatform()
-  
-  // 馃摝 缁熶竴鐨勭姸鎬佺鐞嗭紙鎵€鏈夊钩鍙拌涓轰竴鑷达級
-  const [count, setCount] = useUniState(0)
-  
-  // 馃寪 缁熶竴鐨勭綉缁滆姹?
-  const { get, post } = useUniRequest()
-  
-  // 馃Л 缁熶竴鐨勮矾鐢辨搷浣?
-  const { push, replace, goBack } = useUniRouter()
-
-  const handleClick = async () => {
-    setCount(count + 1)
-    // 馃惁 鑷姩閫傞厤寰俊/鏀粯瀹?鎶栭煶灏忕▼搴忕殑 navigateTo
-    // 馃寪 鑷姩閫傞厤 Web 鐨?history.pushState
-    push('/detail/123')
-  }
-
   return (
-    <div>
-      <p>褰撳墠骞冲彴: {platform.name}</p>
-      <p>璁℃暟: {count}</p>
-      <button onClick={handleClick}>鐐规垜</button>
-    </div>
+    <VibeStudio
+      defaultPrompt="用户登录并保存 token"
+      defaultPlatform="weapp"
+      apiKey={process.env.OPENAI_API_KEY}
+      onGenerate={(result) => {
+        // 开发者获取生成的代码
+        console.log(result.code)
+      }}
+    />
   )
 }
 ```
 
-### 骞冲彴鐗瑰畾 API
+---
 
-```tsx
-import { storage, location, camera, biometric } from 'uniadapter/adapters'
+## 🏗️ 架构
 
-// 馃捑 缁熶竴瀛樺偍锛堣嚜鍔ㄩ€傞厤鍚勫钩鍙?Storage API锛?
-await storage.set('token', 'xxx')
-const token = await storage.get('token')
-
-// 馃搷 缁熶竴瀹氫綅锛堝井淇?鏀粯瀹?楂樺痉/娴忚鍣ㄧ粺涓€鎺ュ彛锛?
-const position = await location.getCurrentPosition()
-
-// 馃摲 缁熶竴鐩告満锛堣嚜鍔ㄩ€夋嫨骞冲彴鍘熺敓 API锛?
-const photos = await camera.takePhoto()
-
-// 馃攼 缁熶竴鐢熺墿璇嗗埆锛堟寚绾?闈㈠锛?
-const result = await biometric.authenticate('楠岃瘉韬唤')
+```
+┌─────────────────────────────────────────────┐
+│                 VibeEngine                  │
+│  自然语言理解 → 意图识别 → 代码生成          │
+├─────────────────────────────────────────────┤
+│              UniAdapter Core                │
+│  统一 API (IStorage / IRequest / ...)       │
+├──────────┬──────────┬──────────┬──────────┤
+│  H5适配器 │ 微信适配器│ 支付宝适配│ 抖音适配  │
+│          │          │          │          │
+├──────────┴──────────┴──────────┴──────────┤
+│           Platform Capabilities             │
+│  Storage · Request · Crypto · Location     │
+└─────────────────────────────────────────────┘
 ```
 
 ---
 
-## 馃彈锔?鏋舵瀯璁捐
+## 🔑 核心 API
 
-```
-鈹屸攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?
-鈹?             搴旂敤浠ｇ爜 (React)                 鈹?
-鈹溾攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?
-鈹?             缁熶竴 API 灞?                     鈹?
-鈹? useUniState | useUniRouter | useUniRequest 鈹?
-鈹溾攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?
-鈹?           閫傞厤鍣ㄥ伐鍘?(AdapterFactory)       鈹?
-鈹溾攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?
-鈹?Web    鈹?寰俊    鈹?鏀粯瀹? 鈹?Go 寰湇鍔?       鈹?
-鈹?H5     鈹?灏忕▼搴?  鈹?鎶栭煶    鈹?楂樺痉鍦板浘         鈹?
-鈹?       鈹?灏忕孩涔?  鈹?RN     鈹?娴忚鍣ㄦ墿灞?      鈹?
-鈹斺攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹粹攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹粹攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹粹攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?
-```
-
-### 鏍稿績鐗规€?
-
-- **鎸夐渶鍔犺浇**: 鏍稿績搴?< 5KB锛屽钩鍙伴€傞厤鍣ㄦ寜闇€鍔犺浇
-- **闆朵镜鍏?*: 鐜版湁 React 椤圭洰鍙笎杩涘紡鎺ュ叆
-- **绫诲瀷瀹夊叏**: 瀹屾暣 TypeScript 鏀寔锛屾櫤鑳芥彁绀?
-- **鎻掍欢绯荤粺**: 鏀寔鑷畾涔夋墿灞曞拰骞冲彴閫傞厤
-
----
-
-## 馃И 骞冲彴妫€娴?
+### Storage（存储）
 
 ```typescript
-import { platformDetection } from 'uniadapter'
+import { createStorageAdapter } from '@liangfu/uniadapter'
 
-const platform = platformDetection
+const storage = await createStorageAdapter()
 
-console.log({
-  type: platform.type,           // 'web' | 'mini-program' | 'app' | 'server'
-  isWeb: platform.isWeb,         // true
-  isMobile: platform.isMobile,   // true/false
-  name: platform.name,           // 'weapp' | 'alipay' | 'h5' | ...
-  version: platform.version      // '1.0.0'
-})
+// 同步操作
+await storage.set(key, value)
+await storage.get<T>(key)
+await storage.remove(key)
+await storage.clear()
 
-// 鍒ゆ柇褰撳墠骞冲彴
-if (platform.isWeapp) {
-  // 寰俊灏忕▼搴忕壒鏈夐€昏緫
-}
-
-if (platform.isMobile) {
-  // 绉诲姩绔紭鍖?
-}
+// 加密存储（敏感数据）
+await storage.setSecure('token', sensitiveValue)
 ```
 
----
-
-## 馃摝 Go 鍒嗗竷寮忕郴缁熸敮鎸?(鐙鍔熻兘)
-
-UniAdapter 鏄?*涓氱晫棣栦釜**鏀寔 Go 寰湇鍔＄殑澶氱閫傞厤妗嗘灦锛?
+### Request（网络请求）
 
 ```typescript
-import { goAdapter } from 'uniadapter/adapters/go-distributed'
+import { createRequestAdapter } from '@liangfu/uniadapter'
 
-// 馃殌 寰湇鍔¤皟鐢?
-const userService = goAdapter.service('user')
-const user = await userService.call('GetUser', { id: 1 })
+const request = createRequestAdapter()
 
-// 馃攼 鍒嗗竷寮忛攣
-const lock = goAdapter.distributedLock('order-lock')
-await lock.acquire()
-try {
-  // 涓氬姟閫昏緫
-} finally {
-  await lock.release()
-}
+// GET
+const data = await request.get('/api/users')
 
-// 馃摤 娑堟伅闃熷垪
-const queue = goAdapter.queue('notifications')
-await queue.publish({ type: 'email', to: 'user@example.com' })
-```
+// POST
+const result = await request.post('/api/login', { username, password })
 
----
-
-## 馃搳 椤圭洰缁熻
-
-| 鎸囨爣 | 鏁版嵁 |
-|------|------|
-| 鏍稿績搴撲綋绉?| **< 5KB** (Gzipped) |
-| 鍚姩鏃堕棿 | **< 50ms** |
-| 鏀寔骞冲彴鏁?| **9+** |
-| TypeScript 瑕嗙洊鐜?| **100%** |
-| 娴嬭瘯瑕嗙洊鐜?| **> 80%** |
-
----
-
-## 馃洜锔?寮€鍙戝伐鍏?
-
-### CLI 宸ュ叿
-
-```bash
-npx uniadapter init    # 鍒濆鍖栭」鐩?
-npx uniadapter add     # 娣诲姞鏂板钩鍙?
-npx uniadapter verify  # 楠岃瘉鍏煎鎬?
-```
-
-### 璋冭瘯妯″紡
-
-```typescript
-import { initDebug } from 'uniadapter'
-
-initDebug({
-  level: 'verbose',  // 'error' | 'warn' | 'info' | 'verbose'
-  showPlatform: true // 鏄剧ず褰撳墠骞冲彴淇℃伅
+// 文件上传
+const uploaded = await request.upload('/api/upload', file, {
+  onProgress: (percent) => console.log(`${percent}%`)
 })
 ```
 
----
+### Hooks
 
-## 馃専 鐗堟湰璺嚎鍥?
+```typescript
+import { useUniState, useUniRequest, usePlatform } from '@liangfu/uniadapter'
 
-| 鐗堟湰 | 鍐呭 | 鐘舵€?|
-|------|------|------|
-| v1.0 | 鍩虹澶氱閫傞厤妗嗘灦 | 鉁?宸插畬鎴?|
-| v1.1 | 鏂板鎶栭煶銆侀珮寰枫€佸皬绾功鏀寔 | 鉁?宸插畬鎴?|
-| v1.2 | Go 鍒嗗竷寮忕郴缁熸敮鎸?| 鉁?宸插畬鎴?|
-| v1.3 | 鏀粯瀹濆皬绋嬪簭 + 楦胯挋 OS | 鉁?宸插畬鎴?|
-| v2.0 | AI 鑳藉姏闆嗘垚涓庣敓鎬佹墿灞?| 馃敎 寮€鍙戜腑 |
+// 统一状态管理（跨平台持久化）
+const [token, setToken] = useUniState('token', '')
 
----
+// 统一请求（带 Loading 状态）
+const { data, loading, error } = useUniRequest('/api/user', {
+  method: 'GET',
+  headers: { Authorization: `Bearer ${token}` }
+})
 
-## 馃 璐＄尞
-
-娆㈣繋鎻愪氦 Issue 鍜?Pull Request锛?
-
-```bash
-# 鍏嬮殕椤圭洰
-git clone https://github.com/liangfuliang541-pixel/uniadapter.git
-
-# 瀹夎渚濊禆
-npm install
-
-# 寮€鍙戞ā寮?
-npm run dev
-
-# 杩愯娴嬭瘯
-npm test
-
-# 杩愯娴嬭瘯锛圲I锛?
-npm run test:ui
-
-# 浠ｇ爜妫€鏌?
-npm run lint
-
-# 鏍煎紡鍖栦唬鐮?
-npm run format
+// 获取当前平台信息
+const platform = usePlatform()
+// platform: { name: 'weapp', capabilities: { storage: true, ... } }
 ```
 
-璇︾粏璐＄尞鎸囧崡璇锋煡鐪?[CONTRIBUTING.md](./CONTRIBUTING.md)
+---
+
+## 🆚 对比其他框架
+
+| 特性 | UniAdapter | Taro | uni-app | Remax |
+|------|-----------|------|---------|-------|
+| **Vibe Coding AI 生成** | ✅ 原生支持 | ❌ | ❌ | ❌ |
+| **统一 API** | ✅ 完整 | ⚠️ 有限 | ⚠️ 部分 | ⚠️ 部分 |
+| **TypeScript** | ✅ 5.0+ | ✅ | ⚠️ | ✅ |
+| **包大小** | ~8KB gzip | ~200KB | ~300KB | ~150KB |
+| **学习曲线** | 平缓 | 陡峭 | 较陡 | 中等 |
+| **React Native** | ✅ | ✅ | ❌ | ⚠️ |
+| **小红书小程序** | ✅ | ❌ | ❌ | ❌ |
+| **配置复杂度** | 低 | 高 | 中 | 中 |
 
 ---
 
-## 馃搫 寮€婧愬崗璁?
+## 📖 VibeEngine 意图类型
 
-鏈」鐩噰鐢?[MIT](./LICENSE) 寮€婧愬崗璁€?
+VibeEngine 自动识别以下意图类型：
+
+| 意图类型 | 关键词示例 | 生成内容 |
+|---------|-----------|---------|
+| **storage** | 存/取/删/缓存/token | Storage API 最优实现 |
+| **request** | 请求/加载/网络/fetch | 跨平台请求适配代码 |
+| **navigation** | 跳转/导航/返回 | 页面路由代码 |
+| **ui** | 显示/列表/弹窗/按钮 | UI 组件代码 |
+| **system** | 分享/登录/定位/权限 | 平台系统能力调用 |
 
 ---
 
-## 馃摓 鑱旂郴鏂瑰紡
+## ⚙️ 配置
 
-- 馃摟 閭: 3578544805@qq.com
-- 馃悪 GitHub: [liangfuliang541-pixel](https://github.com/liangfuliang541-pixel)
-- 馃悰 闂鍙嶉: [Issues](https://github.com/liangfuliang541-pixel/uniadapter/issues)
+### 环境变量
+
+```bash
+# LLM API Keys（至少配置一个）
+OPENAI_API_KEY=sk-xxx
+DEEPSEEK_API_KEY=sk-xxx
+ANTHROPIC_API_KEY=sk-xxx
+
+# 缓存配置（可选）
+UNIADAPTER_CACHE_TTL=3600000
+```
+
+### VibeEngine 配置
+
+```typescript
+const engine = new VibeEngine({
+  platform: 'weapp',           // 默认平台（自动检测）
+  cacheTtl: 3600000,           // 缓存 TTL（毫秒）
+})
+
+// 配置 LLM
+engine.configureLlm({
+  apiKey: 'your-api-key',
+  baseUrl: 'https://api.deepseek.com', // 支持代理
+  model: 'deepseek-chat',
+})
+```
+
+---
+
+## 📦 发布说明
+
+```bash
+# 构建库
+npm run build
+
+# 发布到 npm
+npm publish
+```
+
+---
+
+## 🤝 如何贡献
+
+欢迎提交 Issue 和 PR！
+
+1. Fork 本仓库
+2. 创建特性分支 `git checkout -b feature/amazing`
+3. 提交更改 `git commit -m 'feat: add amazing feature'`
+4. 推送分支 `git push origin feature/amazing`
+5. 创建 Pull Request
+
+---
+
+## 📄 License
+
+MIT License © 2024 [liangfuliang541-pixel](https://github.com/liangfuliang541-pixel)
 
 ---
 
 <p align="center">
-  <strong>猸?濡傛灉杩欎釜椤圭洰瀵逛綘鏈夊府鍔╋紝璇风粰涓€涓?Star锛?/strong>
+  <strong>给个 Star 吧！</strong><br>
+  如果这个项目对你有帮助，请给我们一个 ⭐️
 </p>
