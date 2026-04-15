@@ -147,3 +147,6 @@ export interface IAdapterFactory {
 
 // 导出Platform和PlatformCapabilities类型以便在其他模块中使用
 export type { Platform, PlatformCapabilities } from '../types/platform'
+
+// 统一命名别名（I-prefix 接口风格）
+export type IPlatformCapabilities = PlatformCapabilities

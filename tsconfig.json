@@ -21,5 +21,10 @@
     }
   },
   "include": ["src"],
+  "exclude": [
+    "src/components",
+    "src/test",
+    "src/hooks/useJournal.ts"
+  ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

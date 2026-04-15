@@ -2,29 +2,33 @@
   "version": "6.0",
   "nxVersion": "19.8.14",
   "deps": {
-    "typescript": "^5.9.3",
-    "vite": "^7.3.1",
-    "@types/node": "^25.2.0",
-    "@vitejs/plugin-react-swc": "^4.2.2",
-    "@vitest/coverage-v8": "^4.0.18",
-    "jsdom": "^27.4.0",
-    "vite-plugin-dts": "^4.5.4",
-    "vitest": "^4.0.18",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "@commitlint/cli": "^19.3.0",
+    "@commitlint/config-conventional": "^19.2.2",
     "@nx/workspace": "^19.0.0",
-    "nx": "^19.0.0",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/node": "^25.2.0",
     "@typescript-eslint/eslint-plugin": "^7.10.0",
     "@typescript-eslint/parser": "^7.10.0",
+    "@vitejs/plugin-react-swc": "^4.2.2",
+    "@vitest/coverage-v8": "^4.0.18",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
     "eslint-plugin-react": "^7.34.1",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-unused-imports": "^3.1.0",
-    "prettier": "^3.2.5",
     "husky": "^9.0.11",
+    "jsdom": "^27.4.0",
     "lint-staged": "^15.2.2",
-    "@commitlint/cli": "^19.3.0",
-    "@commitlint/config-conventional": "^19.2.2"
+    "nx": "^19.0.0",
+    "prettier": "^3.2.5",
+    "typescript": "^5.9.3",
+    "vite": "^7.3.1",
+    "vite-plugin-dts": "^4.5.4",
+    "vitest": "^4.0.18"
   },
   "pathMappings": {
     "@/*": [
@@ -40,8 +44,24 @@
         "hash": "12627662556908699058"
       },
       {
+        "file": ".github/.github",
+        "hash": "7179364723804484356"
+      },
+      {
+        "file": ".github/ISSUE_TEMPLATE/bug_report.yml",
+        "hash": "1417545705271713160"
+      },
+      {
+        "file": ".github/ISSUE_TEMPLATE/feature_request.yml",
+        "hash": "11956813835634674638"
+      },
+      {
+        "file": ".github/workflows/automations.yml",
+        "hash": "1139553510123129927"
+      },
+      {
         "file": ".github/workflows/ci.yml",
-        "hash": "7135479079884275833"
+        "hash": "5156884771803757885"
       },
       {
         "file": ".gitignore",
@@ -60,32 +80,28 @@
         "hash": "7432364855714295289"
       },
       {
-        "file": "CHANGELOG.md",
-        "hash": "15015081304017728484"
+        "file": "BENCHMARK.md",
+        "hash": "13990995781823838306"
       },
       {
         "file": "CONTRIBUTING.md",
-        "hash": "3902671131663997582"
+        "hash": "2471944303165608683"
       },
       {
         "file": "LICENSE",
         "hash": "7917901013463768487"
       },
       {
-        "file": "PLATFORM_SUPPORT.md",
-        "hash": "1541177957038941608"
-      },
-      {
-        "file": "PROJECT-SUMMARY.md",
-        "hash": "4590667045391143315"
-      },
-      {
-        "file": "PROJECT_SUMMARY_UPDATE.md",
-        "hash": "11065612061446381536"
+        "file": "PUBLISH_CHECKLIST.md",
+        "hash": "8220504285746854101"
       },
       {
         "file": "README.md",
-        "hash": "3536727389104974361"
+        "hash": "1121563241195881111"
+      },
+      {
+        "file": "STATISTICS.md",
+        "hash": "15846022400892015461"
       },
       {
         "file": "cleanup.bat",
@@ -100,8 +116,104 @@
         "hash": "6505961340447988219"
       },
       {
+        "file": "docs/README.md",
+        "hash": "12482405025999051792"
+      },
+      {
+        "file": "docs/SEO-GUIDE.md",
+        "hash": "17539955855904229159"
+      },
+      {
+        "file": "docs/TESTING.md",
+        "hash": "16615147172117151233"
+      },
+      {
+        "file": "docs/_sidebar.md",
+        "hash": "6979771448524547479"
+      },
+      {
+        "file": "docs/alipay-integration.md",
+        "hash": "1356920750153820107"
+      },
+      {
+        "file": "docs/api-reference.md",
+        "hash": "75317617937833291"
+      },
+      {
+        "file": "docs/en/README.md",
+        "hash": "12482405025999051792"
+      },
+      {
+        "file": "docs/go-integration.md",
+        "hash": "9182452501819099274"
+      },
+      {
+        "file": "docs/images/banner.svg",
+        "hash": "5849133106199035451"
+      },
+      {
+        "file": "docs/images/logo.svg",
+        "hash": "5949235629056767835"
+      },
+      {
+        "file": "docs/index.html",
+        "hash": "16637400284351606664"
+      },
+      {
         "file": "docs/project-overview.md",
-        "hash": "1365313952173455545"
+        "hash": "384795793159985888"
+      },
+      {
+        "file": "docs/tech-article-outline.md",
+        "hash": "1136682518389943152"
+      },
+      {
+        "file": "docs/usage-guide.md",
+        "hash": "11575698559328670803"
+      },
+      {
+        "file": "docs/zh-CN/README.md",
+        "hash": "5274701568119278793"
+      },
+      {
+        "file": "docs/项目全面改进总结报告.md",
+        "hash": "17137358533352477028"
+      },
+      {
+        "file": "examples/README.md",
+        "hash": "15500624552594829728"
+      },
+      {
+        "file": "examples/basic-usage/package.json",
+        "hash": "8719058068488000591"
+      },
+      {
+        "file": "examples/basic-usage/src/App.tsx",
+        "hash": "11389234768107344008"
+      },
+      {
+        "file": "examples/basic-usage/src/main.tsx",
+        "hash": "10551061337151287946"
+      },
+      {
+        "file": "examples/go-distributed/package.json",
+        "hash": "14898546408212123376"
+      },
+      {
+        "file": "examples/go-distributed/src/index.ts",
+        "hash": "16958787617882439846"
+      },
+      {
+        "file": "examples/platform-specific/README.md",
+        "hash": "18106226260889405798"
+      },
+      {
+        "file": "examples/platform-specific/alipay-miniprogram.ts",
+        "hash": "14061741249191426676"
+      },
+      {
+        "file": "examples/plugin-example.ts",
+        "hash": "16542245253211476571"
       },
       {
         "file": "index.html",
@@ -113,11 +225,11 @@
       },
       {
         "file": "package-lock.json",
-        "hash": "3440235820893528492"
+        "hash": "17604910340858779773"
       },
       {
         "file": "package.json",
-        "hash": "853605312164988958"
+        "hash": "4999636140665384678"
       },
       {
         "file": "package.lib.json",
@@ -128,12 +240,24 @@
         "hash": "10254606779999337419"
       },
       {
+        "file": "plans/git-sync-plan.md",
+        "hash": "14654729243723094142"
+      },
+      {
+        "file": "plans/项目技术改进与生态系统构建计划.md",
+        "hash": "16185724758714794170"
+      },
+      {
+        "file": "plans/项目进化与文档中文化计划.md",
+        "hash": "7263196013974778499"
+      },
+      {
         "file": "postcss.config.js",
         "hash": "17738569837786503010"
       },
       {
         "file": "project-status.json",
-        "hash": "8476491685202823537"
+        "hash": "13594841421765628428"
       },
       {
         "file": "public/vite.svg",
@@ -145,7 +269,7 @@
       },
       {
         "file": "setup-mobile.sh",
-        "hash": "14696624758033925877"
+        "hash": "7077316339894496919"
       },
       {
         "file": "src/components/Button.stories.tsx",
@@ -161,7 +285,7 @@
       },
       {
         "file": "src/core/__tests__/amap-adapter.test.ts",
-        "hash": "2475045670301440181"
+        "hash": "17224483710701139397"
       },
       {
         "file": "src/core/__tests__/douyin-adapter.test.ts",
@@ -172,8 +296,32 @@
         "hash": "3679619922166765215"
       },
       {
+        "file": "src/core/__tests__/harmonyos-adapter.test.ts.skip",
+        "hash": "12111420612370660824"
+      },
+      {
+        "file": "src/core/__tests__/platform-detection-harmony.test.ts",
+        "hash": "14908431779857307162"
+      },
+      {
         "file": "src/core/__tests__/platform-detection.test.ts",
-        "hash": "16672357237937855447"
+        "hash": "1834792634891162029"
+      },
+      {
+        "file": "src/core/__tests__/plugin-activate-config.test.ts",
+        "hash": "6139220816094497964"
+      },
+      {
+        "file": "src/core/__tests__/plugin-deps.test.ts",
+        "hash": "16116258299507377149"
+      },
+      {
+        "file": "src/core/__tests__/plugin-recovery.test.ts",
+        "hash": "932090570703942999"
+      },
+      {
+        "file": "src/core/__tests__/plugin.test.ts",
+        "hash": "5264746646155291222"
       },
       {
         "file": "src/core/__tests__/xiaohongshu-adapter.test.ts",
@@ -189,19 +337,23 @@
       },
       {
         "file": "src/core/adapters/__tests__/amap.test.ts",
-        "hash": "2475045670301440181"
+        "hash": "14079265993120677055"
       },
       {
         "file": "src/core/adapters/__tests__/douyin.test.ts",
-        "hash": "4493048849283521537"
+        "hash": "15158650407792585860"
       },
       {
         "file": "src/core/adapters/__tests__/xiaohongshu.test.ts",
-        "hash": "3809606689015159880"
+        "hash": "12916936587027410937"
+      },
+      {
+        "file": "src/core/adapters/alipay.ts",
+        "hash": "8691134336841368988"
       },
       {
         "file": "src/core/adapters/amap.ts",
-        "hash": "11789215141730513722"
+        "hash": "6567958175631918324"
       },
       {
         "file": "src/core/adapters/douyin.ts",
@@ -209,19 +361,31 @@
       },
       {
         "file": "src/core/adapters/go-distributed.ts",
-        "hash": "14073766938866573367"
+        "hash": "9545987488868051898"
       },
       {
         "file": "src/core/adapters/h5.ts",
         "hash": "7193379912756996980"
       },
       {
+        "file": "src/core/adapters/harmonyos.ts",
+        "hash": "5624650616782883492"
+      },
+      {
         "file": "src/core/adapters/index.ts",
-        "hash": "15130257598018912185"
+        "hash": "8496106895861787807"
       },
       {
         "file": "src/core/adapters/interfaces.ts",
         "hash": "2256541965091430621"
+      },
+      {
+        "file": "src/core/adapters/nextjs.ts",
+        "hash": "14278873227572268848"
+      },
+      {
+        "file": "src/core/adapters/nuxt.ts",
+        "hash": "11688397053530012291"
       },
       {
         "file": "src/core/adapters/platform.ts",
@@ -229,7 +393,7 @@
       },
       {
         "file": "src/core/adapters/xiaohongshu.ts",
-        "hash": "11381160287213327548"
+        "hash": "12677521156915801363"
       },
       {
         "file": "src/core/index.ts",
@@ -237,31 +401,51 @@
       },
       {
         "file": "src/core/platform-detector.ts",
-        "hash": "15821977899903283871"
+        "hash": "4649914045466777404"
       },
       {
         "file": "src/core/platform.test.ts",
-        "hash": "10533200861217170618"
+        "hash": "16965386404115431626"
       },
       {
         "file": "src/core/platforms.test.ts",
-        "hash": "3589942390006692774"
+        "hash": "14054150853646723848"
       },
       {
         "file": "src/core/platforms/storage.ts",
         "hash": "10748823895955303611"
       },
       {
+        "file": "src/core/plugin-system/index.ts",
+        "hash": "11704408918964489122"
+      },
+      {
+        "file": "src/core/plugin.ts",
+        "hash": "13083229916528840557"
+      },
+      {
+        "file": "src/core/types/i18n.ts",
+        "hash": "11484722918260533785"
+      },
+      {
         "file": "src/core/types/platform.ts",
-        "hash": "4815073733340334652"
+        "hash": "12032400509194597256"
       },
       {
         "file": "src/hooks/__tests__/unified-hooks.test.ts",
-        "hash": "12741253135872169153"
+        "hash": "3161849160902313787"
+      },
+      {
+        "file": "src/hooks/__tests__/useUniPlugin.test.ts",
+        "hash": "1803236533470413137"
       },
       {
         "file": "src/hooks/index.ts",
         "hash": "3870068843629799763"
+      },
+      {
+        "file": "src/hooks/useI18n.ts",
+        "hash": "15169505678762405933"
       },
       {
         "file": "src/hooks/useJournal.ts",
@@ -274,6 +458,10 @@
       {
         "file": "src/hooks/useToast.ts",
         "hash": "2081595800100087802"
+      },
+      {
+        "file": "src/hooks/useUniPlugin.ts",
+        "hash": "634093388192735740"
       },
       {
         "file": "src/hooks/useUniRequest.ts",
@@ -289,7 +477,7 @@
       },
       {
         "file": "src/hooks/useUniState.ts",
-        "hash": "13377001141850383391"
+        "hash": "15591797993210385350"
       },
       {
         "file": "src/index.ts",
@@ -300,12 +488,20 @@
         "hash": "7659442172603198210"
       },
       {
+        "file": "src/test/setup.ts",
+        "hash": "2701004390923499353"
+      },
+      {
+        "file": "src/test/utils.ts",
+        "hash": "5528609181995033903"
+      },
+      {
         "file": "sync-project.bat",
         "hash": "14367994226653866684"
       },
       {
         "file": "sync-project.sh",
-        "hash": "14190117654413328875"
+        "hash": "12609190260134281408"
       },
       {
         "file": "tailwind.config.ts",
@@ -340,16 +536,8 @@
         "hash": "18128622440153282143"
       },
       {
-        "file": "uniadapter-architecture.md",
-        "hash": "7710726723592567372"
-      },
-      {
         "file": "uniadapter-package.json",
         "hash": "2139638513491767796"
-      },
-      {
-        "file": "uniadapter-project-plan.md",
-        "hash": "11870629860613857728"
       },
       {
         "file": "verify-platforms.js",
@@ -369,7 +557,7 @@
       },
       {
         "file": "vitest.config.ts",
-        "hash": "10083909553383714916"
+        "hash": "13523720207020921349"
       }
     ]
   }

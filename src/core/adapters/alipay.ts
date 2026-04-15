@@ -14,7 +14,7 @@ import type {
   Platform,
   PlatformCapabilities
 } from '../adapters/interfaces'
-import { Platform as PlatformEnum } from './platform'
+import { Platform as PlatformEnum } from '../types/platform'
 
 declare global {
   var my: any

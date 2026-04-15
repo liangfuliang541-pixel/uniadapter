@@ -3,31 +3,21 @@
  * 统一多端适配的入口文件
  */
 
-import { platformDetection } from './platform-detector'
+import { detectPlatform } from './types/platform'
 
-// 导出平台检测相关
-export { PlatformType, platformDetection, detectPlatform } from './platform-detector'
+export { Platform, detectPlatform } from './types/platform'
+export type { PlatformCapabilities } from './types/platform'
 
-// 导出核心Hook
-export { useUniState, useUniRouter, useUniRequest, usePlatform } from '../hooks/useUniState'
+export const VERSION = '1.3.1'
 
-// 导出类型定义
-export type { PlatformDetection } from './platform-detector'
-
-/**
- * UniAdapter 版本信息
- */
-export const VERSION = '1.0.0'
-
-/**
- * 初始化UniAdapter
- * @param options 初始化选项
- */
-export function initUniAdapter(options?: { 
-  debug?: boolean 
+export function initUniAdapter(options?: {
+  debug?: boolean
 }): void {
+  const platform = detectPlatform()
   if (options?.debug) {
-    console.log('UniAdapter initialized with debug mode')
-    console.log('Platform detection:', platformDetection)
+    console.log('[UniAdapter] Initialized', {
+      version: VERSION,
+      platform,
+    })
   }
 }

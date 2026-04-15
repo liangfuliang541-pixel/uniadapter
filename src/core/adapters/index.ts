@@ -1,6 +1,6 @@
 /**
  * 平台适配器统一导出
- * 包含H5、小程序、APP、抖音、高德、小红书、支付宝、Go分布式等多端支持
+ * 包含 H5、支付宝小程序、抖音小程序、小红书、高德地图 等平台支持
  */
 
 import { Platform, detectPlatform } from '../types/platform'
@@ -9,18 +9,15 @@ import { Platform, detectPlatform } from '../types/platform'
 export async function createStorageAdapter() {
   const platform = detectPlatform()
   switch (platform) {
-    case Platform.HARMONYOS:
-      return import('./harmonyos').then(mod => new mod.HarmonyOSStorageAdapter())
-    case Platform.DOUYIN_MINIPROGRAM: 
-      return import('./douyin').then(mod => new mod.DouyinStorageAdapter())
-    case Platform.GAODE_MAP: 
-      return import('./amap').then(mod => new mod.AmapStorageAdapter())
-    case Platform.XIAOHONGSHU: 
-      return import('./xiaohongshu').then(mod => new mod.XiaohongshuStorageAdapter())
     case Platform.ALIPAY_MINIPROGRAM:
       return import('./alipay').then(mod => new mod.AlipayStorageAdapter())
-    case Platform.GO_DISTRIBUTED:
-      return import('./go-distributed').then(mod => new mod.GoDistributedStorageAdapter())
+    case Platform.DOUYIN_MINIPROGRAM:
+      return import('./douyin').then(mod => new mod.DouyinStorageAdapter())
+    case Platform.XIAOHONGSHU:
+      return import('./xiaohongshu').then(mod => new mod.XiaohongshuStorageAdapter())
+    case Platform.GAODE_MAP:
+      return import('./amap').then(mod => new mod.AmapStorageAdapter())
+    case Platform.H5:
     default:
       return import('./h5').then(mod => new mod.H5StorageAdapter())
   }
@@ -29,35 +26,26 @@ export async function createStorageAdapter() {
 export async function createPlatformService() {
   const platform = detectPlatform()
   switch (platform) {
-    case Platform.NEXT_JS:
-      return import('./nextjs').then(mod => new mod.NextJsPlatformAdapter())
-    case Platform.NUXT:
-      return import('./nuxt').then(mod => new mod.NuxtPlatformAdapter())
-    case Platform.HARMONYOS:
-      return import('./harmonyos').then(mod => new mod.HarmonyOSPlatformService())
-    case Platform.DOUYIN_MINIPROGRAM: 
-      return import('./douyin').then(mod => new mod.DouyinPlatformService())
-    case Platform.GAODE_MAP: 
-      return import('./amap').then(mod => new mod.AmapPlatformService())
-    case Platform.XIAOHONGSHU: 
-      return import('./xiaohongshu').then(mod => new mod.XiaohongshuPlatformService())
     case Platform.ALIPAY_MINIPROGRAM:
       return import('./alipay').then(mod => new mod.AlipayPlatformService())
-    case Platform.GO_DISTRIBUTED:
-      return import('./go-distributed').then(mod => new mod.GoDistributedPlatformService())
+    case Platform.DOUYIN_MINIPROGRAM:
+      return import('./douyin').then(mod => new mod.DouyinPlatformService())
+    case Platform.XIAOHONGSHU:
+      return import('./xiaohongshu').then(mod => new mod.XiaohongshuPlatformService())
+    case Platform.GAODE_MAP:
+      return import('./amap').then(mod => new mod.AmapPlatformService())
+    case Platform.H5:
     default:
       return import('./h5').then(mod => new mod.H5PlatformService())
   }
 }
 
-// 导出平台检测器
-export { platformDetection } from '../platform-detector'
-
-// 导出平台类型
-export { Platform, detectPlatform } from '../types/platform'
+// 导出平台检测
+export { detectPlatform } from '../types/platform'
+export { Platform } from '../types/platform'
 
 // 导出类型定义
-export type { 
+export type {
   IStorageAdapter,
   ICryptoAdapter,
   IFileAdapter,
@@ -65,13 +53,13 @@ export type {
   IBiometricAdapter,
   IShareAdapter,
   IPlatformService,
-  PlatformCapabilities
+  IPlatformCapabilities,
+  PlatformCapabilities,
 } from './interfaces'
 
-// 导出Go分布式特定适配器
-export {
-  GoDistributedRPCAdapter,
-  GoDistributedMessageQueueAdapter,
-  GoDistributedServiceDiscoveryAdapter,
-  GoDistributedLockAdapter
-} from './go-distributed'
+// 导出各平台适配器类
+export { H5StorageAdapter, H5CryptoAdapter, H5FileAdapter, H5PlatformService } from './h5'
+export { AlipayStorageAdapter, AlipayCryptoAdapter, AlipayFileAdapter, AlipayPlatformService } from './alipay'
+export { DouyinStorageAdapter, DouyinCryptoAdapter, DouyinFileAdapter, DouyinPlatformService } from './douyin'
+export { XiaohongshuStorageAdapter, XiaohongshuCryptoAdapter, XiaohongshuFileAdapter, XiaohongshuPlatformService } from './xiaohongshu'
+export { AmapStorageAdapter, AmapCryptoAdapter, AmapFileAdapter, AmapPlatformService } from './amap'

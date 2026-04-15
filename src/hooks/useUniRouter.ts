@@ -1,50 +1,84 @@
-import { platformDetection } from '../core/platform-detector'
+import { useCallback } from 'react'
+import { detectPlatform, Platform } from '../core/types/platform'
 
 /**
- * 统一路由Hook
- * 根据不同平台自动适配路由跳转方式
+ * 统一路由 Hook
+ * 在不同平台下自动使用对应的路由 API
+ *
+ * @example
+ * const { push, replace, goBack } = useUniRouter()
+ * push('/home')
+ * replace('/login')
+ * goBack()
  */
 export function useUniRouter() {
-  const platform = platformDetection
+  const platform = detectPlatform()
 
-  const navigate = (path: string, _options?: any) => {
-    if (platform.isWeb) {
-      // Web端使用history API
-      window.history.pushState({}, '', path)
-      // 触发popstate事件
-      window.dispatchEvent(new PopStateEvent('popstate', { state: {} }))
-    } else if (platform.isMiniProgram) {
-      // 小程序端使用navigateTo
-      console.log('Navigate to:', path)
-    } else if (platform.type === 'react-native') {
-      // App端使用原生路由
-      console.log('App navigation to:', path)
+  const push = useCallback((url: string) => {
+    switch (platform) {
+      case Platform.DOUYIN_MINIPROGRAM:
+        ;(globalThis as any).tt?.navigateTo?.({ url })
+        break
+      case Platform.XIAOHONGSHU:
+        ;(globalThis as any).xhs?.navigateTo?.({ url })
+        break
+      case Platform.WEAPP:
+        ;(globalThis as any).wx?.navigateTo?.({ url })
+        break
+      case Platform.ALIPAY_MINIPROGRAM:
+        ;(globalThis as any).my?.navigateTo?.({ url })
+        break
+      case Platform.H5:
+      default:
+        if (typeof window !== 'undefined') {
+          window.location.href = url
+        }
     }
-  }
+  }, [platform])
 
-  const redirectTo = (path: string, _options?: any) => {
-    if (platform.isWeb) {
-      window.location.replace(path)
-    } else if (platform.isMiniProgram) {
-      console.log('Redirect to:', path)
-    } else if (platform.type === 'react-native') {
-      console.log('App redirect to:', path)
+  const replace = useCallback((url: string) => {
+    switch (platform) {
+      case Platform.DOUYIN_MINIPROGRAM:
+        ;(globalThis as any).tt?.redirectTo?.({ url })
+        break
+      case Platform.XIAOHONGSHU:
+        ;(globalThis as any).xhs?.redirectTo?.({ url })
+        break
+      case Platform.WEAPP:
+        ;(globalThis as any).wx?.redirectTo?.({ url })
+        break
+      case Platform.ALIPAY_MINIPROGRAM:
+        ;(globalThis as any).my?.redirectTo?.({ url })
+        break
+      case Platform.H5:
+      default:
+        if (typeof window !== 'undefined') {
+          window.location.replace(url)
+        }
     }
-  }
+  }, [platform])
 
-  const goBack = () => {
-    if (platform.isWeb) {
-      window.history.back()
-    } else if (platform.isMiniProgram) {
-      console.log('Go back in mini program')
-    } else if (platform.type === 'react-native') {
-      console.log('App go back')
+  const goBack = useCallback(() => {
+    switch (platform) {
+      case Platform.DOUYIN_MINIPROGRAM:
+        ;(globalThis as any).tt?.navigateBack?.()
+        break
+      case Platform.XIAOHONGSHU:
+        ;(globalThis as any).xhs?.navigateBack?.()
+        break
+      case Platform.WEAPP:
+        ;(globalThis as any).wx?.navigateBack?.()
+        break
+      case Platform.ALIPAY_MINIPROGRAM:
+        ;(globalThis as any).my?.navigateBack?.()
+        break
+      case Platform.H5:
+      default:
+        if (typeof history !== 'undefined') {
+          history.back()
+        }
     }
-  }
+  }, [platform])
 
-  return {
-    navigate,
-    redirectTo,
-    goBack
-  }
+  return { push, replace, goBack }
 }

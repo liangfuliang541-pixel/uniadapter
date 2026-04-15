@@ -1,14 +1,32 @@
-// UniAdapter - 智能多端适配器框架
-// 统一导出所有公共API
+/**
+ * UniAdapter - 跨端统一 API 框架
+ * One API, Every Platform
+ *
+ * 一套代码适配：Web / H5、支付宝小程序、微信小程序、抖音小程序、小红书小程序、高德地图
+ *
+ * @example
+ * import { createStorageAdapter, useUniState } from '@liangfu/uniadapter'
+ *
+ * // 自动检测平台，返回对应适配器
+ * const storage = await createStorageAdapter()
+ * await storage.set('token', 'abc123')
+ * const token = await storage.get('token') // 'abc123'
+ */
 
-// 核心适配器
-export { VERSION, initUniAdapter } from './core/adapter'
+export { createStorageAdapter, createPlatformService } from './core/adapters'
+export { detectPlatform } from './core/types/platform'
+export { Platform } from './core/types/platform'
+export type { PlatformCapabilities } from './core/types/platform'
 
 // Hooks
-export { usePlatform } from './hooks/usePlatform'
 export { useUniState } from './hooks/useUniState'
 export { useUniRouter } from './hooks/useUniRouter'
 export { useUniRequest } from './hooks/useUniRequest'
+export { usePlatform } from './hooks/usePlatform'
 
-// 平台检测
-export { platformDetection, PlatformType, detectPlatform } from './core/platform-detector'
+// Types
+export type {
+  IStorageAdapter,
+  IPlatformService,
+  IPlatformCapabilities,
+} from './core/adapters/interfaces'

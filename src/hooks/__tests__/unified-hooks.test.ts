@@ -1,67 +1,61 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { 
-  useUniState, 
-  useUniRouter, 
-  useUniRequest,
-  usePlatform 
-} from '../../hooks/useUniState'
+import { renderHook } from '@testing-library/react'
+import { useUniState } from '../useUniState'
+import { useUniRouter } from '../useUniRouter'
+import { useUniRequest } from '../useUniRequest'
+import { usePlatform } from '../usePlatform'
 
 describe('Unified Hooks', () => {
   beforeEach(() => {
-    // Mock fetch to avoid real network calls
-    global.fetch = vi.fn(() => 
+    global.fetch = vi.fn(() =>
       Promise.resolve({
         ok: true,
         status: 200,
-        json: () => Promise.resolve({ success: true })
+        json: () => Promise.resolve({ success: true }),
       } as any)
-    )
+    ) as any
   })
+
   it('should create useUniState hook', () => {
-    const [value, setValue] = useUniState('initial')
-    expect(value).toBe('initial')
-    expect(typeof setValue).toBe('function')
+    const { result } = renderHook(() => useUniState('initial'))
+    expect(result.current[0]).toBe('initial')
+    expect(typeof result.current[1]).toBe('function')
   })
 
   it('should create useUniRouter hook', () => {
-    const router = useUniRouter()
-    expect(typeof router.push).toBe('function')
-    expect(typeof router.replace).toBe('function')
-    expect(typeof router.goBack).toBe('function')
+    const { result } = renderHook(() => useUniRouter())
+    expect(typeof result.current.push).toBe('function')
+    expect(typeof result.current.replace).toBe('function')
+    expect(typeof result.current.goBack).toBe('function')
   })
 
   it('should create useUniRequest hook', () => {
-    const request = useUniRequest()
-    expect(typeof request.get).toBe('function')
-    expect(typeof request.post).toBe('function')
-    expect(typeof request.put).toBe('function')
-    expect(typeof request.del).toBe('function')
+    const { result } = renderHook(() => useUniRequest())
+    expect(typeof result.current.get).toBe('function')
+    expect(typeof result.current.post).toBe('function')
+    expect(typeof result.current.put).toBe('function')
+    expect(typeof result.current.del).toBe('function')
   })
 
   it('should create usePlatform hook', () => {
-    const platform = usePlatform()
-    expect(platform).toBeDefined()
-    expect(platform.type).toBeDefined()
-    expect(platform.name).toBeDefined()
+    const { result } = renderHook(() => usePlatform())
+    expect(result.current).toBeDefined()
   })
 
   it('should handle state updates', () => {
-    const [value, setValue] = useUniState(0)
-    setValue(5)
-    // Note: In actual implementation, this would trigger re-render
-    // Here we just test the function exists
-    expect(typeof setValue).toBe('function')
+    const { result } = renderHook(() => useUniState(0))
+    expect(typeof result.current[1]).toBe('function')
   })
 
-  it('should handle router navigation', () => {
-    const router = useUniRouter()
-    expect(() => router.push('/test')).not.toThrow()
-    expect(() => router.replace('/test')).not.toThrow()
+  it('should handle router navigation without throwing', () => {
+    const { result } = renderHook(() => useUniRouter())
+    expect(() => result.current.push('/test')).not.toThrow()
+    expect(() => result.current.replace('/test')).not.toThrow()
   })
 
-  it('should handle HTTP requests', () => {
-    const request = useUniRequest()
-    expect(() => request.get('/api/test')).not.toThrow()
-    expect(() => request.post('/api/test', {})).not.toThrow()
+  it('should handle HTTP requests without throwing', () => {
+    const { result } = renderHook(() => useUniRequest())
+    expect(() => result.current.get('/api/test')).not.toThrow()
+    expect(() => result.current.post('/api/test', {})).not.toThrow()
   })
 })

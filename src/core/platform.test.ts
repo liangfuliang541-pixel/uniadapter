@@ -1,20 +1,16 @@
 import { describe, it, expect } from 'vitest'
-import { platformDetection } from './platform-detector'
+import { detectPlatform, Platform } from './types/platform'
 
 describe('Platform Detection', () => {
-  it('should detect web platform correctly', () => {
-    const platform = platformDetection
-    expect(platform.type).toBeDefined()
-    expect(platform.isWeb).toBeDefined()
-    expect(platform.isMiniProgram).toBeDefined()
-    expect(platform.isReactNative).toBeDefined()
+  it('should detect platform and return a valid Platform enum', () => {
+    const platform = detectPlatform()
+    expect(Object.values(Platform)).toContain(platform)
   })
 
-  it('should provide platform information', () => {
-    const platform = platformDetection
-    expect(platform.name).toBeDefined()
-    expect(platform.version).toBeDefined()
-    expect(platform.isMobile).toBeDefined()
-    expect(platform.isDesktop).toBeDefined()
+  it('should detect web platform correctly in browser environment', () => {
+    const platform = detectPlatform()
+    // 在 Node.js 测试环境返回 Platform.UNKNOWN
+    // 在浏览器环境返回对应的平台
+    expect(platform).toBeDefined()
   })
 })

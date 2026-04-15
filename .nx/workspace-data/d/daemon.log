@@ -9,3 +9,14 @@
 [NX Daemon Server] - 2026-02-01T23:19:09.213Z - [WATCHER]: Stopping the watcher for D:\阿里 (sources)
 [NX Daemon Server] - 2026-02-01T23:19:09.214Z - Closed a connection. Number of open connections: 0
 [NX Daemon Server] - 2026-02-01T23:19:09.214Z - [WATCHER]: Stopping the watcher for D:\阿里 (outputs)
+[NX Daemon Server] - 2026-04-15T14:55:41.252Z - Started listening on: \\.\pipe\nx\C:\Users\ADMINI~1\AppData\Local\Temp\229fba877b29b9f48f23\d.sock
+[NX Daemon Server] - 2026-04-15T14:55:41.254Z - [WATCHER]: Subscribed to changes within: C:\Users\Administrator\.qclaw\workspace-agent-d3c78afa\uniadapter (native)
+[NX Daemon Server] - 2026-04-15T14:55:41.264Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2026-04-15T14:55:41.265Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2026-04-15T14:55:41.265Z - Established a connection. Number of open connections: 1
+[NX Daemon Server] - 2026-04-15T14:55:41.267Z - [REQUEST]: Responding to the client. Shutdown initiated
+[NX Daemon Server] - 2026-04-15T14:55:41.267Z - Done responding to the client Shutdown initiated
+[NX Daemon Server] - 2026-04-15T14:55:41.267Z - Handled FORCE_SHUTDOWN. Handling time: 0. Response time: 0.
+[NX Daemon Server] - 2026-04-15T14:55:41.268Z - [WATCHER]: Stopping the watcher for C:\Users\Administrator\.qclaw\workspace-agent-d3c78afa\uniadapter (sources)
+[NX Daemon Server] - 2026-04-15T14:55:41.268Z - Closed a connection. Number of open connections: 0
+[NX Daemon Server] - 2026-04-15T14:55:41.268Z - [WATCHER]: Stopping the watcher for C:\Users\Administrator\.qclaw\workspace-agent-d3c78afa\uniadapter (outputs)
