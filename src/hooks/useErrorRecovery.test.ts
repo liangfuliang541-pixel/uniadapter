@@ -9,17 +9,18 @@ import {
   useErrorBoundary,
   useErrorRecovery
 } from './useErrorRecovery'
+import { renderHook, act } from '@testing-library/react'
 
 describe('useRetryableOperation', () => {
   it('should execute operation successfully on first attempt', async () => {
     const mockOperation = vi.fn().mockResolvedValue('success')
-    const hook = renderHook(() => useRetryableOperation(mockOperation))
+    const { result } = renderHook(() => useRetryableOperation(mockOperation))
 
-    const response = await hook.result.execute()
+    const response = await result.current.execute()
     expect(response).toBe('success')
     expect(mockOperation).toHaveBeenCalledTimes(1)
-    expect(hook.result.isRetrying).toBe(false)
-    expect(hook.result.retryCount).toBe(0)
+    expect(result.current.isRetrying).toBe(false)
+    expect(result.current.retryCount).toBe(0)
   })
 
   it('should retry on failure according to shouldRetry logic', async () => {
@@ -37,19 +38,26 @@ describe('useRetryableOperation', () => {
       shouldRetry: (error: any) => error.message === 'Network error'
     }
 
-    const hook = renderHook(() => useRetryableOperation(mockOperation, config))
+    const { result } = renderHook(() => useRetryableOperation(mockOperation, config))
 
-    const response = await hook.result.execute()
+    const response = await result.current.execute()
     expect(response).toBe('success')
     expect(mockOperation).toHaveBeenCalledTimes(3)
-    expect(hook.result.isRetrying).toBe(false)
+    // Wait for state updates
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 0))
+    })
+    expect(result.current.isRetrying).toBe(false)
   })
 
   it('should stop retrying after max attempts', async () => {
-    const mockOperation = vi.fn().mockRejectedValue(new Error('Persistent error'))
-    const hook = renderHook(() => useRetryableOperation(mockOperation, { maxAttempts: 2 }))
+    const mockOperation = vi.fn().mockRejectedValue(new Error('Network error'))
+    const { result } = renderHook(() => useRetryableOperation(mockOperation, {
+      maxAttempts: 2,
+      shouldRetry: () => true // Always retry for this test
+    }))
 
-    await expect(hook.result.execute()).rejects.toThrow('Persistent error')
+    await expect(result.current.execute()).rejects.toThrow('Network error')
     expect(mockOperation).toHaveBeenCalledTimes(2)
   })
 })
@@ -64,40 +72,48 @@ describe('useNetworkRecovery', () => {
   })
 
   it('should detect online status', async () => {
-    const hook = renderHook(() => useNetworkRecovery())
+    const { result } = renderHook(() => useNetworkRecovery())
 
-    const isOnline = await hook.result.checkNetworkStatus()
+    const isOnline = await result.current.checkNetworkStatus()
     expect(isOnline).toBe(true)
-    expect(hook.result.isOnline).toBe(true)
+    expect(result.current.isOnline).toBe(true)
   })
 
   it('should detect offline status', async () => {
     Object.defineProperty(navigator, 'onLine', { value: false })
-    const hook = renderHook(() => useNetworkRecovery())
+    const { result } = renderHook(() => useNetworkRecovery())
 
-    const isOnline = await hook.result.checkNetworkStatus()
+    const isOnline = await result.current.checkNetworkStatus()
     expect(isOnline).toBe(false)
-    expect(hook.result.isOnline).toBe(false)
+    // Wait for state updates
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 0))
+    })
+    expect(result.current.isOnline).toBe(false)
   })
 })
 
 describe('useErrorBoundary', () => {
-  it('should capture and reset errors', () => {
-    const hook = renderHook(() => useErrorBoundary())
+  it('should capture and reset errors', async () => {
+    const { result } = renderHook(() => useErrorBoundary())
 
-    expect(hook.result.hasError).toBe(false)
-    expect(hook.result.error).toBe(null)
+    expect(result.current.hasError).toBe(false)
+    expect(result.current.error).toBe(null)
 
     const testError = new Error('Test error')
-    hook.result.captureError(testError)
+    act(() => {
+      result.current.captureError(testError)
+    })
 
-    expect(hook.result.hasError).toBe(true)
-    expect(hook.result.error).toBe(testError)
+    expect(result.current.hasError).toBe(true)
+    expect(result.current.error).toBe(testError)
 
-    hook.result.resetError()
+    act(() => {
+      result.current.resetError()
+    })
 
-    expect(hook.result.hasError).toBe(false)
-    expect(hook.result.error).toBe(null)
+    expect(result.current.hasError).toBe(false)
+    expect(result.current.error).toBe(null)
   })
 })
 
@@ -112,30 +128,34 @@ describe('useErrorRecovery', () => {
       return Promise.resolve('success')
     })
 
-    const hook = renderHook(() =>
+    const { result } = renderHook(() =>
       useErrorRecovery({
         retry: { maxAttempts: 3, shouldRetry: () => true }
       })
     )
 
-    const recoveredResult = await hook.result.recover(new Error('Initial error'), operation)
+    const recoveredResult = await result.current.recover(new Error('Initial error'), operation)
 
     expect(recoveredResult).toBe('success')
-    expect(hook.result.isRecovering).toBe(false)
-    expect(hook.result.recoveryAttempts).toBe(1)
+    // Wait for state updates
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 0))
+    })
+    expect(result.current.isRecovering).toBe(false)
+    expect(result.current.recoveryAttempts).toBe(1)
   })
 
   it('should use fallback when retry fails', async () => {
     const operation = vi.fn().mockRejectedValue(new Error('Persistent error'))
 
-    const hook = renderHook(() =>
+    const { result } = renderHook(() =>
       useErrorRecovery({
         retry: { maxAttempts: 1 },
         fallback: { fallback: () => React.createElement('div', null, 'Fallback') }
       })
     )
 
-    const recoveredResult = await hook.result.current.recover(new Error('Initial error'), operation)
+    const recoveredResult = await result.current.recover(new Error('Initial error'), operation)
 
     expect(recoveredResult).toEqual({
       __fallback: true,
@@ -147,7 +167,7 @@ describe('useErrorRecovery', () => {
     const onError = vi.fn()
     const operation = vi.fn().mockRejectedValue(new Error('Persistent error'))
 
-    const hook = renderHook(() =>
+    const { result } = renderHook(() =>
       useErrorRecovery({
         retry: { maxAttempts: 1 },
         onError
@@ -155,26 +175,9 @@ describe('useErrorRecovery', () => {
     )
 
     await expect(
-      hook.result.current.recover(new Error('Initial error'), operation)
+      result.current.recover(new Error('Initial error'), operation)
     ).rejects.toThrow('Persistent error')
 
     expect(onError).toHaveBeenCalled()
   })
 })
-
-// Helper function for testing hooks
-function renderHook<T>(hook: () => T) {
-  let result: T | undefined
-
-  function TestComponent() {
-    result = hook()
-    return React.createElement('div', null)
-  }
-
-  // Simple render without testing library
-  const element = React.createElement(TestComponent)
-  // Force render by calling createElement
-  React.createElement(React.Fragment, null, element)
-
-  return { result: result! }
-}

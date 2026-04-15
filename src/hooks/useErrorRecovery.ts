@@ -418,16 +418,40 @@ export function useErrorRecovery(config: ErrorRecoveryConfig = {}) {
         }
       }
 
-      // 2. 尝试重试
+      // 2. 尝试重试 (不使用 hook，直接实现重试逻辑)
       if (retry) {
-        const { execute } = useRetryableOperation(operation, retry)
-        const result = await execute()
-        onRecovery?.()
-        return result
+        const retryConfig = {
+          maxAttempts: retry.maxAttempts || 3,
+          delay: retry.delay || 1000,
+          backoffMultiplier: retry.backoffMultiplier || 2,
+          maxDelay: retry.maxDelay || 30000,
+          shouldRetry: retry.shouldRetry || defaultShouldRetry
+        }
+
+        let lastError: any
+        for (let attempt = 1; attempt <= retryConfig.maxAttempts; attempt++) {
+          try {
+            const result = await operation()
+            setIsRecovering(false)
+            onRecovery?.()
+            return result
+          } catch (error) {
+            lastError = error
+            if (attempt < retryConfig.maxAttempts && retryConfig.shouldRetry(error, attempt)) {
+              const delay = calculateDelay(attempt, retryConfig.delay, retryConfig.backoffMultiplier, retryConfig.maxDelay)
+              await new Promise(resolve => setTimeout(resolve, delay))
+              continue
+            }
+            setIsRecovering(false)
+            throw error
+          }
+        }
+        throw lastError
       }
 
       // 3. 如果没有重试配置，直接执行
       const result = await operation()
+      setIsRecovering(false)
       onRecovery?.()
       return result
 
@@ -440,6 +464,7 @@ export function useErrorRecovery(config: ErrorRecoveryConfig = {}) {
 
         if (shouldFallback) {
           console.warn('Using fallback due to error recovery failure:', recoveryError)
+          setIsRecovering(false)
           onRecovery?.()
           // 返回降级结果的标识
           return { __fallback: true, error: recoveryError }
@@ -447,11 +472,10 @@ export function useErrorRecovery(config: ErrorRecoveryConfig = {}) {
       }
 
       // 5. 所有恢复策略都失败
+      setIsRecovering(false)
       onError?.(recoveryError)
       throw recoveryError
 
-    } finally {
-      setIsRecovering(false)
     }
   }, [retry, fallback, onError, onRecovery, isOnline, waitForNetworkRecovery])
 
