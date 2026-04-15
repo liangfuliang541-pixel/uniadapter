@@ -168,6 +168,57 @@ function App() {
 
 ---
 
+## 🤖 VibeMCP 2.0 — AI Coding Agent 的小程序开发专家模式
+
+让 Cursor / Claude Code / Windsurf 等所有 AI Coding Agent 秒变小程序开发专家。
+
+### 安装配置
+
+在 Cursor/Windsurf 的 MCP 配置中添加（`Settings → MCP → Add Server`）：
+
+```json
+{
+  "mcpServers": {
+    "vibemcp": {
+      "command": "npx",
+      "args": ["@liangfu/uniadapter", "mcp"]
+    }
+  }
+}
+```
+
+### 可用工具（15 个）
+
+| 工具 | 功能 |
+|------|------|
+| `vibe_generate` | 自然语言生成小程序代码 |
+| `agent_decompose` | 需求拆解 → 任务列表 |
+| `agent_implement` | 单任务代码生成 |
+| `agent_review` | 代码审查 + 评分 |
+| `agent_workflow` | 全流程编排（需求→规格→代码→审查） |
+| `platform_api_ref` | 微信/支付宝/抖音 API 知识库 |
+| `platform_capabilities` | 平台能力对比矩阵 |
+| `platform_quirks` | 平台差异与已知坑 |
+| `adapt_cross_platform` | 跨平台代码互转 |
+| `list_components` | VibeUI 组件列表 |
+| `list_page_templates` | VibeHub 模板列表 |
+| `check_weapp_code` | 微信代码规范检查 |
+| `generate_test_cases` | 生成测试用例 |
+
+### 示例对话
+
+```
+你: 帮我做一个电商小程序，包含商品列表、购物车、支付
+
+VibeMCP:
+1. agent_decompose → 拆解为 7 个任务（登录、商品列表、详情、购物车、支付、订单、个人中心）
+2. agent_implement → 逐个生成各页面代码
+3. agent_review → 检查代码规范
+4. agent_workflow → 输出完整页面结构
+```
+
+---
+
 ## 🏗️ 架构
 
 ```
