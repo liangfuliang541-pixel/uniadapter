@@ -47,3 +47,5 @@ export type {
   IPlatformService,
   IPlatformCapabilities,
 } from './core/adapters/interfaces'
+export { VibeUI, presetComponents, allComponentNames } from './components/registry'
+export type { ComponentName, ComponentPlatform, ComponentEntry, ComponentSource, ComponentFile } from './components/registry'

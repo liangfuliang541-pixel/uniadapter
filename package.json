@@ -2,23 +2,26 @@
   "name": "@liangfu/uniadapter",
   "version": "2.0.0",
   "type": "module",
-  "description": "UniAdapter - 智能多端适配器框架，一套代码适配所有平台，支持支付宝小程序、微信小程序、抖音小程序、小红书小程序、高德地图、Go分布式系统等",
+  "description": "UniAdapter VibeUI - 首个 shadcn 风格小程序组件注册表 + AI VibeCoding 引擎。一套代码适配 H5/微信/支付宝/抖音/小红书，npx @liangfu/uniadapter add button card dialog 即可获得完整源代码。",
   "keywords": [
+    "vibe-ui",
+    "shadcn",
+    "mini-program",
+    "wechat",
+    "alipay",
+    "douyin",
     "cross-platform",
+    "component-library",
+    "vibe-coding",
+    "ai-ui",
+    "typescript",
+    "multi-platform",
     "adapter",
     "framework",
-    "multi-platform",
-    "typescript",
-    "vite",
-    "react",
-    "micro-frontend",
-    "distributed-system",
-    "go-microservices",
-    "alipay-miniprogram",
-    "wechat-miniprogram",
-    "douyin-miniprogram",
-    "xiaohongshu-miniprogram",
-    "gaode-map"
+    "小程序",
+    "组件库",
+    "跨端",
+    "AI生成UI"
   ],
   "author": "liangfuliang541-pixel",
   "license": "MIT",
@@ -59,7 +62,8 @@
     "plugin:example": "tsx examples/plugin-example.ts",
     "plugin:test": "vitest run --reporter=verbose tests/plugin-system.test.ts",
     "plugin:build": "tsc --project tsconfig.plugin.json",
-    "cli:init": "tsx src/cli/index.ts init"
+    "cli:init": "tsx src/cli/index.ts init",
+    "cli": "node dist/cli.js"
   },
   "peerDependencies": {
     "react": ">=17.0.0",
@@ -97,8 +101,8 @@
     "vitest": "^4.0.18"
   },
   "engines": {
-    "node": ">=16.0.0",
-    "npm": ">=8.0.0"
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx}": [
@@ -108,5 +112,8 @@
     "*.{json,md}": [
       "prettier --write"
     ]
+  },
+  "bin": {
+    "@liangfu/uniadapter": "./dist/cli.js"
   }
 }
