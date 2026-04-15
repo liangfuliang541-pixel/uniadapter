@@ -1,0 +1,32 @@
+{
+  "name": "@liangfu/vibekit-template",
+  "version": "1.0.0",
+  "description": "UniAdapter VibeKit - Vibe-first cross-platform mini-program starter",
+  "scripts": {
+    "dev:weapp": "npm run build:weapp -- --watch",
+    "dev:h5": "taro build --type h5 --watch",
+    "dev:alipay": "taro build --type alipay --watch",
+    "build:weapp": "taro build --type weapp",
+    "build:h5": "taro build --type h5",
+    "build:alipay": "taro build --type alipay",
+    "build:qq": "taro build --type qq",
+    "vibe:studio": "uniadapter-studio"
+  },
+  "dependencies": {
+    "@liangfu/uniadapter": "^2.0.0",
+    "@tarojs/components": "^3.6.35",
+    "@tarojs/plugin-framework-react": "^3.6.35",
+    "@tarojs/plugin-platform-weapp": "^3.6.35",
+    "@tarojs/react": "^3.6.35",
+    "@tarojs/runtime": "^3.6.35",
+    "@tarojs/taro": "^3.6.35",
+    "@tarojs/webpack5-runner": "^3.6.35",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.0",
+    "@types/react-dom": "^18.2.0",
+    "typescript": "^5.3.0"
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "name": "create-vibekit",
+  "version": "1.0.0",
+  "description": "Create a VibeKit project in seconds",
+  "bin": {
+    "create-vibekit": "./src/index.mjs"
+  },
+  "scripts": {
+    "build": "node scripts/build.js",
+    "prepublishOnly": "npm run build"
+  },
+  "files": ["dist"],
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}
