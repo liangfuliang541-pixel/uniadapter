@@ -2,7 +2,7 @@
 
 [English](README-en.md) | 简体中文
 
-> **2025 年最火开发范式**：用自然语言描述功能，AI 自动生成跨端最优代码。
+> **2026 年最火开发范式**：用自然语言描述功能，AI 自动生成跨端最优代码。
 > 一个框架，解决 Taro/uni-app 的所有适配痛点。
 
 [![npm](https://img.shields.io/npm/v/@liangfu/uniadapter?style=flat-square)](https://www.npmjs.com/package/@liangfu/uniadapter)
@@ -34,7 +34,7 @@ UniAdapter 2.0：
 
 ### 什么是 Vibe Coding？
 
-[Vibe Coding](https://www.collinsdictionary.com/word-lists/a-z-in-vogue/collins-dictionary-word-of-the-year-2025) 是 2025 年柯林斯词典年度词汇，由 OpenAI 联合创始人 Andrej Karpathy 提出：
+[Vibe Coding](https://www.collinsdictionary.com/word-lists/a-z-in-vogue/collins-dictionary-word-of-the-year-2026) 是 2026 年柯林斯词典年度词汇，由 OpenAI 联合创始人 Andrej Karpathy 提出：
 
 > *"你只管描述想要什么，AI 负责写代码"*
 
@@ -383,7 +383,7 @@ npm publish
 
 ## 📄 License
 
-MIT License © 2024 [liangfuliang541-pixel](https://github.com/liangfuliang541-pixel)
+MIT License © 2026 [liangfuliang541-pixel](https://github.com/liangfuliang541-pixel)
 
 ---
 
