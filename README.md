@@ -1,12 +1,12 @@
-# 🚀 UniAdapter - 智能多端适配器框架
+﻿# 馃殌 UniAdapter - 鏅鸿兘澶氱閫傞厤鍣ㄦ鏋?
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/liangfuliang541-pixel/uniadapter/main/docs/images/logo.svg" width="200" alt="UniAdapter Logo"/>
 </p>
 
 <p align="center">
-  <strong>一套代码，适配所有平台</strong><br>
-  <sub>比 Taro 更轻量 · 比 uni-app 更灵活 · 零侵入 · < 5KB</sub>
+  <strong>涓€濂椾唬鐮侊紝閫傞厤鎵€鏈夊钩鍙?/strong><br>
+  <sub>姣?Taro 鏇磋交閲?路 姣?uni-app 鏇寸伒娲?路 闆朵镜鍏?路 < 5KB</sub>
 </p>
 
 <p align="center">
@@ -19,148 +19,148 @@
 
 ---
 
-## ⭐ 为什么选择 UniAdapter？
+## 猸?涓轰粈涔堥€夋嫨 UniAdapter锛?
 
-| 特性 | UniAdapter | Taro | uni-app | Rax |
+| 鐗规€?| UniAdapter | Taro | uni-app | Rax |
 |------|:----------:|:----:|:--------:|:---:|
-| **包体积** | **< 5KB** | ~500KB | ~800KB | ~300KB |
-| **侵入性** | **零侵入** | 高 | 高 | 中 |
-| **Go 微服务** | **✅ 支持** | ❌ | ❌ | ❌ |
-| **学习成本** | **极低** | 中 | 中 | 高 |
-| **React Hooks** | **✅ 原生** | 需适配 | 需适配 | 部分 |
-| **按需加载** | **✅ 自动** | 部分 | 部分 | 部分 |
-| **TypeScript** | **✅ 完整** | ✅ | ✅ | ✅ |
+| **鍖呬綋绉?* | **< 5KB** | ~500KB | ~800KB | ~300KB |
+| **渚靛叆鎬?* | **闆朵镜鍏?* | 楂?| 楂?| 涓?|
+| **Go 寰湇鍔?* | **鉁?鏀寔** | 鉂?| 鉂?| 鉂?|
+| **瀛︿範鎴愭湰** | **鏋佷綆** | 涓?| 涓?| 楂?|
+| **React Hooks** | **鉁?鍘熺敓** | 闇€閫傞厤 | 闇€閫傞厤 | 閮ㄥ垎 |
+| **鎸夐渶鍔犺浇** | **鉁?鑷姩** | 閮ㄥ垎 | 閮ㄥ垎 | 閮ㄥ垎 |
+| **TypeScript** | **鉁?瀹屾暣** | 鉁?| 鉁?| 鉁?|
 
-> **UniAdapter 是目前唯一支持 Go 分布式系统的多端适配框架**，让你从前端到后端微服务使用同一套适配理念。
+> **UniAdapter 鏄洰鍓嶅敮涓€鏀寔 Go 鍒嗗竷寮忕郴缁熺殑澶氱閫傞厤妗嗘灦**锛岃浣犱粠鍓嶇鍒板悗绔井鏈嶅姟浣跨敤鍚屼竴濂楅€傞厤鐞嗗康銆?
 
 ---
 
-## 📱 支持平台
+## 馃摫 鏀寔骞冲彴
 
-| 平台 | 标识 | 状态 |
+| 骞冲彴 | 鏍囪瘑 | 鐘舵€?|
 |------|------|------|
-| 🌐 Web / H5 | `h5` | ✅ 稳定 |
-| 🐦 微信小程序 | `weapp` | ✅ 稳定 |
-| 💰 支付宝小程序 | `alipay` | ✅ 稳定 |
-| 🎵 抖音小程序 | `douyin` | ✅ 稳定 |
-| 📝 小红书小程序 | `xiaohongshu` | ✅ 稳定 |
-| 🗺️ 高德地图 | `amap` | ✅ 稳定 |
-| 📱 React Native | `react-native` | ✅ 稳定 |
-| 🐢 Go 分布式系统 | `go-distributed` | ✅ 稳定 |
-| 🔍 浏览器扩展 | `extension` | 🔜 开发中 |
-| 🟢 鸿蒙 OS | `harmonyos` | 🔜 开发中 |
+| 馃寪 Web / H5 | `h5` | 鉁?绋冲畾 |
+| 馃惁 寰俊灏忕▼搴?| `weapp` | 鉁?绋冲畾 |
+| 馃挵 鏀粯瀹濆皬绋嬪簭 | `alipay` | 鉁?绋冲畾 |
+| 馃幍 鎶栭煶灏忕▼搴?| `douyin` | 鉁?绋冲畾 |
+| 馃摑 灏忕孩涔﹀皬绋嬪簭 | `xiaohongshu` | 鉁?绋冲畾 |
+| 馃椇锔?楂樺痉鍦板浘 | `amap` | 鉁?绋冲畾 |
+| 馃摫 React Native | `react-native` | 鉁?绋冲畾 |
+| 馃悽 Go 鍒嗗竷寮忕郴缁?| `go-distributed` | 鉁?绋冲畾 |
+| 馃攳 娴忚鍣ㄦ墿灞?| `extension` | 馃敎 寮€鍙戜腑 |
+| 馃煝 楦胯挋 OS | `harmonyos` | 馃敎 寮€鍙戜腑 |
 
 ---
 
-## 🎯 核心理念
+## 馃幆 鏍稿績鐞嗗康
 
 ```
 Write Once, Run Everywhere with Intelligence
 ```
 
-UniAdapter 通过**适配器模式**解决跨平台兼容问题：
-- 自动检测运行环境
-- 零侵入接入现有项目
-- 编译时优化，运行时零开销
-- 完整 TypeScript 类型支持
+UniAdapter 閫氳繃**閫傞厤鍣ㄦā寮?*瑙ｅ喅璺ㄥ钩鍙板吋瀹归棶棰橈細
+- 鑷姩妫€娴嬭繍琛岀幆澧?
+- 闆朵镜鍏ユ帴鍏ョ幇鏈夐」鐩?
+- 缂栬瘧鏃朵紭鍖栵紝杩愯鏃堕浂寮€閿€
+- 瀹屾暣 TypeScript 绫诲瀷鏀寔
 
 ---
 
-## 🚀 快速开始
+## 馃殌 蹇€熷紑濮?
 
-### 安装
+### 瀹夎
 
 ```bash
-npm install uniadapter
-# 或
+npm install @liangfu/uniadapter
+# 鎴?
 yarn add uniadapter
-# 或
+# 鎴?
 pnpm add uniadapter
 ```
 
-### 基础示例
+### 鍩虹绀轰緥
 
 ```tsx
 import { usePlatform, useUniState, useUniRequest, useUniRouter } from 'uniadapter'
 
 function App() {
-  // 🚀 自动检测当前平台
+  // 馃殌 鑷姩妫€娴嬪綋鍓嶅钩鍙?
   const platform = usePlatform()
   
-  // 📦 统一的状态管理（所有平台行为一致）
+  // 馃摝 缁熶竴鐨勭姸鎬佺鐞嗭紙鎵€鏈夊钩鍙拌涓轰竴鑷达級
   const [count, setCount] = useUniState(0)
   
-  // 🌐 统一的网络请求
+  // 馃寪 缁熶竴鐨勭綉缁滆姹?
   const { get, post } = useUniRequest()
   
-  // 🧭 统一的路由操作
+  // 馃Л 缁熶竴鐨勮矾鐢辨搷浣?
   const { push, replace, goBack } = useUniRouter()
 
   const handleClick = async () => {
     setCount(count + 1)
-    // 🐦 自动适配微信/支付宝/抖音小程序的 navigateTo
-    // 🌐 自动适配 Web 的 history.pushState
+    // 馃惁 鑷姩閫傞厤寰俊/鏀粯瀹?鎶栭煶灏忕▼搴忕殑 navigateTo
+    // 馃寪 鑷姩閫傞厤 Web 鐨?history.pushState
     push('/detail/123')
   }
 
   return (
     <div>
-      <p>当前平台: {platform.name}</p>
-      <p>计数: {count}</p>
-      <button onClick={handleClick}>点我</button>
+      <p>褰撳墠骞冲彴: {platform.name}</p>
+      <p>璁℃暟: {count}</p>
+      <button onClick={handleClick}>鐐规垜</button>
     </div>
   )
 }
 ```
 
-### 平台特定 API
+### 骞冲彴鐗瑰畾 API
 
 ```tsx
 import { storage, location, camera, biometric } from 'uniadapter/adapters'
 
-// 💾 统一存储（自动适配各平台 Storage API）
+// 馃捑 缁熶竴瀛樺偍锛堣嚜鍔ㄩ€傞厤鍚勫钩鍙?Storage API锛?
 await storage.set('token', 'xxx')
 const token = await storage.get('token')
 
-// 📍 统一定位（微信/支付宝/高德/浏览器统一接口）
+// 馃搷 缁熶竴瀹氫綅锛堝井淇?鏀粯瀹?楂樺痉/娴忚鍣ㄧ粺涓€鎺ュ彛锛?
 const position = await location.getCurrentPosition()
 
-// 📷 统一相机（自动选择平台原生 API）
+// 馃摲 缁熶竴鐩告満锛堣嚜鍔ㄩ€夋嫨骞冲彴鍘熺敓 API锛?
 const photos = await camera.takePhoto()
 
-// 🔐 统一生物识别（指纹/面容）
-const result = await biometric.authenticate('验证身份')
+// 馃攼 缁熶竴鐢熺墿璇嗗埆锛堟寚绾?闈㈠锛?
+const result = await biometric.authenticate('楠岃瘉韬唤')
 ```
 
 ---
 
-## 🏗️ 架构设计
+## 馃彈锔?鏋舵瀯璁捐
 
 ```
-┌─────────────────────────────────────────────┐
-│              应用代码 (React)                 │
-├─────────────────────────────────────────────┤
-│              统一 API 层                      │
-│  useUniState | useUniRouter | useUniRequest │
-├─────────────────────────────────────────────┤
-│            适配器工厂 (AdapterFactory)       │
-├────────┬────────┬────────┬──────────────────┤
-│ Web    │ 微信    │ 支付宝  │ Go 微服务        │
-│ H5     │ 小程序   │ 抖音    │ 高德地图         │
-│        │ 小红书   │ RN     │ 浏览器扩展       │
-└────────┴────────┴────────┴──────────────────┘
+鈹屸攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?
+鈹?             搴旂敤浠ｇ爜 (React)                 鈹?
+鈹溾攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?
+鈹?             缁熶竴 API 灞?                     鈹?
+鈹? useUniState | useUniRouter | useUniRequest 鈹?
+鈹溾攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?
+鈹?           閫傞厤鍣ㄥ伐鍘?(AdapterFactory)       鈹?
+鈹溾攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?
+鈹?Web    鈹?寰俊    鈹?鏀粯瀹? 鈹?Go 寰湇鍔?       鈹?
+鈹?H5     鈹?灏忕▼搴?  鈹?鎶栭煶    鈹?楂樺痉鍦板浘         鈹?
+鈹?       鈹?灏忕孩涔?  鈹?RN     鈹?娴忚鍣ㄦ墿灞?      鈹?
+鈹斺攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹粹攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹粹攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹粹攢鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹€鈹?
 ```
 
-### 核心特性
+### 鏍稿績鐗规€?
 
-- **按需加载**: 核心库 < 5KB，平台适配器按需加载
-- **零侵入**: 现有 React 项目可渐进式接入
-- **类型安全**: 完整 TypeScript 支持，智能提示
-- **插件系统**: 支持自定义扩展和平台适配
+- **鎸夐渶鍔犺浇**: 鏍稿績搴?< 5KB锛屽钩鍙伴€傞厤鍣ㄦ寜闇€鍔犺浇
+- **闆朵镜鍏?*: 鐜版湁 React 椤圭洰鍙笎杩涘紡鎺ュ叆
+- **绫诲瀷瀹夊叏**: 瀹屾暣 TypeScript 鏀寔锛屾櫤鑳芥彁绀?
+- **鎻掍欢绯荤粺**: 鏀寔鑷畾涔夋墿灞曞拰骞冲彴閫傞厤
 
 ---
 
-## 🧪 平台检测
+## 馃И 骞冲彴妫€娴?
 
 ```typescript
 import { platformDetection } from 'uniadapter'
@@ -175,137 +175,137 @@ console.log({
   version: platform.version      // '1.0.0'
 })
 
-// 判断当前平台
+// 鍒ゆ柇褰撳墠骞冲彴
 if (platform.isWeapp) {
-  // 微信小程序特有逻辑
+  // 寰俊灏忕▼搴忕壒鏈夐€昏緫
 }
 
 if (platform.isMobile) {
-  // 移动端优化
+  // 绉诲姩绔紭鍖?
 }
 ```
 
 ---
 
-## 📦 Go 分布式系统支持 (独家功能)
+## 馃摝 Go 鍒嗗竷寮忕郴缁熸敮鎸?(鐙鍔熻兘)
 
-UniAdapter 是**业界首个**支持 Go 微服务的多端适配框架：
+UniAdapter 鏄?*涓氱晫棣栦釜**鏀寔 Go 寰湇鍔＄殑澶氱閫傞厤妗嗘灦锛?
 
 ```typescript
 import { goAdapter } from 'uniadapter/adapters/go-distributed'
 
-// 🚀 微服务调用
+// 馃殌 寰湇鍔¤皟鐢?
 const userService = goAdapter.service('user')
 const user = await userService.call('GetUser', { id: 1 })
 
-// 🔐 分布式锁
+// 馃攼 鍒嗗竷寮忛攣
 const lock = goAdapter.distributedLock('order-lock')
 await lock.acquire()
 try {
-  // 业务逻辑
+  // 涓氬姟閫昏緫
 } finally {
   await lock.release()
 }
 
-// 📬 消息队列
+// 馃摤 娑堟伅闃熷垪
 const queue = goAdapter.queue('notifications')
 await queue.publish({ type: 'email', to: 'user@example.com' })
 ```
 
 ---
 
-## 📊 项目统计
+## 馃搳 椤圭洰缁熻
 
-| 指标 | 数据 |
+| 鎸囨爣 | 鏁版嵁 |
 |------|------|
-| 核心库体积 | **< 5KB** (Gzipped) |
-| 启动时间 | **< 50ms** |
-| 支持平台数 | **9+** |
-| TypeScript 覆盖率 | **100%** |
-| 测试覆盖率 | **> 80%** |
+| 鏍稿績搴撲綋绉?| **< 5KB** (Gzipped) |
+| 鍚姩鏃堕棿 | **< 50ms** |
+| 鏀寔骞冲彴鏁?| **9+** |
+| TypeScript 瑕嗙洊鐜?| **100%** |
+| 娴嬭瘯瑕嗙洊鐜?| **> 80%** |
 
 ---
 
-## 🛠️ 开发工具
+## 馃洜锔?寮€鍙戝伐鍏?
 
-### CLI 工具
+### CLI 宸ュ叿
 
 ```bash
-npx uniadapter init    # 初始化项目
-npx uniadapter add     # 添加新平台
-npx uniadapter verify  # 验证兼容性
+npx uniadapter init    # 鍒濆鍖栭」鐩?
+npx uniadapter add     # 娣诲姞鏂板钩鍙?
+npx uniadapter verify  # 楠岃瘉鍏煎鎬?
 ```
 
-### 调试模式
+### 璋冭瘯妯″紡
 
 ```typescript
 import { initDebug } from 'uniadapter'
 
 initDebug({
   level: 'verbose',  // 'error' | 'warn' | 'info' | 'verbose'
-  showPlatform: true // 显示当前平台信息
+  showPlatform: true // 鏄剧ず褰撳墠骞冲彴淇℃伅
 })
 ```
 
 ---
 
-## 🌟 版本路线图
+## 馃専 鐗堟湰璺嚎鍥?
 
-| 版本 | 内容 | 状态 |
+| 鐗堟湰 | 鍐呭 | 鐘舵€?|
 |------|------|------|
-| v1.0 | 基础多端适配框架 | ✅ 已完成 |
-| v1.1 | 新增抖音、高德、小红书支持 | ✅ 已完成 |
-| v1.2 | Go 分布式系统支持 | ✅ 已完成 |
-| v1.3 | 支付宝小程序 + 鸿蒙 OS | ✅ 已完成 |
-| v2.0 | AI 能力集成与生态扩展 | 🔜 开发中 |
+| v1.0 | 鍩虹澶氱閫傞厤妗嗘灦 | 鉁?宸插畬鎴?|
+| v1.1 | 鏂板鎶栭煶銆侀珮寰枫€佸皬绾功鏀寔 | 鉁?宸插畬鎴?|
+| v1.2 | Go 鍒嗗竷寮忕郴缁熸敮鎸?| 鉁?宸插畬鎴?|
+| v1.3 | 鏀粯瀹濆皬绋嬪簭 + 楦胯挋 OS | 鉁?宸插畬鎴?|
+| v2.0 | AI 鑳藉姏闆嗘垚涓庣敓鎬佹墿灞?| 馃敎 寮€鍙戜腑 |
 
 ---
 
-## 🤝 贡献
+## 馃 璐＄尞
 
-欢迎提交 Issue 和 Pull Request！
+娆㈣繋鎻愪氦 Issue 鍜?Pull Request锛?
 
 ```bash
-# 克隆项目
+# 鍏嬮殕椤圭洰
 git clone https://github.com/liangfuliang541-pixel/uniadapter.git
 
-# 安装依赖
+# 瀹夎渚濊禆
 npm install
 
-# 开发模式
+# 寮€鍙戞ā寮?
 npm run dev
 
-# 运行测试
+# 杩愯娴嬭瘯
 npm test
 
-# 运行测试（UI）
+# 杩愯娴嬭瘯锛圲I锛?
 npm run test:ui
 
-# 代码检查
+# 浠ｇ爜妫€鏌?
 npm run lint
 
-# 格式化代码
+# 鏍煎紡鍖栦唬鐮?
 npm run format
 ```
 
-详细贡献指南请查看 [CONTRIBUTING.md](./CONTRIBUTING.md)
+璇︾粏璐＄尞鎸囧崡璇锋煡鐪?[CONTRIBUTING.md](./CONTRIBUTING.md)
 
 ---
 
-## 📄 开源协议
+## 馃搫 寮€婧愬崗璁?
 
-本项目采用 [MIT](./LICENSE) 开源协议。
+鏈」鐩噰鐢?[MIT](./LICENSE) 寮€婧愬崗璁€?
 
 ---
 
-## 📞 联系方式
+## 馃摓 鑱旂郴鏂瑰紡
 
-- 📧 邮箱: 3578544805@qq.com
-- 🐙 GitHub: [liangfuliang541-pixel](https://github.com/liangfuliang541-pixel)
-- 🐛 问题反馈: [Issues](https://github.com/liangfuliang541-pixel/uniadapter/issues)
+- 馃摟 閭: 3578544805@qq.com
+- 馃悪 GitHub: [liangfuliang541-pixel](https://github.com/liangfuliang541-pixel)
+- 馃悰 闂鍙嶉: [Issues](https://github.com/liangfuliang541-pixel/uniadapter/issues)
 
 ---
 
 <p align="center">
-  <strong>⭐ 如果这个项目对你有帮助，请给一个 Star！</strong>
+  <strong>猸?濡傛灉杩欎釜椤圭洰瀵逛綘鏈夊府鍔╋紝璇风粰涓€涓?Star锛?/strong>
 </p>
